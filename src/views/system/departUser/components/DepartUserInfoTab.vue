@@ -29,7 +29,6 @@
   </BasicTable>
   <UserDrawer @register="registerDrawer" @success="onUserDrawerSuccess" />
   <DepartRoleUserAuthDrawer @register="registerUserAuthDrawer" />
-  <UserSelectModal rowKey="id" @register="registerSelUserModal" @getSelectResult="onSelectUserOk" />
 </template>
 
 <script lang="ts" setup>
@@ -40,7 +39,6 @@
   import { useListPage } from '/@/hooks/system/useListPage';
 
   import UserDrawer from '/@/views/system/user/UserDrawer.vue';
-  import UserSelectModal from '/@/components/Form/src/jeecg/components/modal/UserSelectModal.vue';
   import DepartRoleUserAuthDrawer from './DepartRoleUserAuthDrawer.vue';
   import { departUserList, linkDepartUserBatch, unlinkDepartUserBatch } from '../depart.user.api';
   import { userInfoColumns, userInfoSearchFormSchema } from '../depart.user.data';
@@ -104,8 +102,6 @@
   //注册drawer
   const [registerDrawer, { openDrawer, setDrawerProps }] = useDrawer();
   const [registerUserAuthDrawer, userAuthDrawer] = useDrawer();
-  // 注册用户选择 modal
-  const [registerSelUserModal, selUserModal] = useModal();
 
   // 清空选择的行
   function clearSelection() {
@@ -153,7 +149,6 @@
 
   // 选择添加已有用户
   function selectAddUser() {
-    selUserModal.openModal();
   }
 
   // 批量取消关联部门和用户之间的关系

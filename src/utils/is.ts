@@ -60,6 +60,13 @@ export function isString(val: unknown): val is string {
   return is(val, 'String');
 }
 
+export function isJsonObjectString(val: string): val is string {
+  if (!val) {
+    return false;
+  }
+  return val.startsWith('{') && val.endsWith('}');
+}
+
 export function isFunction(val: unknown): val is Function {
   return typeof val === 'function';
 }

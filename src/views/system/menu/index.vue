@@ -5,28 +5,12 @@
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 新增菜单</a-button>
         <a-button type="primary" preIcon="ic:round-expand" @click="expandAll">展开全部</a-button>
         <a-button type="primary" preIcon="ic:round-compress" @click="collapseAll">折叠全部</a-button>
-
-<!--        <a-dropdown v-if="checkedKeys.length > 0">-->
-<!--          <template #overlay>-->
-<!--            <a-menu>-->
-<!--              <a-menu-item key="1" @click="batchHandleDelete">-->
-<!--                <Icon icon="ant-design:delete-outlined" />-->
-<!--                删除-->
-<!--              </a-menu-item>-->
-<!--            </a-menu>-->
-<!--          </template>-->
-<!--          <a-button-->
-<!--            >批量操作-->
-<!--            <Icon icon="ant-design:down-outlined" />-->
-<!--          </a-button>-->
-<!--        </a-dropdown>-->
       </template>
-      <template #action="{ record }">
+    <template #action>
         <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
       </template>
     </BasicTable>
     <MenuDrawer @register="registerDrawer" @success="handleSuccess" :showFooter="showFooter" />
-    <DataRuleList @register="registerDrawer1" />
   </div>
 </template>
 <script lang="ts" name="system-menu" setup>
@@ -34,14 +18,12 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
-  import DataRuleList from './DataRuleList.vue';
   import { columns,searchFormSchema } from './menu.data';
   import { menuApi,listTree} from './menu.api';
 
   const checkedKeys = ref<Array<string | number>>([]);
   const showFooter = ref(true);
   const [registerDrawer, { openDrawer }] = useDrawer();
-  const [registerDrawer1, { openDrawer: openDataRule }] = useDrawer();
   // 列表页面公共参数、方法
   const[registerTable, { reload, expandAll, collapseAll }] = useTable({
       title: '菜单列表',
@@ -60,10 +42,10 @@
     showIndexColumn: false,
     canResize: false,
     actionColumn: {
-      width: 80,
+      width: 100,
       title: '操作',
       dataIndex: 'action',
-      // slots: { customRender: 'action' },
+      slots: { customRender: 'action' },
       fixed: undefined,
     },
   });
@@ -123,12 +105,6 @@
       isUpdate: false,
     });
   }
-  /**
-   * 数据权限弹窗
-   */
-  function handleDataRule(record) {
-    openDataRule(true, { id: record.id });
-  }
 
   /**
    * 删除
@@ -171,17 +147,9 @@
    */
   function getDropDownAction(record) {
     return [
-      // {
-      //   label: '详情',
-      //   onClick: handleDetail.bind(null, record),
-      // },
       {
         label: '添加下级',
         onClick: handleAddSub.bind(null, record),
-      },
-      {
-        label: '数据规则',
-        onClick: handleDataRule.bind(null, record),
       },
       {
         label: '删除',

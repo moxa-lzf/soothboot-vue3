@@ -4,7 +4,6 @@ import { h } from 'vue';
 import { Icon } from '/@/components/Icon';
 import { duplicateCheck } from '../user/user.api';
 import { ajaxGetDictItems ,checkPermDuplication } from './menu.api';
-import { render } from '/@/utils/common/renderUtils';
 
 const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;

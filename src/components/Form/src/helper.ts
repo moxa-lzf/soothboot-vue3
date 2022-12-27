@@ -10,22 +10,6 @@ const { t } = useI18n();
  * @description: 生成placeholder
  */
 export function createPlaceholderMessage(component: ComponentType) {
-  if (component.includes('Input') || component.includes('Complete')) {
-    return t('common.inputText');
-  }
-  if (component.includes('Picker')) {
-    return t('common.chooseText');
-  }
-  if (
-    component.includes('Select') ||
-    component.includes('Cascader') ||
-    component.includes('Checkbox') ||
-    component.includes('Radio') ||
-    component.includes('Switch')
-  ) {
-    // return `请选择${label}`;
-    return t('common.chooseText');
-  }
   return '';
 }
 
