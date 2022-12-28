@@ -1,7 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { dictItemCheck } from './dict.api';
-import { rules } from '/@/utils/helper/validator';
 export const columns: BasicColumn[] = [
   {
     title: '字典名称',
@@ -9,7 +8,7 @@ export const columns: BasicColumn[] = [
     width: 240,
   },
   {
-    title: '字典编号',
+    title: '字典编码',
     dataIndex: 'dictCode',
     width: 240,
   },
@@ -72,8 +71,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     dynamicDisabled: ({ values }) => {
       return !!values.id;
-    },
-    dynamicRules: ({ model, schema }) => rules.duplicateCheckRule('sys_dict', 'dict_code', model, schema, true),
+    }
   },
   {
     label: '描述',
@@ -100,16 +98,7 @@ export const dictItemSearchFormSchema: FormSchema[] = [
     label: '名称',
     field: 'itemText',
     component: 'Input',
-  },
-  {
-    label: '状态',
-    field: 'status',
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'dict_item_status',
-      stringToNumber: true,
-    },
-  },
+  }
 ];
 
 export const itemFormSchema: FormSchema[] = [
@@ -174,10 +163,10 @@ export const itemFormSchema: FormSchema[] = [
     field: 'status',
     label: '是否启用',
     defaultValue: 1,
-    component: 'JDictSelectTag',
+    component: 'DictSelect',
     componentProps: {
       type: 'radioButton',
-      dictCode: 'dict_item_status',
+      code: 'dict_item_status',
       stringToNumber: true,
     },
   },

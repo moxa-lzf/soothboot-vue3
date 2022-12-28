@@ -1,6 +1,6 @@
 <template>
   <BasicDrawer v-bind="$attrs" @register="registerDrawer" title="字典列表" width="800px">
-    <BasicTable @register="registerTable" :rowClassName="getRowClassName">
+    <BasicTable @register="registerTable">
       <template #tableTitle>
         <a-button type="primary" @click="handleCreate"> 新增</a-button>
       </template>
@@ -16,13 +16,10 @@
   import { BasicDrawer, useDrawerInner } from '/src/components/Drawer';
   import { BasicTable, useTable, TableAction } from '/src/components/Table';
   import { useModal } from '/src/components/Modal';
-  import { useDesign } from '/@/hooks/web/useDesign';
   import DictItemModal from './DictItemModal.vue';
   import { dictItemColumns, dictItemSearchFormSchema } from '../dict.data';
   import { itemList, deleteItem } from '../dict.api';
-  import { ColEx } from '/@/components/Form/src/types';
 
-  const { prefixCls } = useDesign('row-invalid');
   const dictId = ref('');
   //字典配置model
   const [registerModal, { openModal }] = useModal();
@@ -31,36 +28,11 @@
     setProps({ searchInfo: { dictId: unref(dictId) } });
     reload();
   });
-  // 自适应列配置
-  const adaptiveColProps: Partial<ColEx> = {
-    xs: 24, // <576px
-    sm: 24, // ≥576px
-    md: 24, // ≥768px
-    lg: 12, // ≥992px
-    xl: 12, // ≥1200px
-    xxl: 8, // ≥1600px
-  };
   const [registerTable, { reload, setProps }] = useTable({
     api: itemList,
     columns: dictItemColumns,
-    formConfig: {
-      baseColProps: adaptiveColProps,
-      labelAlign: 'right',
-      labelCol: {
-        offset: 1,
-        xs: 24,
-        sm: 24,
-        md: 24,
-        lg: 9,
-        xl: 7,
-        xxl: 4,
-      },
-      wrapperCol: {},
-      schemas: dictItemSearchFormSchema,
-      autoSubmitOnEnter: true,
-    },
     striped: true,
-    useSearchForm: true,
+    useSearchForm: false,
     bordered: true,
     showIndexColumn: false,
     canResize: false,
@@ -117,9 +89,6 @@
         },
       },
     ];
-  }
-  function getRowClassName(record) {
-    return record.status == 0 ? prefixCls : '';
   }
 </script>
 <style scoped lang="less">

@@ -16,14 +16,8 @@
   const menuType = ref(0);
   const isButton = (type) => type === 2;
   const [registerForm, { setProps, resetFields, setFieldsValue, updateSchema, validate, clearValidate }] = useForm({
-    labelCol: {
-      md: { span: 4 },
-      sm: { span: 6 },
-    },
-    wrapperCol: {
-      md: { span: 20 },
-      sm: { span: 18 },
-    },
+    baseColProps:{span:24},
+  labelWidth:100,
     schemas: formSchema,
     showActionButtonGroup: false,
   });

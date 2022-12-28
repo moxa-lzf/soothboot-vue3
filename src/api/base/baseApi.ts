@@ -1,14 +1,15 @@
-import { defHttp } from '/@/utils/http/axios';
-import { Modal } from 'ant-design-vue';
+import { defHttp } from "/@/utils/http/axios";
+import { Modal } from "ant-design-vue";
 
 export class BaseApi {
   readonly api: {
-    postEdit: (params) => Promise<any>;
     get: (params) => Promise<any>;
     save: (params) => Promise<any>;
     page: (params) => Promise<any>;
     list: (params) => Promise<any>;
+    postEdit: (params) => Promise<any>;
     putEdit: (params) => Promise<any>;
+    saveOrEdit: (params) => Promise<any>;
     remove: (params) => Promise<any>;
     removeBatch: (params) => void;
   };
@@ -26,7 +27,7 @@ export class BaseApi {
       postEdit: `${requestUrl}/edit`,
       putEdit: `${requestUrl}/edit`,
       remove: `${requestUrl}/remove`,
-      removeBatch: `${requestUrl}/removeBatch`,
+      removeBatch: `${requestUrl}/removeBatch`
     };
     /**
      * @param params
@@ -65,7 +66,16 @@ export class BaseApi {
     const putEdit = (params) => {
       return defHttp.post({ url: Api.putEdit, params });
     };
-
+    /**
+     * @param params
+     */
+    const saveOrEdit = (params, isUpdate) => {
+      if (isUpdate) {
+        return postEdit(params);
+      } else {
+        return save(params);
+      }
+    };
     /**
      * @param params
      */
@@ -78,15 +88,15 @@ export class BaseApi {
      */
     const removeBatch = (params) => {
       Modal.confirm({
-        title: '确认删除',
-        content: '是否删除选中数据',
-        okText: '确认',
-        cancelText: '取消',
+        title: "确认删除",
+        content: "是否删除选中数据",
+        okText: "确认",
+        cancelText: "取消",
         onOk: () => {
           return defHttp.delete({ url: Api.removeBatch, data: params }, { joinParamsToUrl: true });
-        },
+        }
       });
     };
-    return { page, list, get, save, postEdit, putEdit, remove, removeBatch };
+    return { page, list, get, save, postEdit, putEdit, saveOrEdit, remove, removeBatch };
   }
 }

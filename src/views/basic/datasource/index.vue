@@ -1,31 +1,15 @@
 <template>
-  <div>
     <BasicTable @register="registerTable">
-      <template #tableTitle>
+    <template #toolbar>
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleAdd" style="margin-right: 5px">新增</a-button>
-<!--        <a-dropdown v-if="selectedRowKeys.length > 0">-->
-<!--          <template #overlay>-->
-<!--            <a-menu>-->
-<!--              <a-menu-item key="1" @click="batchHandleDelete">-->
-<!--                <Icon icon="ant-design:delete-outlined"></Icon>-->
-<!--                删除-->
-<!--              </a-menu-item>-->
-<!--            </a-menu>-->
-<!--          </template>-->
-<!--          <a-button-->
-<!--            >批量操作-->
-<!--            <Icon icon="mdi:chevron-down"></Icon>-->
-<!--          </a-button>-->
-<!--        </a-dropdown>-->
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" />
       </template>
     </BasicTable>
     <DataSourceModal @register="registerModal" @success="reload" />
-  </div>
 </template>
-<script lang="ts" name="monitor-datasource" setup>
+<script lang="ts" setup>
   import { ref } from 'vue';
   import { BasicTable, useTable,TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
@@ -42,10 +26,13 @@
       api: getDataSourceList,
       columns: columns,
       formConfig: {
-        labelWidth: 120,
         schemas: searchFormSchema,
         fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
       },
+  useSearchForm: true,
+  showTableSetting: true,
+  bordered: true,
+  showIndexColumn: false,
   });
 
   /**

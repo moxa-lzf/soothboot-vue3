@@ -3,13 +3,13 @@ import { Result } from '../utils';
 const fakeUserInfo = {
   userId: '1',
   username: 'vben',
-  realName: 'Sooth Admin',
+  realName: 'Sooth Boot',
   desc: 'manager',
   password: '123456',
   token: 'fakeToken1',
   roles: [
     {
-      roleName: 'Super Admin',
+      roleName: 'Super Boot',
       value: 'super',
     },
   ],

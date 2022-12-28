@@ -6,7 +6,7 @@ export function createFakeUserList() {
     {
       userId: '1',
       username: 'vben',
-      realName: 'Sooth Admin',
+      realName: 'Sooth Boot',
       avatar: 'https://q1.qlogo.cn/g?b=qq&nk=190848757&s=640',
       desc: 'manager',
       password: '123456',
@@ -14,7 +14,7 @@ export function createFakeUserList() {
       homePath: '/dashboard/analysis',
       roles: [
         {
-          roleName: 'Super Admin',
+          roleName: 'Super Boot',
           value: 'super',
         },
       ],

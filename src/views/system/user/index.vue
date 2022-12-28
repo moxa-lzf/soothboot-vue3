@@ -9,28 +9,6 @@
         <a-button type="primary" @click="openModal(true, {})" preIcon="ant-design:hdd-outlined">
           回收站</a-button
         >
-        <!--        <a-dropdown v-if="selectedRowKeys.length > 0">-->
-        <!--          <template #overlay>-->
-        <!--            <a-menu>-->
-        <!--              <a-menu-item key="1" @click="batchHandleDelete">-->
-        <!--                <Icon icon="ant-design:delete-outlined"></Icon>-->
-        <!--                删除-->
-        <!--              </a-menu-item>-->
-        <!--              <a-menu-item key="2" @click="batchFrozen(2)">-->
-        <!--                <Icon icon="ant-design:lock-outlined"></Icon>-->
-        <!--                冻结-->
-        <!--              </a-menu-item>-->
-        <!--              <a-menu-item key="3" @click="batchFrozen(1)">-->
-        <!--                <Icon icon="ant-design:unlock-outlined"></Icon>-->
-        <!--                解冻-->
-        <!--              </a-menu-item>-->
-        <!--            </a-menu>-->
-        <!--          </template>-->
-        <!--          <a-button-->
-        <!--            >批量操作-->
-        <!--            <Icon icon="mdi:chevron-down"></Icon>-->
-        <!--          </a-button>-->
-        <!--        </a-dropdown>-->
       </template>
       <!--操作栏-->
       <template #action="{ record }">
@@ -83,20 +61,19 @@
     title: '用户列表',
     api: list,
     columns: columns,
-    size: 'small',
     formConfig: {
-      // labelWidth: 200,
+       labelWidth: 100,
       schemas: searchFormSchema,
     },
-    useSearchForm: true,
-    showTableSetting: true,
-    bordered: true,
-    showIndexColumn: false,
+  useSearchForm: true,
+  showTableSetting: true,
+  bordered: true,
+  showIndexColumn: false,
     actionColumn: {
       width: 80,
       title: '操作',
       dataIndex: 'action',
-      // slots: { customRender: 'action' },
+      slots: { customRender: 'action' },
       fixed: undefined,
     },
   });

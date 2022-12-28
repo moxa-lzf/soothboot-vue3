@@ -15,7 +15,7 @@
     <template #notFoundContent v-if="loading">
       <span>
         <LoadingOutlined spin class="mr-1" />
-        {{ t('component.form.apiSelectNotFound') }}
+        请等待数据加载完成...
       </span>
     </template>
   </Select>

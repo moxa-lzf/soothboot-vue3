@@ -9,7 +9,7 @@ class DictApi extends BaseApi{
 export const dictApi=new DictApi('/sys/dict');
 enum Api {
   list = '/sys/dict/list',
-  save = '/sys/dict/add',
+  save = '/sys/dict/save',
   edit = '/sys/dict/edit',
   duplicateCheck = '/sys/duplicate/check',
   deleteDict = '/sys/dict/delete',
@@ -24,7 +24,7 @@ enum Api {
   itemSave = '/sys/dictItem/add',
   itemEdit = '/sys/dictItem/edit',
   dictItemCheck = '/sys/dictItem/dictItemCheck',
-  refreshCache = '/sys/dict/refleshCache',
+  refreshCache = '/sys/dict/refreshCache',
   queryAllDictItems = '/sys/dict/queryAllDictItems',
 }
 /**

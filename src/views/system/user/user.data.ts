@@ -27,11 +27,6 @@ export const columns: BasicColumn[] = [
     sorter: true,
   },
   {
-    title: '生日',
-    dataIndex: 'birthday',
-    width: 100,
-  },
-  {
     title: '手机号',
     dataIndex: 'phone',
     width: 100,
@@ -85,41 +80,19 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '账号',
     field: 'username',
-    component: 'JInput',
+    component: 'Input',
     colProps: { span: 6 },
   },
   {
     label: '名字',
     field: 'realname',
-    component: 'JInput',
-    colProps: { span: 6 },
-  },
-  {
-    label: '性别',
-    field: 'sex',
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'sex',
-      placeholder: '请选择性别',
-      stringToNumber: true,
-    },
+    component: 'Input',
     colProps: { span: 6 },
   },
   {
     label: '手机号码',
     field: 'phone',
     component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
-    label: '用户状态',
-    field: 'status',
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'user_status',
-      placeholder: '请选择状态',
-      stringToNumber: true,
-    },
     colProps: { span: 6 },
   },
 ];
@@ -162,23 +135,6 @@ export const formSchema: FormSchema[] = [
     field: 'realname',
     required: true,
     component: 'Input',
-  },
-  {
-    label: '工号',
-    field: 'workNo',
-    required: true,
-    component: 'Input',
-    dynamicRules: ({ model, schema }) => rules.duplicateCheckRule('sys_user', 'work_no', model, schema, true),
-  },
-  {
-    label: '职务',
-    field: 'post',
-    required: false,
-    component: 'JSelectPosition',
-    componentProps: {
-      rowKey: 'code',
-      labelKey: 'name',
-    },
   },
   {
     label: '角色',
@@ -229,32 +185,6 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '身份',
-    field: 'userIdentity',
-    component: 'RadioGroup',
-    defaultValue: 1,
-    componentProps: ({ formModel }) => {
-      return {
-        options: [
-          { label: '普通用户', value: 1, key: '1' },
-          { label: '上级', value: 2, key: '2' },
-        ],
-        onChange: () => {
-          formModel.userIdentity == 1 && (formModel.departIds = []);
-        },
-      };
-    },
-  },
-  {
-    label: '负责部门',
-    field: 'departIds',
-    component: 'Select',
-    componentProps: {
-      mode: 'multiple',
-    },
-    ifShow: ({ values }) => values.userIdentity == 2,
-  },
-  {
     label: '头像',
     field: 'avatar',
     component: 'JImageUpload',
@@ -270,9 +200,9 @@ export const formSchema: FormSchema[] = [
   {
     label: '性别',
     field: 'sex',
-    component: 'JDictSelectTag',
+    component: 'DictSelect',
     componentProps: {
-      dictCode: 'sex',
+      code: 'sex',
       placeholder: '请选择性别',
       stringToNumber: true,
     },
@@ -293,24 +223,7 @@ export const formSchema: FormSchema[] = [
         { pattern: /^1[3|4|5|7|8|9][0-9]\d{8}$/, message: '手机号码格式有误' },
       ];
     },
-  },
-  {
-    label: '座机',
-    field: 'telephone',
-    component: 'Input',
-    rules: [{ pattern: /^0\d{2,3}-[1-9]\d{6,7}$/, message: '请输入正确的座机号码' }],
-  },
-  {
-    label: '工作流引擎',
-    field: 'activitiSync',
-    defaultValue: 1,
-    component: 'JDictSelectTag',
-    componentProps: {
-      dictCode: 'activiti_sync',
-      type: 'radio',
-      stringToNumber: true,
-    },
-  },
+  }
 ];
 
 export const formPasswordSchema: FormSchema[] = [

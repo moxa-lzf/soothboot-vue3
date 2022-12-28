@@ -27,10 +27,10 @@
   //表单配置
   const [registerForm, { setProps, resetFields, setFieldsValue, validate, updateSchema }] = useForm({
     labelWidth: 100,
+    baseColProps:{span:24},
     schemas: formSchema,
     showActionButtonGroup: false,
   });
-  // TODO [VUEN-527] https://www.teambition.com/task/6239beb894b358003fe93626
   const showFooter = ref(true);
   //表单赋值
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
