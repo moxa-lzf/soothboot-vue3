@@ -86,14 +86,16 @@ export class BaseApi {
     /**
      * @param params
      */
-    const removeBatch = (params) => {
+    const removeBatch = (params, handleSuccess) => {
       Modal.confirm({
         title: "确认删除",
         content: "是否删除选中数据",
         okText: "确认",
         cancelText: "取消",
         onOk: () => {
-          return defHttp.delete({ url: Api.removeBatch, data: params }, { joinParamsToUrl: true });
+          return defHttp.delete({ url: Api.removeBatch, data: params }, { joinParamsToUrl: true }).then(()=>{
+            handleSuccess();
+          });
         }
       });
     };

@@ -4,17 +4,10 @@ export const columns = [
   {
     title: '角色名称',
     dataIndex: 'roleName',
-    width: 100,
   },
   {
     title: '角色编码',
     dataIndex: 'roleCode',
-    width: 100,
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    width: 100,
   },
 ];
 /**

@@ -1,18 +1,18 @@
 <template>
   <Skeleton v-if="spinning" active />
   <div v-else>
-    <a-row>
+    <Row>
       <template v-if="diskInfo && diskInfo.length > 0">
-        <a-col :span="6" v-for="(item, index) in diskInfo" :key="'diskInfo' + index">
+        <Col :span="6" v-for="(item, index) in diskInfo" :key="'diskInfo' + index">
           <gauge :data="item"></gauge>
-        </a-col>
+        </Col>
       </template>
-    </a-row>
+    </Row>
   </div>
 </template>
 <script lang="ts" setup>
   import { onMounted, ref } from 'vue';
-  import { Skeleton } from 'ant-design-vue';
+  import { Skeleton,Row,Col } from 'ant-design-vue';
   import { queryDiskInfo } from './disk.api';
   import gauge from './gauge.vue';
 

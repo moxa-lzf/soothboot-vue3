@@ -11,167 +11,169 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem
-          key="doc"
-          :text="t('layout.header.dropdownItemDoc')"
-          icon="ion:document-text-outline"
-          v-if="getShowDoc"
-        />
-        <MenuDivider v-if="getShowDoc" />
+        <MenuItem key="account" text="账户设置" icon="ant-design:setting-outlined" />
+        <MenuItem key="password" text="密码修改" icon="ant-design:edit-outlined" />
+        <MenuItem key="dept" text="切换部门" icon="ant-design:cluster-outlined" />
         <MenuItem
           v-if="getUseLockPage"
           key="lock"
-          :text="t('layout.header.tooltipLock')"
+          text="锁定屏幕"
           icon="ion:lock-closed-outline"
         />
         <MenuItem
           key="logout"
-          :text="t('layout.header.dropdownItemLoginOut')"
+          text="退出系统"
           icon="ion:power-outline"
         />
       </Menu>
     </template>
   </Dropdown>
   <LockAction @register="register" />
+  <UpdatePassword ref="updatePasswordRef" />
 </template>
 <script lang="ts">
-  // components
-  import { Dropdown, Menu } from 'ant-design-vue';
-  import type { MenuInfo } from 'ant-design-vue/lib/menu/src/interface';
+// components
+import { Dropdown, Menu } from "ant-design-vue";
+import type { MenuInfo } from "ant-design-vue/lib/menu/src/interface";
 
-  import { defineComponent, computed } from 'vue';
+import { defineComponent, computed,ref} from "vue";
 
-  import { DOC_URL } from '/@/settings/siteSetting';
+import { useUserStore } from "/@/store/modules/user";
+import { useHeaderSetting } from "/@/hooks/setting/useHeaderSetting";
+import { useI18n } from "/@/hooks/web/useI18n";
+import { useDesign } from "/@/hooks/web/useDesign";
+import { useModal } from "/@/components/Modal";
+import { useGo } from "/@/hooks/web/usePage";
+import headerImg from "/@/assets/images/header.jpg";
+import { propTypes } from "/@/utils/propTypes";
 
-  import { useUserStore } from '/@/store/modules/user';
-  import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  import { useDesign } from '/@/hooks/web/useDesign';
-  import { useModal } from '/@/components/Modal';
+import { createAsyncComponent } from "/@/utils/factory/createAsyncComponent";
 
-  import headerImg from '/@/assets/images/header.jpg';
-  import { propTypes } from '/@/utils/propTypes';
-  import { openWindow } from '/@/utils';
+type MenuEvent = "logout" | "dept" | "account" | "password" | "lock";
 
-  import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+export default defineComponent({
+  name: "UserDropdown",
+  components: {
+    Dropdown,
+    Menu,
+    MenuItem: createAsyncComponent(() => import("./DropMenuItem.vue")),
+    MenuDivider: Menu.Divider,
+    LockAction: createAsyncComponent(() => import("../lock/LockModal.vue")),
+    UpdatePassword: createAsyncComponent(() => import("./UpdatePassword.vue"))
+  },
+  props: {
+    theme: propTypes.oneOf(["dark", "light"])
+  },
+  setup() {
+    const { prefixCls } = useDesign("header-user-dropdown");
+    const { t } = useI18n();
+    const { getUseLockPage } = useHeaderSetting();
+    const userStore = useUserStore();
+    const go = useGo();
+    const getUserInfo = computed(() => {
+      const { realName = "", avatar, desc } = userStore.getUserInfo || {};
+      return { realName, avatar: avatar || headerImg, desc };
+    });
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+    const [register, { openModal }] = useModal();
 
-  export default defineComponent({
-    name: 'UserDropdown',
-    components: {
-      Dropdown,
-      Menu,
-      MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
-      MenuDivider: Menu.Divider,
-      LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
-    },
-    props: {
-      theme: propTypes.oneOf(['dark', 'light']),
-    },
-    setup() {
-      const { prefixCls } = useDesign('header-user-dropdown');
-      const { t } = useI18n();
-      const { getShowDoc, getUseLockPage } = useHeaderSetting();
-      const userStore = useUserStore();
+    function handleLock() {
+      openModal(true);
+    }
 
-      const getUserInfo = computed(() => {
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
-      });
+    //  login out
+    function handleLoginOut() {
+      userStore.confirmLoginOut();
+    }
 
-      const [register, { openModal }] = useModal();
+    // 修改密码
+    const updatePasswordRef = ref();
 
-      function handleLock() {
-        openModal(true);
+    function updatePassword() {
+      updatePasswordRef.value.show(userStore.getUserInfo.username);
+    }
+
+    function handleMenuClick(e: MenuInfo) {
+      switch (e.key as MenuEvent) {
+        case "logout":
+          handleLoginOut();
+          break;
+        case "lock":
+          handleLock();
+          break;
+        case "dept":
+          break;
+        case "password":
+          updatePassword();
+          break;
+        case "account":
+          go(`/page-demo/account/setting`);
+          break;
       }
+    }
 
-      //  login out
-      function handleLoginOut() {
-        userStore.confirmLoginOut();
-      }
-
-      // open doc
-      function openDoc() {
-        openWindow(DOC_URL);
-      }
-
-      function handleMenuClick(e: MenuInfo) {
-        switch (e.key as MenuEvent) {
-          case 'logout':
-            handleLoginOut();
-            break;
-          case 'doc':
-            openDoc();
-            break;
-          case 'lock':
-            handleLock();
-            break;
-        }
-      }
-
-      return {
-        prefixCls,
-        t,
-        getUserInfo,
-        handleMenuClick,
-        getShowDoc,
-        register,
-        getUseLockPage,
-      };
-    },
-  });
+    return {
+      prefixCls,
+      t,
+      getUserInfo,
+      handleMenuClick,
+      register,
+      getUseLockPage,
+      updatePasswordRef
+    };
+  }
+});
 </script>
 <style lang="less">
-  @prefix-cls: ~'@{namespace}-header-user-dropdown';
+@prefix-cls: ~'@{namespace}-header-user-dropdown';
 
-  .@{prefix-cls} {
-    height: @header-height;
-    padding: 0 0 0 10px;
-    padding-right: 10px;
-    overflow: hidden;
-    font-size: 12px;
-    cursor: pointer;
-    align-items: center;
+.@{prefix-cls} {
+  height: @header-height;
+  padding: 0 0 0 10px;
+  padding-right: 10px;
+  overflow: hidden;
+  font-size: 12px;
+  cursor: pointer;
+  align-items: center;
 
-    img {
-      width: 24px;
-      height: 24px;
-      margin-right: 12px;
-    }
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
 
-    &__header {
-      border-radius: 50%;
-    }
+  &__header {
+    border-radius: 50%;
+  }
 
-    &__name {
-      font-size: 14px;
-    }
+  &__name {
+    font-size: 14px;
+  }
 
-    &--dark {
-      &:hover {
-        background-color: @header-dark-bg-hover-color;
-      }
-    }
-
-    &--light {
-      &:hover {
-        background-color: @header-light-bg-hover-color;
-      }
-
-      .@{prefix-cls}__name {
-        color: @text-color-base;
-      }
-
-      .@{prefix-cls}__desc {
-        color: @header-light-desc-color;
-      }
-    }
-
-    &-dropdown-overlay {
-      .ant-dropdown-menu-item {
-        min-width: 160px;
-      }
+  &--dark {
+    &:hover {
+      background-color: @header-dark-bg-hover-color;
     }
   }
+
+  &--light {
+    &:hover {
+      background-color: @header-light-bg-hover-color;
+    }
+
+    .@{prefix-cls}__name {
+      color: @text-color-base;
+    }
+
+    .@{prefix-cls}__desc {
+      color: @header-light-desc-color;
+    }
+  }
+
+  &-dropdown-overlay {
+    .ant-dropdown-menu-item {
+      min-width: 160px;
+    }
+  }
+}
 </style>

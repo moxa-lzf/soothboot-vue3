@@ -136,11 +136,6 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     required: true,
     ifShow: ({ values }) => !(values.component === ComponentTypes.IFrame && values.internalOrExternal) && values.menuType !== 2,
-    //update-begin-author:zyf date:2022-11-02 for: 聚合路由允许路径重复
-     dynamicRules: ({ model, schema }) => {
-       return checkPermDuplication(model, schema, true);
-    },
-    //update-end-author:zyf date:2022-11-02 for: 聚合路由允许路径重复
   },
   {
     field: 'component',
@@ -320,39 +315,6 @@ export const formSchema: FormSchema[] = [
       unCheckedChildren: '内部',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
-  },
-];
-
-export const dataRuleColumns: BasicColumn[] = [
-  {
-    title: '规则名称',
-    dataIndex: 'ruleName',
-    width: 150,
-  },
-  {
-    title: '规则字段',
-    dataIndex: 'ruleColumn',
-    width: 100,
-  },
-  {
-    title: '规则值',
-    dataIndex: 'ruleValue',
-    width: 100,
-  },
-];
-
-export const dataRuleSearchFormSchema: FormSchema[] = [
-  {
-    field: 'ruleName',
-    label: '规则名称',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
-    field: 'ruleValue',
-    label: '规则值',
-    component: 'Input',
-    colProps: { span: 6 },
   },
 ];
 

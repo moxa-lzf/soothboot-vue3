@@ -17,7 +17,7 @@
   const isButton = (type) => type === 2;
   const [registerForm, { setProps, resetFields, setFieldsValue, updateSchema, validate, clearValidate }] = useForm({
     baseColProps:{span:24},
-  labelWidth:100,
+    labelWidth:100,
     schemas: formSchema,
     showActionButtonGroup: false,
   });
@@ -27,27 +27,6 @@
     setDrawerProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
     menuType.value = data?.record?.menuType;
-
-    //获取下拉树信息
-    const treeData = await listTree();
-    updateSchema([
-      {
-        field: 'parentId',
-        componentProps: { treeData },
-      },
-      {
-        field: 'name',
-        label: isButton(unref(menuType)) ? '按钮/权限' : '菜单名称',
-      },
-      {
-        field: 'url',
-        required: !isButton(unref(menuType)),
-        componentProps: {
-          onChange: (e) => onUrlChange(e.target.value),
-        },
-      },
-    ]);
-
     // 无论新增还是编辑，都可以设置表单值
     if (typeof data.record === 'object') {
       let values = { ...data.record };

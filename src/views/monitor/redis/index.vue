@@ -1,22 +1,23 @@
 <template>
   <div class="p-4">
-    <a-card>
+    <Card>
       <!-- Redis 信息实时监控 -->
-      <a-row :gutter="8">
-        <a-col :sm="24" :xl="12">
+      <Row :gutter="8">
+        <Col :sm="24" :xl="12">
           <div ref="chartRef" style="width: 100%; height: 300px"></div>
-        </a-col>
-        <a-col :sm="24" :xl="12">
+        </Col>
+        <Col :sm="24" :xl="12">
           <div ref="chartRef2" style="width: 100%; height: 300px"></div>
-        </a-col>
-      </a-row>
-    </a-card>
+        </Col>
+      </Row>
+    </Card>
 
     <BasicTable @register="registerTable" :api="getInfo"></BasicTable>
   </div>
 </template>
 <script lang="ts" name="monitor-redis" setup>
   import { onMounted, ref, reactive, Ref } from 'vue';
+import {Card,Row,Col}from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getInfo, getRedisInfo } from './redis.api';
   import dayjs from 'dayjs';

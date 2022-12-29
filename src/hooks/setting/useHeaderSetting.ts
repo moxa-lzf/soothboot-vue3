@@ -46,8 +46,6 @@ export function useHeaderSetting() {
 
   const getShowMixHeaderRef = computed(() => !unref(getIsSidebarType) && unref(getShowHeader));
 
-  const getShowDoc = computed(() => appStore.getHeaderSetting.showDoc);
-
   const getHeaderTheme = computed(() => appStore.getHeaderSetting.theme);
 
   const getShowHeader = computed(() => appStore.getHeaderSetting.show);
@@ -84,8 +82,6 @@ export function useHeaderSetting() {
   }
   return {
     setHeaderSetting,
-
-    getShowDoc,
     getShowSearch,
     getHeaderTheme,
     getUseLockPage,

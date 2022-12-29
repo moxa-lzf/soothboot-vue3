@@ -52,8 +52,6 @@ export interface HeaderSetting {
   showFullScreen: boolean;
   // Whether to show the lock screen
   useLockPage: boolean;
-  // Show document button
-  showDoc: boolean;
   // Show message center button
   showNotice: boolean;
   showSearch: boolean;
