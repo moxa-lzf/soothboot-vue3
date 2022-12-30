@@ -30,13 +30,13 @@
   </Dropdown>
   <LockAction @register="register" />
   <UpdatePassword ref="updatePasswordRef" />
+  <AccountSetting ref="accountSettingRef" />
 </template>
 <script lang="ts">
-// components
 import { Dropdown, Menu } from "ant-design-vue";
 import type { MenuInfo } from "ant-design-vue/lib/menu/src/interface";
 
-import { defineComponent, computed,ref} from "vue";
+import { defineComponent, computed, ref } from "vue";
 
 import { useUserStore } from "/@/store/modules/user";
 import { useHeaderSetting } from "/@/hooks/setting/useHeaderSetting";
@@ -59,6 +59,7 @@ export default defineComponent({
     MenuItem: createAsyncComponent(() => import("./DropMenuItem.vue")),
     MenuDivider: Menu.Divider,
     LockAction: createAsyncComponent(() => import("../lock/LockModal.vue")),
+    AccountSetting: createAsyncComponent(() => import("./AccountSetting.vue")),
     UpdatePassword: createAsyncComponent(() => import("./UpdatePassword.vue"))
   },
   props: {
@@ -89,8 +90,14 @@ export default defineComponent({
     // 修改密码
     const updatePasswordRef = ref();
 
+    const accountSettingRef = ref();
+
     function updatePassword() {
       updatePasswordRef.value.show(userStore.getUserInfo.username);
+    }
+
+    function accountSetting() {
+      accountSettingRef.value.show(userStore.getUserInfo.username);
     }
 
     function handleMenuClick(e: MenuInfo) {
@@ -107,7 +114,7 @@ export default defineComponent({
           updatePassword();
           break;
         case "account":
-          go(`/page-demo/account/setting`);
+          accountSetting();
           break;
       }
     }
@@ -119,7 +126,8 @@ export default defineComponent({
       handleMenuClick,
       register,
       getUseLockPage,
-      updatePasswordRef
+      updatePasswordRef,
+      accountSettingRef
     };
   }
 });

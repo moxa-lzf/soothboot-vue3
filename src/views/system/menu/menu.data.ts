@@ -2,7 +2,6 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Icon } from '/@/components/Icon';
-import { duplicateCheck } from '../user/user.api';
 import { ajaxGetDictItems ,checkPermDuplication } from './menu.api';
 
 const isDir = (type) => type === 0;
@@ -185,30 +184,6 @@ export const formSchema: FormSchema[] = [
     label: '授权标识',
     component: 'Input',
     ifShow: ({ values }) => isButton(values.menuType),
-    dynamicRules: ({ model }) => {
-      return [
-        {
-          required: false,
-          validator: (_, value) => {
-            return new Promise((resolve, reject) => {
-              let params = {
-                tableName: 'sys_permission',
-                fieldName: 'perms',
-                fieldVal: value,
-                dataId: model.id,
-              };
-              duplicateCheck(params)
-                .then((res) => {
-                  res.success ? resolve() : reject(res.message || '校验失败');
-                })
-                .catch((err) => {
-                  reject(err.message || '校验失败');
-                });
-            });
-          },
-        },
-      ];
-    },
   },
   {
     field: 'permsType',

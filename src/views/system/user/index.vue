@@ -1,16 +1,10 @@
 <template>
-  <div>
-    <!--引用表格-->
-    <BasicTable @register="registerTable">
+  <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
+    <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
-          新增</a-button
-        >
-        <a-button type="primary" @click="openModal(true, {})" preIcon="ant-design:hdd-outlined">
-          回收站</a-button
-        >
+        <a-button type="primary" @click="handleCreate">新增</a-button>
       </template>
-      <!--操作栏-->
       <template #action="{ record }">
         <TableAction
           :actions="getTableAction(record)"
@@ -18,220 +12,131 @@
         />
       </template>
     </BasicTable>
-    <!--用户抽屉-->
-    <UserDrawer @register="registerDrawer" @success="handleSuccess" />
-    <!--修改密码-->
-    <PasswordModal @register="registerPasswordModal" @success="reload" />
-    <!--用户代理-->
-    <UserAgentModal @register="registerAgentModal" @success="reload" />
-    <!--回收站-->
-    <UserRecycleBinModal @register="registerModal" @success="reload" />
-  </div>
+    <UserModal @register="registerModal" @success="handleSuccess" />
+  </PageWrapper>
 </template>
+<script lang="ts" setup>
+import { defineComponent, reactive } from "vue";
 
-<script lang="ts" name="system-user" setup>
-  //ts语法
-  import { ref, computed, unref } from 'vue';
-  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
-  import UserDrawer from './UserDrawer.vue';
-  import UserRecycleBinModal from './UserRecycleBinModal.vue';
-  import PasswordModal from './PasswordModal.vue';
-  import UserAgentModal from './UserAgentModal.vue';
-  import { useDrawer } from '/@/components/Drawer';
-  import { useModal } from '/@/components/Modal';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  import { columns, searchFormSchema } from './user.data';
-  import { list, deleteUser, batchDeleteUser, frozenBatch, syncUser } from './user.api';
-  // import { usePermission } from '/@/hooks/web/usePermission'
-  // const { hasPermission } = usePermission();
+import { BasicTable, useTable, TableAction } from "/@/components/Table";
+import { PageWrapper } from "/@/components/Page";
+import DeptTree from "./DeptTree.vue";
 
-  const { createMessage, createConfirm } = useMessage();
+import { useModal } from "/@/components/Modal";
+import UserModal from "./UserModal.vue";
 
-  //注册drawer
-  const [registerDrawer, { openDrawer }] = useDrawer();
-  //回收站model
-  const [registerModal, { openModal }] = useModal();
-  //密码model
-  const [registerPasswordModal, { openModal: openPasswordModal }] = useModal();
-  //代理人model
-  const [registerAgentModal, { openModal: openAgentModal }] = useModal();
+import { columns, searchFormSchema } from "./user.data";
+import { userApi } from "./user.api";
+import { useGo } from "/@/hooks/web/usePage";
 
-  // 列表页面公共参数、方法
-  const [registerTable, { reload }] = useTable({
-    title: '用户列表',
-    api: list,
-    columns: columns,
-    formConfig: {
-       labelWidth: 100,
-      schemas: searchFormSchema,
-    },
+const go = useGo();
+const [registerModal, { openModal }] = useModal();
+const searchInfo = reactive<Recordable>({});
+const [registerTable, { reload, updateTableDataRecord }] = useTable({
+  title: "用户列表",
+  api: userApi.api.page,
+  rowKey: "id",
+  columns,
+  formConfig: {
+    labelWidth: 80,
+    schemas: searchFormSchema,
+    autoSubmitOnEnter: true
+  },
+  showIndexColumn: false,
   useSearchForm: true,
   showTableSetting: true,
   bordered: true,
-  showIndexColumn: false,
-    actionColumn: {
-      width: 80,
-      title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
-      fixed: undefined,
-    },
+  actionColumn: {
+    width: 120,
+    title: "操作",
+    dataIndex: "action",
+    slots: { customRender: "action" }
+  }
+});
+
+function handleCreate() {
+  openModal(true, {
+    isUpdate: false
   });
-  /**
-   * 新增事件
-   */
-  function handleCreate() {
-    openDrawer(true, {
-      isUpdate: false,
-      showFooter: true,
-    });
-  }
-  /**
-   * 编辑事件
-   */
-  async function handleEdit(record: Recordable) {
-    openDrawer(true, {
-      record,
-      isUpdate: true,
-      showFooter: true,
-    });
-  }
-  /**
-   * 详情
-   */
-  async function handleDetail(record: Recordable) {
-    openDrawer(true, {
-      record,
-      isUpdate: true,
-      showFooter: false,
-    });
-  }
-  /**
-   * 删除事件
-   */
-  async function handleDelete(record) {
-    if ('admin' == record.username) {
-      createMessage.warning('管理员账号不允许此操作！');
-      return;
-    }
-    await deleteUser({ id: record.id }, reload);
-  }
-  /**
-   * 批量删除事件
-   */
-  // async function batchHandleDelete() {
-  //   let hasAdmin = unref(selectedRows).filter((item) => item.username == 'admin');
-  //   if (unref(hasAdmin).length > 0) {
-  //     createMessage.warning('管理员账号不允许此操作！');
-  //     return;
-  //   }
-  //   await batchDeleteUser({ ids: selectedRowKeys.value }, () => {
-  //     selectedRowKeys.value = [];
-  //     reload();
-  //   });
-  // }
-  /**
-   * 成功回调
-   */
-  function handleSuccess() {
+}
+
+function handleEdit(record: Recordable) {
+  console.log(record);
+  openModal(true, {
+    record,
+    isUpdate: true
+  });
+}
+
+function handleDelete(record: Recordable) {
+  console.log(record);
+}
+
+function handleSuccess({ isUpdate, values }) {
+  if (isUpdate) {
+    // 演示不刷新表格直接更新内部数据。
+    // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
+    const result = updateTableDataRecord(values.id, values);
+    console.log(result);
+  } else {
     reload();
   }
+}
 
-  /**
-   * 打开修改密码弹窗
-   */
-  function handleChangePassword(username) {
-    openPasswordModal(true, { username });
-  }
-  /**
-   * 打开代理人弹窗
-   */
-  function handleAgentSettings(userName) {
-    openAgentModal(true, { userName });
-  }
-  /**
-   * 冻结解冻
-   */
-  async function handleFrozen(record, status) {
-    if ('admin' == record.username) {
-      createMessage.warning('管理员账号不允许此操作！');
-      return;
+function handleSelect(deptId = "") {
+  searchInfo.deptId = deptId;
+  reload();
+}
+/**
+ * 操作栏
+ */
+function getTableAction(record): ActionItem[] {
+  return [
+    {
+      label: "编辑",
+      onClick: handleEdit.bind(null, record)
+      // ifShow: () => hasPermission('system:user:edit'),
     }
-    await frozenBatch({ ids: record.id, status: status }, reload);
-  }
-  /**
-   * 批量冻结解冻
-   */
-  // function batchFrozen(status) {
-  //   let hasAdmin = selectedRows.value.filter((item) => item.username == 'admin');
-  //   if (unref(hasAdmin).length > 0) {
-  //     createMessage.warning('管理员账号不允许此操作！');
-  //     return;
-  //   }
-  //   createConfirm({
-  //     iconType: 'warning',
-  //     title: '确认操作',
-  //     content: '是否' + (status == 1 ? '解冻' : '冻结') + '选中账号?',
-  //     onOk: async () => {
-  //       await frozenBatch({ ids: unref(selectedRowKeys).join(','), status: status }, reload);
-  //     },
-  //   });
-  // }
+  ];
+}
 
-  /**
-   * 操作栏
-   */
-  function getTableAction(record): ActionItem[] {
-    return [
-      {
-        label: '编辑',
-        onClick: handleEdit.bind(null, record),
-        // ifShow: () => hasPermission('system:user:edit'),
-      },
-    ];
-  }
-  /**
-   * 下拉操作栏
-   */
-  function getDropDownAction(record): ActionItem[] {
-    return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      },
-      {
-        label: '密码',
-        onClick: handleChangePassword.bind(null, record.username),
-      },
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
-      },
-      {
-        label: '冻结',
-        ifShow: record.status == 1,
-        popConfirm: {
-          title: '确定冻结吗?',
-          confirm: handleFrozen.bind(null, record, 2),
-        },
-      },
-      {
-        label: '解冻',
-        ifShow: record.status == 2,
-        popConfirm: {
-          title: '确定解冻吗?',
-          confirm: handleFrozen.bind(null, record, 1),
-        },
-      },
-      {
-        label: '代理人',
-        onClick: handleAgentSettings.bind(null, record.username),
-      },
-    ];
-  }
+/**
+ * 下拉操作栏
+ */
+function getDropDownAction(record): ActionItem[] {
+  return [
+//    {
+//      label: "详情",
+//      onClick: handleDetail.bind(null, record)
+//    },
+//    {
+//      label: "密码",
+//      onClick: handleChangePassword.bind(null, record.username)
+//    },
+    {
+      label: "删除",
+      popConfirm: {
+        title: "是否确认删除",
+        confirm: handleDelete.bind(null, record)
+      }
+    },
+//    {
+//      label: "冻结",
+//      ifShow: record.status == 1,
+//      popConfirm: {
+//        title: "确定冻结吗?",
+//        confirm: handleFrozen.bind(null, record, 2)
+//      }
+//    },
+//    {
+//      label: "解冻",
+//      ifShow: record.status == 2,
+//      popConfirm: {
+//        title: "确定解冻吗?",
+//        confirm: handleFrozen.bind(null, record, 1)
+//      }
+//    }
+  ];
+}
+
 </script>
-
-<style scoped></style>
