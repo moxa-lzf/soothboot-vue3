@@ -83,8 +83,9 @@ function handleSuccess({ isUpdate, values }) {
   }
 }
 
-function handleSelect(deptId = "") {
-  searchInfo.deptId = deptId;
+function handleSelect(deptIds=[]) {
+console.log(deptIds)
+searchInfo.deptIds = deptIds;
   reload();
 }
 /**

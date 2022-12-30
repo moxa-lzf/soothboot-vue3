@@ -30,8 +30,21 @@ export default defineComponent({
       treeData.value = (await listTree({})) as unknown as TreeItem[];
     }
 
-    function handleSelect(keys) {
-      emit("select", keys[0]);
+    function getNodeIds(selectedNodes) {
+      let nodeIds = new Array();
+      if (selectedNodes && selectedNodes.length > 0) {
+        for (let selectedNode of selectedNodes) {
+          nodeIds.push(selectedNode.id);
+          if (selectedNode.children && selectedNode.children.length > 0) {
+            nodeIds.push(...getNodeIds(selectedNode.children));
+          }
+        }
+      }
+      return nodeIds;
+    }
+
+    function handleSelect(keys, { selectedNodes }) {
+      emit("select", getNodeIds(selectedNodes));
     }
 
     onMounted(() => {

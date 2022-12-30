@@ -54,7 +54,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
-    field: 'mobile',
+    field: 'phone',
     label: '手机号',
     component: 'Input',
     colProps: { span: 6 },
