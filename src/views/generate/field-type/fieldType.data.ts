@@ -16,11 +16,13 @@ export const searchFormSchema: FormSchema[] = [
     label: '字段类型',
     field: 'columnType',
     component: 'Input',
+    colProps: { span: 6 },
   },
   {
     label: '属性类型',
     field: 'attrType',
     component: 'Input',
+    colProps: { span: 6 },
   },
 ];
 

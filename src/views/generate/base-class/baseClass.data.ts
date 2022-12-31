@@ -20,6 +20,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '基类名称',
     field: 'name',
     component: 'Input',
+    colProps: { span: 6 },
   }
 ];
 

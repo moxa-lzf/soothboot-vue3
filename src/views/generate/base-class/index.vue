@@ -2,7 +2,7 @@
   <!--引用表格-->
   <BasicTable @register="registerTable">
     <!--插槽:table标题-->
-    <template #tableTitle>
+    <template #tooltar>
       <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 新增</a-button>
     </template>
     <!--操作栏-->
@@ -42,6 +42,10 @@ const [registerTable, { reload, updateTableDataRecord }]  = useTable({
       actionColumn: {
         width: 240,
       },
+  showIndexColumn: false,
+  useSearchForm: true,
+  showTableSetting: true,
+  bordered: true
   });
   /**
    * 新增事件

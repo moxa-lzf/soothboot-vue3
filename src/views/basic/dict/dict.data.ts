@@ -69,6 +69,7 @@ export const formSchema: FormSchema[] = [
     label: '字典编码',
     field: 'dictCode',
     component: 'Input',
+    required: true,
     dynamicDisabled: ({ values }) => {
       return !!values.id;
     }

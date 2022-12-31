@@ -82,10 +82,10 @@ export const formSchema: FormSchema[] = [
   {
     field: "validStatus",
     label: "有效状态",
-    component: "JDictSelectTag",
+    component: "DictSelect",
     required: true,
     componentProps:{
-      dictCode: "valid_status",
+      code: "valid_status",
       stringToNumber: true,
     },
     colProps: {

@@ -11,20 +11,13 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '排序',
-    dataIndex: 'deptOrder',
+    dataIndex: 'orderNo',
     width: 50,
   },
   {
     title: '状态',
-    dataIndex: 'status',
+    dataIndex: ['dict', 'status'],
     width: 80,
-    customRender: ({ record }) => {
-      const status = record.status;
-      const enable = ~~status === 0;
-      const color = enable ? 'green' : 'red';
-      const text = enable ? '启用' : '停用';
-      return h(Tag, { color: color }, () => text);
-    },
   },
   {
     title: '备注',
@@ -43,6 +36,12 @@ export const searchFormSchema: FormSchema[] = [
 
 export const formSchema: FormSchema[] = [
   {
+    field: 'id',
+    label: 'id',
+    component: 'Input',
+    show: false,
+  },
+  {
     field: 'deptName',
     label: '部门名称',
     component: 'Input',
@@ -52,7 +51,6 @@ export const formSchema: FormSchema[] = [
     field: 'parentId',
     label: '上级部门',
     component: 'TreeSelect',
-
     componentProps: {
       fieldNames: {
         label: 'deptName',
@@ -64,7 +62,7 @@ export const formSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'deptOrder',
+    field: 'orderNo',
     label: '排序',
     component: 'InputNumber',
     required: true,
@@ -72,13 +70,11 @@ export const formSchema: FormSchema[] = [
   {
     field: 'status',
     label: '状态',
-    component: 'RadioButtonGroup',
+    component: 'DictSelect',
     defaultValue: '0',
     componentProps: {
-      options: [
-        { label: '启用', value: '0' },
-        { label: '停用', value: '1' },
-      ],
+      code:'valid_status',
+      compType:'radioButton',
     },
     required: true,
   },

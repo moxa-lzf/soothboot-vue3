@@ -1,7 +1,8 @@
 import { BaseApi } from "/@/api/base/baseApi";
-class LogApi extends BaseApi{
+
+class DictItemApi extends BaseApi{
   constructor(requestUrl) {
     super(requestUrl);
   }
 }
-export const logApi=new LogApi('/sys/log').api;
+export const dictItemApi=new DictItemApi('/sys/dictItem').api;

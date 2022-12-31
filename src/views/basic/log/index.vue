@@ -1,29 +1,20 @@
 <template>
   <BasicTable @register="registerTable" :searchInfo="searchInfo" :columns="logColumns">
-    <template #tableTitle>
-      <a-tabs defaultActiveKey="1" @change="tabChange" size="small">
-        <a-tab-pane tab="登录日志" key="1"></a-tab-pane>
-        <a-tab-pane tab="操作日志" key="2"></a-tab-pane>
-      </a-tabs>
-    </template>
-    <template #expandedRowRender="{ record }">
-      <div v-if="searchInfo.logType == 2">
-        <div style="margin-bottom: 5px">
-          <a-badge status="success" style="vertical-align: middle" />
-          <span style="vertical-align: middle">请求方法:{{ record.method }}</span></div
-        >
-        <div>
-          <a-badge status="processing" style="vertical-align: middle" />
-          <span style="vertical-align: middle">请求参数:{{ record.requestParam }}</span></div
-        >
-      </div>
+    <template #toolbar>
+      <Tabs defaultActiveKey="1" @change="tabChange" size="small">
+        <TabPane tab="登录日志" key="1"></TabPane>
+      <TabPane tab="操作日志" key="2"></TabPane>
+      <TabPane tab="访问日志" key="3"></TabPane>
+      <TabPane tab="错误日志" key="4"></TabPane>
+      </Tabs>
     </template>
   </BasicTable>
 </template>
 <script lang="ts" name="monitor-log" setup>
   import { ref } from 'vue';
+  import{Tabs,TabPane}from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getLogList } from './log.api';
+  import { logApi } from './log.api';
   import { columns, searchFormSchema, operationLogColumn } from './log.data';
   import { useMessage } from '/@/hooks/web/useMessage';
   const { createMessage } = useMessage();
@@ -34,7 +25,7 @@
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
       title: '日志列表',
-      api: getLogList,
+      api: logApi.page,
       expandRowByClick: true,
       showActionColumn: false,
       rowSelection: {

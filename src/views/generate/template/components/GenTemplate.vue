@@ -1,7 +1,7 @@
 <template>
   <div>
     <BasicTable @register="registerTable">
-      <template #tableTitle>
+      <template #tooltar>
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleAdd"
                   style="margin-right: 5px">新增
         </a-button>
@@ -15,7 +15,7 @@
 </template>
 <script lang="ts" name="monitor-datasource" setup>
 import { ref, watch } from "vue";
-import { BasicTable,useTable, TableAction } from "/@/components/Table";
+import { BasicTable, useTable, TableAction } from "/@/components/Table";
 import { useModal } from "/@/components/Modal";
 import { useMessage } from "/@/hooks/web/useMessage";
 import { columns, searchFormSchema } from "../gen.template.data";
@@ -34,15 +34,20 @@ const [registerModal, { openModal }] = useModal();
 
 // 列表页面公共参数、方法
 const [registerTable, { reload }] = useTable({
-    title: "任务列表",
-    api: templateApi.page,
-    columns: columns,
-    formConfig: {
-      labelWidth: 120,
-      schemas: searchFormSchema,
-      fieldMapToTime: [["fieldTime", ["beginDate", "endDate"], "YYYY-MM-DD HH:mm:ss"]]
-    }
+  title: "任务列表",
+  api: templateApi.page,
+  columns: columns,
+  formConfig: {
+    labelWidth: 120,
+    schemas: searchFormSchema,
+    fieldMapToTime: [["fieldTime", ["beginDate", "endDate"], "YYYY-MM-DD HH:mm:ss"]]
+  },
+  showIndexColumn: false,
+  useSearchForm: true,
+  showTableSetting: true,
+  bordered: true
 });
+
 /**
  * 操作列定义
  * @param record

@@ -15,7 +15,8 @@
   const rowId = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-     labelWidth: 100,
+     labelWidth: 80,
+    baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
@@ -41,7 +42,7 @@
       let values = await validate();
       setModalProps({ confirmLoading: true });
       //提交表单
-      await dictApi.api.saveOrEdit(values, isUpdate.value);
+      await dictApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表

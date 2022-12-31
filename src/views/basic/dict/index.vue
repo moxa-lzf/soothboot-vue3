@@ -5,9 +5,6 @@
     <template #toolbar>
       <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 新增
       </a-button>
-      <a-button type="primary" @click="handlerRefreshCache" preIcon="ant-design:sync-outlined">
-        刷新缓存
-      </a-button>
     </template>
     <!--操作栏-->
     <template #action="{ record }">
@@ -47,6 +44,7 @@ const [registerTable, { reload, updateTableDataRecord }] = useTable({
   api: dictApi.page,
   columns: columns,
   formConfig: {
+    labelWidth:80,
     schemas: searchFormSchema
   },
   useSearchForm: true,
@@ -82,29 +80,12 @@ async function handleEdit(record: Recordable) {
 }
 
 /**
- * 详情
- */
-async function handleDetail(record) {
-  openModal(true, {
-    record,
-    isUpdate: true
-  });
-}
-
-/**
  * 删除事件
  */
 async function handleDelete(record) {
-  dictApi.api.remove({ id: record.id }).then(reload());
+  await dictApi.remove({ id: record.id });
+  reload();
 }
-
-/**
- * 批量删除事件
- */
-async function batchHandleDelete() {
-  // await batchDeleteDict({ ids: selectedRowKeys.value }, reload);
-}
-
 /**
  * 成功回调
  */
@@ -113,21 +94,6 @@ function handleSuccess({ isUpdate, values }) {
     updateTableDataRecord(values.id, values);
   } else {
     reload();
-  }
-}
-
-/**
- * 刷新缓存
- */
-async function handlerRefreshCache() {
-  const result = await refreshCache();
-  if (result.success) {
-    const res = await queryAllDictItems();
-    removeAuthCache(DB_DICT_DATA_KEY);
-    setAuthCache(DB_DICT_DATA_KEY, res.result);
-    createMessage.success("刷新缓存完成！");
-  } else {
-    createMessage.error("刷新缓存失败！");
   }
 }
 

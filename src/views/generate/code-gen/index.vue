@@ -2,7 +2,7 @@
   <!--引用表格-->
   <BasicTable @register="registerTable" :rowSelection="rowSelection">
     <!--插槽:table标题-->
-    <template #tableTitle>
+    <template #tooltar>
       <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleImport">
         数据库表导入
       </a-button>
@@ -28,13 +28,13 @@
   </BasicTable>
   <GenTableImportModal @register="registerImportModal" @success="reload" />
   <GenTableModal @register="registerModal" />
-<GenCodeConfirmModal @register="registerConfirmModal" />
+  <GenCodeConfirmModal @register="registerConfirmModal" />
 </template>
 
 <script lang="ts" name="system-dict" setup>
 //ts语法
 import { ref, computed, unref } from "vue";
-import { BasicTable,useTable, TableAction } from "/src/components/Table";
+import { BasicTable, useTable, TableAction } from "/src/components/Table";
 import { useModal } from "/src/components/Modal";
 import GenTableModal from "./components/GenTableFieldModal.vue";
 import GenTableImportModal from "./components/GenTableImportModal.vue";
@@ -53,15 +53,19 @@ const [registerConfirmModal, { openModal: openConfirmModal }] = useModal();
 import { ActionItem } from "/@/components/Table";
 // 列表页面公共参数、方法
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
-    title: "代码生成",
-    api: list,
-    columns: columns,
-    formConfig: {
-      schemas: searchFormSchema
-    },
-    actionColumn: {
-      width: 240
-    }
+  title: "代码生成",
+  api: list,
+  columns: columns,
+  formConfig: {
+    schemas: searchFormSchema
+  },
+  actionColumn: {
+    width: 240
+  },
+  showIndexColumn: false,
+  useSearchForm: true,
+  showTableSetting: true,
+  bordered: true
 });
 
 /**
