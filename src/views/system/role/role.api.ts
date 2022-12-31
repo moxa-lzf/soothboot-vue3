@@ -23,7 +23,7 @@ enum Api {
   getParentDesignList = '/act/process/extActDesignFlowData/getDesFormFlows',
   getRoleDegisnList = '/joa/designform/designFormCommuse/getRoleDegisnList',
   saveRoleDesign = '/joa/designform/designFormCommuse/sysRoleDesignAdd',
-  userList = '/sys/user/userRoleList',
+  userList = '/sys/user/getUserByRoleId',
   deleteUserRole = '/sys/user/deleteUserRole',
   batchDeleteUserRole = '/sys/user/deleteUserRoleBatch',
   addUserRole = '/sys/user/addSysUserRole',

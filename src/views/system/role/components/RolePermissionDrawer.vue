@@ -8,16 +8,12 @@
       :checkedKeys="checkedKeys"
       :expandedKeys="allTreeKeys"
       :selectedKeys="selectedKeys"
+      :fieldNames="{ key: 'id', title: 'name' }"
       :checkStrictly="true"
       :clickRowToExpand="false"
       title="所拥有的的权限"
       @check="onCheck"
-      @select="onTreeNodeSelect"
     >
-      <template #title="{ slotTitle, ruleFlag }">
-        {{ slotTitle }}
-        <Icon v-if="ruleFlag" icon="ant-design:align-left-outlined" style="margin-left: 5px; color: red"></Icon>
-      </template>
     </BasicTree>
     <!--右下角按钮-->
     <template #footer>
@@ -25,7 +21,6 @@
       <a-button @click="handleSubmit(false)" type="primary" :loading="loading" ghost style="margin-right: 0.8rem">仅保存</a-button>
       <a-button @click="handleSubmit(true)" type="primary" :loading="loading">保存并关闭</a-button>
     </template>
-    <RoleDataRuleDrawer @register="registerDrawer1" />
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
@@ -33,7 +28,6 @@
   import { BasicDrawer, useDrawer, useDrawerInner } from '/src/components/Drawer';
   import { BasicTree, TreeItem } from '/src/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
-  import RoleDataRuleDrawer from './RoleDataRuleDrawer.vue';
   import { queryTreeListForRole, queryRolePermission, saveRolePermission } from '../role.api';
 import {listTree}from '/@/views/system/menu/menu.api'
   const emit = defineEmits(['register']);
@@ -50,8 +44,6 @@ import {listTree}from '/@/views/system/menu/menu.api'
   //树的实例
   const treeRef = ref(null);
   const loading = ref(false);
-
-  const [registerDrawer1, { openDrawer: openDataRuleDrawer }] = useDrawer();
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     await reset();
     setDrawerProps({ confirmLoading: false, loading: true });
@@ -59,7 +51,6 @@ import {listTree}from '/@/views/system/menu/menu.api'
     //初始化数据
     const roleResult = await listTree({});
     treeData.value = roleResult;
-//    allTreeKeys.value = roleResult.ids;
     //初始化角色菜单数据
     const permResult = await queryRolePermission({ roleId: unref(roleId) });
     checkedKeys.value = permResult;
@@ -71,15 +62,6 @@ import {listTree}from '/@/views/system/menu/menu.api'
    */
   function onCheck(o) {
     checkedKeys.value = o.checked ? o.checked : o;
-  }
-  /**
-   * 选中节点，打开数据权限抽屉
-   */
-  function onTreeNodeSelect(key) {
-    if (key && key.length > 0) {
-      selectedKeys.value = key;
-    }
-    openDataRuleDrawer(true, { functionId: unref(selectedKeys)[0], roleId: unref(roleId) });
   }
   /**
    * 数据重置

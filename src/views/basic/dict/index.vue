@@ -8,9 +8,6 @@
       <a-button type="primary" @click="handlerRefreshCache" preIcon="ant-design:sync-outlined">
         刷新缓存
       </a-button>
-      <a-button type="primary" @click="openRecycleModal(true)" preIcon="ant-design:hdd-outlined">
-        回收站
-      </a-button>
     </template>
     <!--操作栏-->
     <template #action="{ record }">
@@ -21,8 +18,6 @@
   <DictModal @register="registerModal" @success="handleSuccess" />
   <!--字典配置抽屉-->
   <DictItemList @register="registerDrawer" />
-  <!--回收站弹窗-->
-  <DictRecycleBinModal @register="registerModal1" @success="reload" />
 </template>
 
 <script lang="ts" setup>
@@ -33,7 +28,6 @@ import { useDrawer } from "/src/components/Drawer";
 import { useModal } from "/src/components/Modal";
 import DictItemList from "./components/DictItemList.vue";
 import DictModal from "./components/DictModal.vue";
-import DictRecycleBinModal from "./components/DictRecycleBinModal.vue";
 import { useMessage } from "/src/hooks/web/useMessage";
 import { removeAuthCache, setAuthCache } from "/src/utils/auth";
 import { columns, searchFormSchema } from "./dict.data";
@@ -46,13 +40,11 @@ const { createMessage } = useMessage();
 const [registerModal, { openModal }] = useModal();
 //字典配置drawer
 const [registerDrawer, { openDrawer }] = useDrawer();
-//回收站model
-const [registerModal1, { openModal: openRecycleModal }] = useModal();
 
 // 列表页面公共参数、方法
 const [registerTable, { reload, updateTableDataRecord }] = useTable({
   title: "数据字典",
-  api: dictApi.api.page,
+  api: dictApi.page,
   columns: columns,
   formConfig: {
     schemas: searchFormSchema

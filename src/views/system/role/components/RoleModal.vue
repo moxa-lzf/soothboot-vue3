@@ -8,9 +8,10 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from '../role.data';
+  import{roleApi}from '../role.api'
 
   export default defineComponent({
-    name: 'DeptModal',
+    name: 'RoleModal',
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
@@ -41,8 +42,7 @@
         try {
           const values = await validate();
           setModalProps({ confirmLoading: true });
-          // TODO custom api
-          console.log(values);
+          await roleApi.saveOrEdit(values, unref(isUpdate));
           closeModal();
           emit('success');
         } finally {

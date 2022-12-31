@@ -8,7 +8,6 @@ import { defineComponent, ref, computed, unref } from "vue";
 import { BasicModal, useModalInner } from "/@/components/Modal";
 import { BasicForm, useForm } from "/@/components/Form/index";
 import { formSchema } from "./user.data";
-import { getDeptList } from "/@/api/demo/system";
 import { listTree } from "/@/views/system/dept/dept.api";
 
 export default defineComponent({

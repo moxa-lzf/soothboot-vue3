@@ -9,7 +9,7 @@ export class BaseApi {
     list: (params) => Promise<any>;
     postEdit: (params) => Promise<any>;
     putEdit: (params) => Promise<any>;
-    saveOrEdit: (params) => Promise<any>;
+    saveOrEdit: (params, isUpdate) => Promise<any>;
     remove: (params) => Promise<any>;
     removeBatch: (params) => void;
   };

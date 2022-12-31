@@ -1,5 +1,4 @@
 import { FormSchema } from '/@/components/Table';
-import { isRoleExist } from './role.api';
 export const columns = [
   {
     title: '角色名称',
@@ -11,8 +10,8 @@ export const columns = [
   },
   {
     title: '备注',
-    dataIndex: 'description'
-  }
+    dataIndex: 'description',
+  },
 ];
 /**
  * 角色用户Columns
@@ -79,99 +78,10 @@ export const formSchema: FormSchema[] = [
     dynamicDisabled: ({ values }) => {
       return !!values.id;
     },
-    dynamicRules: ({ values, model }) => {
-      console.log('values:', values);
-      return [
-        {
-          required: true,
-          validator: (_, value) => {
-            if (!value) {
-              return Promise.reject('请输入角色编码');
-            }
-            if (values) {
-              return new Promise((resolve, reject) => {
-                isRoleExist({ id: model.id, roleCode: value })
-                  .then((res) => {
-                    res.success ? resolve() : reject(res.message || '校验失败');
-                  })
-                  .catch((err) => {
-                    reject(err.message || '验证失败');
-                  });
-              });
-            }
-            return Promise.resolve();
-          },
-        },
-      ];
-    },
   },
   {
     label: '备注',
     field: 'description',
     component: 'InputTextArea',
-  },
-];
-
-export const formDescSchema = [
-  {
-    field: 'roleName',
-    label: '角色名称',
-  },
-  {
-    field: 'roleCode',
-    label: '角色编码',
-  },
-  {
-    label: '备注',
-    field: 'description',
-  },
-];
-
-export const roleIndexFormSchema: FormSchema[] = [
-  {
-    field: 'id',
-    label: '',
-    component: 'Input',
-    show: false,
-  },
-  {
-    label: '角色编码',
-    field: 'roleCode',
-    component: 'Input',
-    dynamicDisabled: true,
-  },
-  {
-    label: '首页路由',
-    field: 'url',
-    component: 'Input',
-    required: true,
-  },
-  {
-    label: '组件地址',
-    field: 'component',
-    component: 'Input',
-    componentProps: {
-      placeholder: '请输入前端组件',
-    },
-    required: true,
-  },
-  {
-    field: 'route',
-    label: '是否路由菜单',
-    component: 'Switch',
-    defaultValue: true
-  },
-  {
-    label: '优先级',
-    field: 'priority',
-    component: 'InputNumber',
-  },
-  {
-    label: '是否开启',
-    field: 'status',
-    component: 'JSwitch',
-    componentProps: {
-      options: ['1', '0'],
-    },
   },
 ];

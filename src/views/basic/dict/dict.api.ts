@@ -1,12 +1,12 @@
 import { defHttp } from '/@/utils/http/axios';
 import { Modal } from 'ant-design-vue';
-import {BaseApi} from "/@/api/base/baseApi";
+import { BaseApi } from '/@/api/base/baseApi';
 class DictApi extends BaseApi{
   constructor(requestUrl) {
     super(requestUrl);
   }
 }
-export const dictApi=new DictApi('/sys/dict');
+export const dictApi=new DictApi('/sys/dict').api;
 enum Api {
   list = '/sys/dict/list',
   save = '/sys/dict/save',
