@@ -1,7 +1,7 @@
-import type { ComputedRef, Ref } from 'vue';
-import type { FormProps, FormSchema, FormActionType } from '../types/form';
-import type { NamePath } from 'ant-design-vue/lib/form/interface';
-import { unref, toRaw, nextTick } from 'vue';
+import type { ComputedRef, Ref } from "vue";
+import type { FormProps, FormSchema, FormActionType } from "../types/form";
+import type { NamePath } from "ant-design-vue/lib/form/interface";
+import { unref, toRaw, nextTick } from "vue";
 import {
   isArray,
   isFunction,
@@ -9,13 +9,13 @@ import {
   isString,
   isDef,
   isNullOrUnDef,
-  isEmpty,
-} from '/@/utils/is';
-import { deepMerge } from '/@/utils';
-import { dateItemType, handleInputNumberValue, defaultValueComponents } from '../helper';
-import { dateUtil } from '/@/utils/dateUtil';
-import { cloneDeep, uniqBy } from 'lodash-es';
-import { error } from '/@/utils/log';
+  isEmpty
+} from "/@/utils/is";
+import { deepMerge } from "/@/utils";
+import { dateItemType, handleInputNumberValue, defaultValueComponents } from "../helper";
+import { dateUtil } from "/@/utils/dateUtil";
+import { cloneDeep, uniqBy } from "lodash-es";
+import { error } from "/@/utils/log";
 
 interface UseFormActionContext {
   emit: EmitType;
@@ -27,16 +27,17 @@ interface UseFormActionContext {
   schemaRef: Ref<FormSchema[]>;
   handleFormValues: Fn;
 }
+
 export function useFormEvents({
-  emit,
-  getProps,
-  formModel,
-  getSchema,
-  defaultValueRef,
-  formElRef,
-  schemaRef,
-  handleFormValues,
-}: UseFormActionContext) {
+                                emit,
+                                getProps,
+                                formModel,
+                                getSchema,
+                                defaultValueRef,
+                                formElRef,
+                                schemaRef,
+                                handleFormValues
+                              }: UseFormActionContext) {
   async function resetFields(): Promise<void> {
     const { resetFunc, submitOnReset } = unref(getProps);
     resetFunc && isFunction(resetFunc) && (await resetFunc());
@@ -48,11 +49,11 @@ export function useFormEvents({
       const schema = unref(getSchema).find((item) => item.field === key);
       const isInput = schema?.component && defaultValueComponents.includes(schema.component);
       const defaultValue = cloneDeep(defaultValueRef.value[key]);
-      formModel[key] = isInput ? defaultValue || '' : defaultValue;
+      formModel[key] = isInput ? defaultValue || "" : defaultValue;
     });
     nextTick(() => clearValidate());
 
-    emit('reset', toRaw(formModel));
+    emit("reset", toRaw(formModel));
     submitOnReset && handleSubmit();
   }
 
@@ -65,7 +66,7 @@ export function useFormEvents({
       .filter(Boolean);
 
     // key 支持 a.b.c 的嵌套写法
-    const delimiter = '.';
+    const delimiter = ".";
     const nestKeyArray = fields.filter((item) => item.indexOf(delimiter) >= 0);
 
     const validKeys: string[] = [];
@@ -89,7 +90,7 @@ export function useFormEvents({
           } else {
             const { componentProps } = schema || {};
             let _props = componentProps as any;
-            if (typeof componentProps === 'function') {
+            if (typeof componentProps === "function") {
               _props = _props({ formModel });
             }
             formModel[key] = value ? (_props?.valueFormat ? value : dateUtil(value)) : null;
@@ -101,7 +102,7 @@ export function useFormEvents({
       } else {
         nestKeyArray.forEach((nestKey: string) => {
           try {
-            const value = nestKey.split('.').reduce((out, item) => out[item], values);
+            const value = nestKey.split(".").reduce((out, item) => out[item], values);
             if (isDef(value)) {
               formModel[nestKey] = value;
               validKeys.push(nestKey);
@@ -115,8 +116,10 @@ export function useFormEvents({
         });
       }
     });
-    validateFields(validKeys).catch((_) => {});
+    validateFields(validKeys).catch((_) => {
+    });
   }
+
   /**
    * @description: Delete based on field name
    */
@@ -181,12 +184,12 @@ export function useFormEvents({
     }
 
     const hasField = updateData.every(
-      (item) => item.component === 'Divider' || (Reflect.has(item, 'field') && item.field),
+      (item) => item.component === "Divider" || (Reflect.has(item, "field") && item.field)
     );
 
     if (!hasField) {
       error(
-        'All children of the form Schema array that need to be updated must contain the `field` field',
+        "All children of the form Schema array that need to be updated must contain the `field` field"
       );
       return;
     }
@@ -203,29 +206,28 @@ export function useFormEvents({
     }
 
     const hasField = updateData.every(
-      (item) => item.component === 'Divider' || (Reflect.has(item, 'field') && item.field),
+      (item) => item.component === "Divider" || (Reflect.has(item, "field") && item.field)
     );
 
     if (!hasField) {
       error(
-        'All children of the form Schema array that need to be updated must contain the `field` field',
+        "All children of the form Schema array that need to be updated must contain the `field` field"
       );
       return;
     }
     const schema: FormSchema[] = [];
-    updateData.forEach((item) => {
-      unref(getSchema).forEach((val) => {
-        if (val.field === item.field) {
-          const newSchema = deepMerge(val, item);
-          schema.push(newSchema as FormSchema);
-        } else {
-          schema.push(val);
-        }
-      });
+    unref(getSchema).forEach((val) => {
+      const data = updateData.filter(item => item.field === val.field);
+      if (data && data.length > 0) {
+        const newSchema = deepMerge(val, data[0]);
+        schema.push(newSchema as FormSchema);
+      } else {
+        schema.push(val);
+      }
     });
     _setDefaultValue(schema);
 
-    schemaRef.value = uniqBy(schema, 'field');
+    schemaRef.value = uniqBy(schema, "field");
   }
 
   function _setDefaultValue(data: FormSchema | FormSchema[]) {
@@ -241,8 +243,8 @@ export function useFormEvents({
     const currentFieldsValue = getFieldsValue();
     schemas.forEach((item) => {
       if (
-        item.component != 'Divider' &&
-        Reflect.has(item, 'field') &&
+        item.component != "Divider" &&
+        Reflect.has(item, "field") &&
         item.field &&
         !isNullOrUnDef(item.defaultValue) &&
         (!(item.field in currentFieldsValue) ||
@@ -301,7 +303,7 @@ export function useFormEvents({
     try {
       const values = await validate();
       const res = handleFormValues(values);
-      emit('submit', res);
+      emit("submit", res);
     } catch (error: any) {
       throw new Error(error);
     }
@@ -319,6 +321,6 @@ export function useFormEvents({
     removeSchemaByField,
     resetFields,
     setFieldsValue,
-    scrollToField,
+    scrollToField
   };
 }

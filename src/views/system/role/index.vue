@@ -10,9 +10,7 @@
   </BasicTable>
   <!--角色用户表格-->
   <RoleUserTable @register="roleUserDrawer" />
-  <!--角色编辑抽屉-->
-  <RoleDrawer @register="registerDrawer" @success="reload" :showFooter="showFooter" />
-  <RoleDesc @register="registerDesc"></RoleDesc>
+  <RoleModal @register="registerModal" @success="reload" />
   <!--角色菜单授权抽屉-->
   <RolePermissionDrawer @register="rolePermissionDrawer" />
 </template>
@@ -21,8 +19,7 @@ import { ref } from "vue";
 import { BasicTable, useTable, TableAction } from "/@/components/Table";
 import { useDrawer } from "/@/components/Drawer";
 import { useModal } from "/@/components/Modal";
-import RoleDrawer from "./components/RoleDrawer.vue";
-import RoleDesc from "./components/RoleDesc.vue";
+import RoleModal from './components/RoleModal.vue'
 import RolePermissionDrawer from "./components/RolePermissionDrawer.vue";
 import RoleUserTable from "./components/RoleUserTable.vue";
 import { columns, searchFormSchema } from "./role.data";
@@ -30,9 +27,8 @@ import { list, deleteRole, batchDeleteRole } from "./role.api";
 
 const showFooter = ref(true);
 const [roleUserDrawer, { openDrawer: openRoleUserDrawer }] = useDrawer();
-const [registerDrawer, { openDrawer }] = useDrawer();
 const [rolePermissionDrawer, { openDrawer: openRolePermissionDrawer }] = useDrawer();
-const [registerDesc, { openDrawer: openRoleDesc }] = useDrawer();
+const [registerModal, { openModal }] = useModal();
 
 // 列表页面公共参数、方法
 const [registerTable, { reload }] = useTable({
@@ -40,6 +36,7 @@ const [registerTable, { reload }] = useTable({
   api: list,
   columns: columns,
   formConfig: {
+    labelWidth:100,
     schemas: searchFormSchema
   },
   useSearchForm: true,
@@ -59,8 +56,7 @@ const [registerTable, { reload }] = useTable({
  * 新增
  */
 function handleCreate() {
-  showFooter.value = true;
-  openDrawer(true, {
+  openModal(true, {
     isUpdate: false
   });
 }
@@ -69,19 +65,7 @@ function handleCreate() {
  * 编辑
  */
 function handleEdit(record: Recordable) {
-  showFooter.value = true;
-  openDrawer(true, {
-    record,
-    isUpdate: true
-  });
-}
-
-/**
- * 详情
- */
-function handleDetail(record) {
-  showFooter.value = false;
-  openRoleDesc(true, {
+  openModal(true, {
     record,
     isUpdate: true
   });
@@ -140,10 +124,6 @@ function getDropDownAction(record) {
     {
     label: "用户",
     onClick: handleUser.bind(null, record)
-    },
-    {
-      label: "详情",
-      onClick: handleDetail.bind(null, record)
     },
     {
       label: "删除",

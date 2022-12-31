@@ -1,6 +1,12 @@
 import { defHttp } from '/@/utils/http/axios';
 import { Modal } from 'ant-design-vue';
-
+import { BaseApi } from "/@/api/base/baseApi";
+class RoleApi extends BaseApi{
+  constructor(requestUrl) {
+    super(requestUrl);
+  }
+}
+export const roleApi=new RoleApi('/sys/role').api;
 enum Api {
   list = '/sys/role/list',
   save = '/sys/role/add',

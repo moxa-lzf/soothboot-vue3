@@ -35,6 +35,7 @@
   import { PopConfirmButton } from '/@/components/Button';
   import RoleDataRuleDrawer from './RoleDataRuleDrawer.vue';
   import { queryTreeListForRole, queryRolePermission, saveRolePermission } from '../role.api';
+import {listTree}from '/@/views/system/menu/menu.api'
   const emit = defineEmits(['register']);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
@@ -56,9 +57,9 @@
     setDrawerProps({ confirmLoading: false, loading: true });
     roleId.value = data.roleId;
     //初始化数据
-    const roleResult = await queryTreeListForRole();
-    treeData.value = roleResult.treeList;
-    allTreeKeys.value = roleResult.ids;
+    const roleResult = await listTree({});
+    treeData.value = roleResult;
+//    allTreeKeys.value = roleResult.ids;
     //初始化角色菜单数据
     const permResult = await queryRolePermission({ roleId: unref(roleId) });
     checkedKeys.value = permResult;

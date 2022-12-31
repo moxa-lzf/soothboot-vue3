@@ -1,22 +1,14 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { render } from '/@/utils/common/renderUtils';
+import{roleApi}from '/@/views/system/role/role.api';
 export const columns: BasicColumn[] = [
   {
     title: '账号',
     dataIndex: 'username',
-    width: 100,
   },
   {
     title: '昵称',
     dataIndex: 'realname',
-    width: 100,
-  },
-  {
-    title: '头像',
-    dataIndex: 'avatar',
-    width: 80,
-    customRender: render.renderAvatar,
   },
   {
     title: '性别',
@@ -26,17 +18,10 @@ export const columns: BasicColumn[] = [
   {
     title: '手机号',
     dataIndex: 'phone',
-    width: 100,
-  },
-  {
-    title: '部门',
-    width: 100,
-    dataIndex: 'orgCodeTxt',
   },
   {
     title: '状态',
-    dataIndex: 'status_dictText',
-    width: 80,
+    dataIndex: ['dict', 'status'],
   },
 ];
 
@@ -83,17 +68,24 @@ export const formSchema: FormSchema[] = [
       },
     ],
   },
-//  {
-//    label: '角色',
-//    field: 'role',
-//    component: 'ApiSelect',
-//    componentProps: {
-//      api: getAllRoleList,
-//      labelField: 'roleName',
-//      valueField: 'roleValue',
-//    },
-//    required: true,
-//  },
+  {
+    field: 'realname',
+    label: '昵称',
+    component: 'Input',
+    required: true,
+  },
+  {
+    label: '角色',
+    field: 'role',
+    component: 'ApiSelect',
+    componentProps: {
+      api: roleApi.list,
+      mode: 'multiple',
+      labelField: 'roleName',
+      valueField: 'id',
+    },
+    required: true,
+  },
   {
     field: 'dept',
     label: '部门',
@@ -109,17 +101,9 @@ export const formSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'realname',
-    label: '昵称',
-    component: 'Input',
-    required: true,
-  },
-
-  {
     label: '性别',
     field: 'sex',
     component: 'Input',
-    required: true,
   },
   {
     label: '手机号码',

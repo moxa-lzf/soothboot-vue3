@@ -9,6 +9,10 @@ export const columns = [
     title: '角色编码',
     dataIndex: 'roleCode',
   },
+  {
+    title: '备注',
+    dataIndex: 'description'
+  }
 ];
 /**
  * 角色用户Columns
@@ -32,6 +36,12 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'roleName',
     label: '角色名称',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    field: 'roleCode',
+    label: '角色编码',
     component: 'Input',
     colProps: { span: 6 },
   },
