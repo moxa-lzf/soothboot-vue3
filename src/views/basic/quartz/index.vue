@@ -1,22 +1,14 @@
 <template>
   <div>
     <BasicTable @register="registerTable">
-      <template #tableTitle>
-        <a-button preIcon="ant-design:plus-outlined" type="primary" @click="handleAdd" style="margin-right: 5px">新增</a-button>
-<!--        <a-dropdown v-if="selectedRowKeys.length > 0">-->
-<!--          <template #overlay>-->
-<!--            <a-menu>-->
-<!--              <a-menu-item key="1" @click="batchHandleDelete">-->
-<!--                <Icon icon="ant-design:delete-outlined"></Icon>-->
-<!--                删除-->
-<!--              </a-menu-item>-->
-<!--            </a-menu>-->
-<!--          </template>-->
-<!--          <a-button-->
-<!--            >批量操作-->
-<!--            <Icon icon="mdi:chevron-down"></Icon>-->
-<!--          </a-button>-->
-<!--        </a-dropdown>-->
+      <template #toolbar>
+        <a-button
+          preIcon="ant-design:plus-outlined"
+          type="primary"
+          @click="handleAdd"
+          style="margin-right: 5px"
+          >新增</a-button
+        >
       </template>
       <template #action="{ record }">
         <TableAction :actions="getActions(record)" :dropDownActions="getDropDownAction(record)" />
@@ -26,29 +18,34 @@
   </div>
 </template>
 <script lang="ts" name="monitor-quartz" setup>
-  import { ref } from 'vue';
-  import { BasicTable,useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
-  import { getQuartzList, deleteQuartz, batchDeleteQuartz, executeImmediately, resumeJob, pauseJob } from './quartz.api';
+  import { deleteQuartz, executeImmediately, resumeJob, pauseJob, quartzApi } from './quartz.api';
   import { columns, searchFormSchema } from './quartz.data';
   import QuartzModal from './QuartzModal.vue';
-  import { useMessage } from '/@/hooks/web/useMessage';
 
-  const { createMessage } = useMessage();
   const [registerModal, { openModal }] = useModal();
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
-      title: '任务列表',
-      api: getQuartzList,
-      columns: columns,
-      actionColumn: {
-        width: 180,
-      },
-      formConfig: {
-        labelWidth: 120,
-        schemas: searchFormSchema,
-        fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
-      },
+    title: '任务列表',
+    api: quartzApi.page,
+    columns: columns,
+    formConfig: {
+      labelWidth: 120,
+      schemas: searchFormSchema,
+      fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
+    },
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
+    showIndexColumn: false,
+    actionColumn: {
+      width: 100,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+      fixed: undefined,
+    },
   });
   /**
    * 操作列定义
@@ -150,12 +147,5 @@
    */
   async function handlerResume(record) {
     await resumeJob({ id: record.id }, reload);
-  }
-
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    // await batchDeleteQuartz({ ids: selectedRowKeys.value }, reload);
   }
 </script>

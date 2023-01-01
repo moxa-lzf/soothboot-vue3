@@ -1,6 +1,16 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="title" @ok="handleSubmit" width="40%">
-    <BasicForm @register="registerForm" />
+  <BasicModal
+    v-bind="$attrs"
+    @register="registerModal"
+    :title="title"
+    @ok="handleSubmit"
+    width="40%"
+  >
+    <BasicForm @register="registerForm">
+      <template #cron>
+        <EasyCron />
+      </template>
+    </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts" setup>
@@ -8,14 +18,16 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './quartz.data';
-  import { saveOrUpdateQuartz, getQuartzById } from './quartz.api';
+  import { EasyCron } from '/@/components/EasyCron';
+  import { saveOrUpdateQuartz } from './quartz.api';
   import { isJsonObjectString } from '/@/utils/is';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-    labelWidth: 150,
+    labelWidth: 100,
+    baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
@@ -42,7 +54,7 @@
   //设置标题
   const title = computed(() => (!unref(isUpdate) ? '新增任务' : '编辑任务'));
   //表单提交事件
-  async function handleSubmit(v) {
+  async function handleSubmit() {
     try {
       let values = await validate();
       setModalProps({ confirmLoading: true });

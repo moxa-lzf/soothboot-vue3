@@ -1,6 +1,12 @@
 import { defHttp } from '/@/utils/http/axios';
 import { Modal } from 'ant-design-vue';
-
+import { BaseApi } from '/@/api/base/baseApi';
+class QuartzApi extends BaseApi {
+  constructor(requestUrl) {
+    super(requestUrl);
+  }
+}
+export const quartzApi = new QuartzApi('/sys/quartzJob').api;
 enum Api {
   list = '/sys/quartzJob/list',
   save = '/sys/quartzJob/add',
@@ -36,7 +42,7 @@ export const getQuartzList = (params) => {
  * @param params
  */
 export const saveOrUpdateQuartz = (params, isUpdate) => {
-  let url = isUpdate ? Api.edit : Api.save;
+  const url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params });
 };
 
@@ -99,9 +105,11 @@ export const batchDeleteQuartz = (params, handleSuccess) => {
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
-        handleSuccess();
-      });
+      return defHttp
+        .delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true })
+        .then(() => {
+          handleSuccess();
+        });
     },
   });
 };

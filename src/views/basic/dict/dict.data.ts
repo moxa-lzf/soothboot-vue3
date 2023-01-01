@@ -19,24 +19,6 @@ export const columns: BasicColumn[] = [
   },
 ];
 
-export const recycleBincolumns: BasicColumn[] = [
-  {
-    title: '字典名称',
-    dataIndex: 'dictName',
-    width: 120,
-  },
-  {
-    title: '字典编号',
-    dataIndex: 'dictCode',
-    width: 120,
-  },
-  {
-    title: '描述',
-    dataIndex: 'description',
-    width: 120,
-  },
-];
-
 export const searchFormSchema: FormSchema[] = [
   {
     label: '字典名称',
@@ -72,7 +54,7 @@ export const formSchema: FormSchema[] = [
     required: true,
     dynamicDisabled: ({ values }) => {
       return !!values.id;
-    }
+    },
   },
   {
     label: '描述',
@@ -99,7 +81,7 @@ export const dictItemSearchFormSchema: FormSchema[] = [
     label: '名称',
     field: 'itemText',
     component: 'Input',
-  }
+  },
 ];
 
 export const itemFormSchema: FormSchema[] = [
@@ -131,7 +113,7 @@ export const itemFormSchema: FormSchema[] = [
               return Promise.reject('数据值不能包含特殊字符！');
             }
             return new Promise<void>((resolve, reject) => {
-              let params = {
+              const params = {
                 dictId: values.dictId,
                 id: model.id,
                 itemValue: value,

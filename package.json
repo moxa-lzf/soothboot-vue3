@@ -1,11 +1,6 @@
 {
-  "name": "vben-admin",
-  "version": "2.8.0",
-  "author": {
-    "name": "vben",
-    "email": "anncwb@126.com",
-    "url": "https://github.com/anncwb"
-  },
+  "name": "soothboot",
+  "version": "1.0.0",
   "scripts": {
     "commit": "czg",
     "bootstrap": "pnpm install",
@@ -45,6 +40,7 @@
     "@zxcvbn-ts/core": "^2.0.1",
     "ant-design-vue": "^3.2.0",
     "axios": "^0.26.1",
+    "cron-parser": "^4.7.0",
     "codemirror": "^5.65.3",
     "cropperjs": "^1.5.12",
     "crypto-js": "^4.1.1",
@@ -150,45 +146,8 @@
     "rollup": "^2.56.3",
     "gifsicle": "5.2.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anncwb/vue-vben-admin.git"
-  },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/anncwb/vue-vben-admin/issues"
-  },
-  "homepage": "https://github.com/anncwb/vue-vben-admin",
   "engines": {
     "node": "^12 || >=14"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "{!(package)*.json,*.code-snippets,.!(browserslist)*rc}": [
-      "prettier --write--parser json"
-    ],
-    "package.json": [
-      "prettier --write"
-    ],
-    "*.vue": [
-      "eslint --fix",
-      "prettier --write",
-      "stylelint --fix"
-    ],
-    "*.{scss,less,styl,html}": [
-      "stylelint --fix",
-      "prettier --write"
-    ],
-    "*.md": [
-      "prettier --write"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-git"
-    }
   }
 }

@@ -1,38 +1,49 @@
 <template>
-    <BasicTable @register="registerTable">
+  <BasicTable @register="registerTable">
     <template #toolbar>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleAdd" style="margin-right: 5px">新增</a-button>
-      </template>
-      <template #action="{ record }">
-        <TableAction :actions="getActions(record)" />
-      </template>
-    </BasicTable>
-    <DataSourceModal @register="registerModal" @success="reload" />
+      <a-button
+        type="primary"
+        preIcon="ant-design:plus-outlined"
+        @click="handleAdd"
+        style="margin-right: 5px"
+        >新增</a-button
+      >
+    </template>
+    <template #action="{ record }">
+      <TableAction :actions="getActions(record)" />
+    </template>
+  </BasicTable>
+  <DataSourceModal @register="registerModal" @success="reload" />
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import { BasicTable, useTable,TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
-  import { getDataSourceList, deleteDataSource, batchDeleteDataSource } from './datasource.api';
+  import { getDataSourceList, deleteDataSource } from './datasource.api';
   import { columns, searchFormSchema } from './datasource.data';
   import DataSourceModal from './DataSourceModal.vue';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  const { createMessage } = useMessage();
   const [registerModal, { openModal }] = useModal();
 
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
-      title: '任务列表',
-      api: getDataSourceList,
-      columns: columns,
-      formConfig: {
-        schemas: searchFormSchema,
-        fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
-      },
-  useSearchForm: true,
-  showTableSetting: true,
-  bordered: true,
-  showIndexColumn: false,
+    title: '任务列表',
+    api: getDataSourceList,
+    columns: columns,
+    formConfig: {
+      labelWidth: 100,
+      schemas: searchFormSchema,
+      fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
+    },
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
+    showIndexColumn: false,
+    actionColumn: {
+      width: 100,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+      fixed: undefined,
+    },
   });
 
   /**
@@ -79,12 +90,5 @@
    */
   async function handleDelete(record) {
     await deleteDataSource({ id: record.id }, reload);
-  }
-
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    // await batchDeleteDataSource({ ids: selectedRowKeys.value }, reload);
   }
 </script>

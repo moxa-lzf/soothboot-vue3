@@ -1,5 +1,4 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { render } from '/@/utils/common/renderUtils';
 
 export const columns: BasicColumn[] = [
   {
@@ -27,10 +26,6 @@ export const columns: BasicColumn[] = [
     title: '状态',
     dataIndex: 'status',
     width: 100,
-    customRender: ({ text }) => {
-      const color = text == '0' ? 'green' : text == '-1' ? 'red' : 'gray';
-      return render.renderTag(render.renderDict(text, 'quartz_status'), color);
-    },
   },
 ];
 
@@ -44,7 +39,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'status',
     label: '任务状态',
-    component: 'JDictSelectTag',
+    component: 'DictSelect',
     componentProps: {
       dictCode: 'quartz_status',
       stringToNumber: true,
@@ -69,9 +64,9 @@ export const formSchema: FormSchema[] = [
   {
     field: 'cronExpression',
     label: 'Cron表达式',
-    component: 'JEasyCron',
-    defaultValue: '* * * * * ? *',
-    rules: [{ required: true, message: '请输入Cron表达式' }],
+    component: 'Input',
+    required: true,
+    slot: 'cron',
   },
   {
     field: 'paramterType',
@@ -105,9 +100,9 @@ export const formSchema: FormSchema[] = [
   {
     field: 'status',
     label: '状态',
-    component: 'JDictSelectTag',
+    component: 'DictSelect',
     componentProps: {
-      dictCode: 'quartz_status',
+      code: 'quartz_status',
       type: 'radioButton',
       stringToNumber: true,
       dropdownStyle: {

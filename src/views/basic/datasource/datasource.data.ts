@@ -34,7 +34,10 @@ const dbDriverMap = {
 };
 const dbUrlMap = {
   // MySQL 数据库
-  '1': { dbUrl: 'jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false' },
+  '1': {
+    dbUrl:
+      'jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false',
+  },
   //MySQL5.7+ 数据库
   '4': {
     dbUrl:
@@ -49,7 +52,10 @@ const dbUrlMap = {
   // Postgresql 数据库
   '6': { dbUrl: 'jdbc:postgresql://127.0.0.1:5432/jeecg-boot' },
   // 达梦 数据库
-  '7': { dbUrl: 'jdbc:dm://127.0.0.1:5236/?jeecg-boot&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8' },
+  '7': {
+    dbUrl:
+      'jdbc:dm://127.0.0.1:5236/?jeecg-boot&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8',
+  },
   // 人大金仓 数据库
   '8': { dbUrl: 'jdbc:kingbase8://127.0.0.1:54321/jeecg-boot' },
   // 神通 数据库
@@ -101,16 +107,16 @@ export const searchFormSchema: FormSchema[] = [
     field: 'name',
     label: '数据源名称',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'dbType',
     label: '数据库类型',
-    component: 'JDictSelectTag',
-    colProps: { span: 8 },
+    component: 'DictSelect',
+    colProps: { span: 6 },
     componentProps: () => {
       return {
-        dictCode: 'database_type',
+        code: 'database_type',
       };
     },
   },
@@ -124,15 +130,6 @@ export const formSchema: FormSchema[] = [
     show: false,
   },
   {
-    field: 'code',
-    label: '数据源编码',
-    component: 'Input',
-    required: true,
-    dynamicDisabled: ({ values }) => {
-      return !!values.id;
-    },
-  },
-  {
     field: 'name',
     label: '数据源名称',
     component: 'Input',
@@ -141,11 +138,11 @@ export const formSchema: FormSchema[] = [
   {
     field: 'dbType',
     label: '数据库类型',
-    component: 'JDictSelectTag',
+    component: 'DictSelect',
     required: true,
     componentProps: ({ formModel }) => {
       return {
-        dictCode: 'database_type',
+        code: 'database_type',
         onChange: (e: any) => {
           formModel = Object.assign(formModel, dbDriverMap[e], dbUrlMap[e]);
         },

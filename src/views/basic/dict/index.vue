@@ -3,12 +3,13 @@
   <BasicTable @register="registerTable">
     <!--插槽:table标题-->
     <template #toolbar>
-      <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 新增
+      <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+        新增
       </a-button>
     </template>
     <!--操作栏-->
     <template #action="{ record }">
-      <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)"/>
+      <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
     </template>
   </BasicTable>
   <!--字典弹窗-->
@@ -18,105 +19,98 @@
 </template>
 
 <script lang="ts" setup>
-//ts语法
-import { ref, computed, unref } from "vue";
-import { BasicTable, useTable, TableAction } from "/src/components/Table";
-import { useDrawer } from "/src/components/Drawer";
-import { useModal } from "/src/components/Modal";
-import DictItemList from "./components/DictItemList.vue";
-import DictModal from "./components/DictModal.vue";
-import { useMessage } from "/src/hooks/web/useMessage";
-import { removeAuthCache, setAuthCache } from "/src/utils/auth";
-import { columns, searchFormSchema } from "./dict.data";
-import { refreshCache, queryAllDictItems } from "./dict.api";
-import { dictApi } from "./dict.api";
-import { DB_DICT_DATA_KEY } from "/src/enums/cacheEnum";
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { useDrawer } from '/@/components/Drawer';
+  import { useModal } from '/@/components/Modal';
+  import DictItemList from './components/DictItemList.vue';
+  import DictModal from './components/DictModal.vue';
+  import { columns, searchFormSchema } from './dict.data';
+  import { dictApi } from './dict.api';
 
-const { createMessage } = useMessage();
-//字典model
-const [registerModal, { openModal }] = useModal();
-//字典配置drawer
-const [registerDrawer, { openDrawer }] = useDrawer();
+  //字典model
+  const [registerModal, { openModal }] = useModal();
+  //字典配置drawer
+  const [registerDrawer, { openDrawer }] = useDrawer();
 
-// 列表页面公共参数、方法
-const [registerTable, { reload, updateTableDataRecord }] = useTable({
-  title: "数据字典",
-  api: dictApi.page,
-  columns: columns,
-  formConfig: {
-    labelWidth:80,
-    schemas: searchFormSchema
-  },
-  useSearchForm: true,
-  showTableSetting: true,
-  bordered: true,
-  showIndexColumn: false,
-  actionColumn: {
-    width: 100,
-    title: "操作",
-    dataIndex: "action",
-    slots: { customRender: 'action' },
-    fixed: undefined
+  // 列表页面公共参数、方法
+  const [registerTable, { reload, updateTableDataRecord }] = useTable({
+    title: '数据字典',
+    api: dictApi.page,
+    columns: columns,
+    formConfig: {
+      labelWidth: 80,
+      schemas: searchFormSchema,
+    },
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
+    showIndexColumn: false,
+    actionColumn: {
+      width: 100,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+      fixed: undefined,
+    },
+  });
+
+  /**
+   * 新增事件
+   */
+  function handleCreate() {
+    openModal(true, {
+      isUpdate: false,
+    });
   }
-});
 
-/**
- * 新增事件
- */
-function handleCreate() {
-  openModal(true, {
-    isUpdate: false
-  });
-}
+  /**
+   * 编辑事件
+   */
+  async function handleEdit(record: Recordable) {
+    openModal(true, {
+      record,
+      isUpdate: true,
+    });
+  }
 
-/**
- * 编辑事件
- */
-async function handleEdit(record: Recordable) {
-  openModal(true, {
-    record,
-    isUpdate: true
-  });
-}
-
-/**
- * 删除事件
- */
-async function handleDelete(record) {
-  await dictApi.remove({ id: record.id });
-  reload();
-}
-/**
- * 成功回调
- */
-function handleSuccess({ isUpdate, values }) {
-  if (isUpdate) {
-    updateTableDataRecord(values.id, values);
-  } else {
+  /**
+   * 删除事件
+   */
+  async function handleDelete(record) {
+    await dictApi.remove({ id: record.id });
     reload();
   }
-}
-
-/**
- * 字典配置
- */
-function handleItem(record) {
-  openDrawer(true, {
-    id: record.id
-  });
-}
-
-/**
- * 操作栏
- */
-function getTableAction(record) {
-  return [
-    {
-      label: "编辑",
-      onClick: handleEdit.bind(null, record)
+  /**
+   * 成功回调
+   */
+  function handleSuccess({ isUpdate, values }) {
+    if (isUpdate) {
+      updateTableDataRecord(values.id, values);
+    } else {
+      reload();
     }
-  ];
-}
+  }
+
+  /**
+   * 字典配置
+   */
+  function handleItem(record) {
+    openDrawer(true, {
+      id: record.id,
+    });
+  }
+
+  /**
+   * 操作栏
+   */
+  function getTableAction(record) {
+    return [
+      {
+        label: '编辑',
+        onClick: handleEdit.bind(null, record),
+      },
+    ];
+  }
   /**
    * 下拉操作栏
    */
