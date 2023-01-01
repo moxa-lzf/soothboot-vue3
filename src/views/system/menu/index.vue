@@ -24,7 +24,7 @@ import { useDrawer } from "/@/components/Drawer";
 import MenuDrawer from "./MenuDrawer.vue";
 import { columns, searchFormSchema } from "./menu.data";
 import { menuApi, listTree } from "./menu.api";
-import{Button,Dropdown,Menu,MenuItem,}from 'ant-design-vue';
+import{Button}from 'ant-design-vue';
 const checkedKeys = ref<Array<string | number>>([]);
 const showFooter = ref(true);
 const [registerDrawer, { openDrawer }] = useDrawer();
@@ -45,12 +45,6 @@ const [registerTable, { reload, expandAll, collapseAll }] = useTable({
   bordered: true,
   showIndexColumn: false,
   canResize: false,
-//  rowKey: "id",
-//  rowSelection: {
-//    onChange(selectedRowKeys, selectedRows) {
-//      checkedKeys.value = selectedRowKeys;
-//    }
-//  },
   actionColumn: {
     width: 100,
     title: "操作",
@@ -98,17 +92,6 @@ function handleEdit(record) {
 }
 
 /**
- * 详情
- */
-function handleDetail(record) {
-  showFooter.value = false;
-  openDrawer(true, {
-    record,
-    isUpdate: true
-  });
-}
-
-/**
  * 添加下级
  */
 function handleAddSub(record) {
@@ -122,15 +105,8 @@ function handleAddSub(record) {
  * 删除
  */
 async function handleDelete(record) {
-  await menuApi.api.remove({ id: record.id });
+  await menuApi.remove({ id: record.id });
   reload();
-}
-
-/**
- * 批量删除事件
- */
-async function batchHandleDelete() {
-  await menuApi.api.removeBatch({ ids: checkedKeys.value }, reload);
 }
 
 /**
@@ -138,11 +114,6 @@ async function batchHandleDelete() {
  */
 function handleSuccess() {
   reload();
-}
-
-function onFetchSuccess() {
-  // 演示默认展开所有表项
-  nextTick(expandAll);
 }
 
 /**

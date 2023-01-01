@@ -2,7 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Icon } from '/@/components/Icon';
-import { ajaxGetDictItems ,checkPermDuplication } from './menu.api';
+import { ajaxGetDictItems  } from './menu.api';
 
 const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;
@@ -117,8 +117,8 @@ export const formSchema: FormSchema[] = [
     component: 'TreeSelect',
     required: true,
     componentProps: {
-      replaceFields: {
-        title: 'name',
+      fieldNames: {
+        label: 'name',
         key: 'id',
         value: 'id',
       },

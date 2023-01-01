@@ -57,13 +57,12 @@ export const formSchema: FormSchema[] = [
         key: 'id',
         value: 'id',
       },
-      getPopupContainer: () => document.body,
     },
-    required: true,
   },
   {
     field: 'orderNo',
     label: '排序',
+    defaultValue: 1,
     component: 'InputNumber',
     required: true,
   },
@@ -73,7 +72,7 @@ export const formSchema: FormSchema[] = [
     component: 'DictSelect',
     defaultValue: '0',
     componentProps: {
-      code:'valid_status',
+      code:'status',
       compType:'radioButton',
     },
     required: true,

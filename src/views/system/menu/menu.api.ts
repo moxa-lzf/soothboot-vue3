@@ -8,7 +8,7 @@ class MenuApi extends BaseApi {
   }
 }
 
-export const menuApi = new MenuApi('/sys/permission');
+export const menuApi = new MenuApi('/sys/permission').api;
 
 enum Api {
   listTree = '/sys/permission/listTree',

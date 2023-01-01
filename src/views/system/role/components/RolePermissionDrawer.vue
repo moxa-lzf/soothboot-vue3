@@ -28,7 +28,7 @@
   import { BasicDrawer, useDrawer, useDrawerInner } from '/src/components/Drawer';
   import { BasicTree, TreeItem } from '/src/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
-  import { queryTreeListForRole, queryRolePermission, saveRolePermission } from '../role.api';
+  import { queryRolePermission, saveRolePermission } from '../role.api';
 import {listTree}from '/@/views/system/menu/menu.api'
   const emit = defineEmits(['register']);
   //树的信息
@@ -90,8 +90,8 @@ import {listTree}from '/@/views/system/menu/menu.api'
   async function handleSubmit(exit) {
     let params = {
       roleId: unref(roleId),
-      permissionIds: unref(getTree().getCheckedKeys()).join(','),
-      lastpermissionIds: unref(defaultCheckedKeys).join(','),
+      permissionIds: unref(getTree().getCheckedKeys()),
+      oldPermissionIds: unref(defaultCheckedKeys),
     };
     loading.value = true;
     await saveRolePermission(params);

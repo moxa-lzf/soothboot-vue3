@@ -76,14 +76,6 @@ export const dictItemColumns: BasicColumn[] = [
   },
 ];
 
-export const dictItemSearchFormSchema: FormSchema[] = [
-  {
-    label: '名称',
-    field: 'itemText',
-    component: 'Input',
-  },
-];
-
 export const itemFormSchema: FormSchema[] = [
   {
     label: '',
@@ -137,20 +129,9 @@ export const itemFormSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    field: 'sortOrder',
+    field: 'orderNo',
     label: '排序',
     component: 'InputNumber',
     defaultValue: 1,
-  },
-  {
-    field: 'status',
-    label: '是否启用',
-    defaultValue: 1,
-    component: 'DictSelect',
-    componentProps: {
-      type: 'radioButton',
-      code: 'dict_item_status',
-      stringToNumber: true,
-    },
-  },
+  }
 ];

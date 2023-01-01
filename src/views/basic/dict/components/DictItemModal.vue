@@ -9,14 +9,14 @@ import { defineProps, ref, computed, unref, reactive } from "vue";
 import { BasicModal, useModalInner } from "/src/components/Modal";
 import { BasicForm, useForm } from "/src/components/Form";
 import { itemFormSchema } from "../dict.data";
-import { saveOrUpdateDictItem } from "../dict.api";
+import { dictItemApi } from "../dict-item.api";
 // 声明Emits
 const emit = defineEmits(["success", "register"]);
 const props = defineProps({ dictId: String });
 const isUpdate = ref(true);
 //表单配置
 const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-  labelWidth: 100,
+  labelWidth: 80,
   baseColProps: { span: 24 },
   schemas: itemFormSchema,
   showActionButtonGroup: false
@@ -45,7 +45,7 @@ async function handleSubmit() {
     values.dictId = props.dictId;
     setModalProps({ confirmLoading: true });
     //提交表单
-    await saveOrUpdateDictItem(values, isUpdate.value);
+    await dictItemApi.saveOrEdit(values, isUpdate.value);
     //关闭弹窗
     closeModal();
     //刷新列表

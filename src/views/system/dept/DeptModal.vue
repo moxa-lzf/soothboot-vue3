@@ -9,7 +9,7 @@ import { BasicModal, useModalInner } from "/@/components/Modal";
 import { BasicForm, useForm } from "/@/components/Form/index";
 import { formSchema } from "./dept.data";
 
-import { listTree } from "./dept.api";
+import { listTree,deptApi } from "./dept.api";
 
 export default defineComponent({
   name: "DeptModal",
@@ -19,7 +19,7 @@ export default defineComponent({
     const isUpdate = ref(true);
 
     const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
-      labelWidth: 100,
+      labelWidth: 80,
       baseColProps: { span: 24 },
       schemas: formSchema,
       showActionButtonGroup: false
@@ -61,8 +61,7 @@ export default defineComponent({
       try {
         const values = await validate();
         setModalProps({ confirmLoading: true });
-        // TODO custom api
-        console.log(values);
+        await deptApi.saveOrEdit(values,unref(isUpdate));
         closeModal();
         emit("success");
       } finally {

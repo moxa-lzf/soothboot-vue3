@@ -23,7 +23,7 @@ import RoleModal from './components/RoleModal.vue'
 import RolePermissionDrawer from "./components/RolePermissionDrawer.vue";
 import RoleUserDrawer from "./components/RoleUserDrawer.vue";
 import {columns, searchFormSchema} from "./role.data";
-import {batchDeleteRole, deleteRole, list} from "./role.api";
+import {roleApi} from "./role.api";
 
 const showFooter = ref(true);
 const [roleUserDrawer, {openDrawer: openRoleUserDrawer}] = useDrawer();
@@ -33,7 +33,7 @@ const [registerModal, {openModal}] = useModal();
 // 列表页面公共参数、方法
 const [registerTable, {reload}] = useTable({
   title: "角色列表",
-  api: list,
+  api: roleApi.page,
   columns: columns,
   formConfig: {
     labelWidth: 100,
@@ -75,7 +75,8 @@ function handleEdit(record: Recordable) {
  * 删除事件
  */
 async function handleDelete(record) {
-  await deleteRole({id: record.id}, reload);
+  await roleApi.remove({id: record.id});
+  reload();
 }
 
 /**
