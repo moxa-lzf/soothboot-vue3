@@ -1,37 +1,36 @@
 <script lang="tsx">
   import type { CSSProperties } from 'vue';
-  import type {
-    FieldNames,
-    TreeState,
-    TreeItem,
-    KeyType,
-    CheckKeys,
-    TreeActionType,
-  } from './types/tree';
-
   import {
-    defineComponent,
-    reactive,
     computed,
-    unref,
-    ref,
-    watchEffect,
-    toRaw,
-    watch,
+    defineComponent,
     onMounted,
+    reactive,
+    ref,
+    toRaw,
+    unref,
+    watch,
+    watchEffect,
   } from 'vue';
+  import type {
+    CheckKeys,
+    FieldNames,
+    KeyType,
+    TreeActionType,
+    TreeItem,
+    TreeState,
+  } from './types/tree';
+  import { treeEmits, treeProps } from './types/tree';
   import TreeHeader from './components/TreeHeader.vue';
-  import { Tree, Spin, Empty } from 'ant-design-vue';
+  import { Empty, Spin, Tree } from 'ant-design-vue';
   import { TreeIcon } from './TreeIcon';
   import { ScrollContainer } from '/@/components/Container';
-  import { omit, get, difference, cloneDeep } from 'lodash-es';
+  import { cloneDeep, difference, get, omit } from 'lodash-es';
   import { isArray, isBoolean, isEmpty, isFunction } from '/@/utils/is';
   import { extendSlots, getSlot } from '/@/utils/helper/tsxHelper';
-  import { filter, treeToList, eachTree } from '/@/utils/helper/treeHelper';
+  import { eachTree, filter, treeToList } from '/@/utils/helper/treeHelper';
   import { useTree } from './hooks/useTree';
   import { useContextMenu } from '/@/hooks/web/useContextMenu';
   import { CreateContextOptions } from '/@/components/ContextMenu';
-  import { treeEmits, treeProps } from './types/tree';
   import { createBEM } from '/@/utils/bem';
 
   export default defineComponent({
@@ -43,10 +42,10 @@
       const [bem] = createBEM('tree');
 
       const state = reactive<TreeState>({
-        checkStrictly: props.checkStrictly,
         expandedKeys: props.expandedKeys || [],
         selectedKeys: props.selectedKeys || [],
         checkedKeys: props.checkedKeys || [],
+        checkStrictly: props.checkStrictly || false,
       });
 
       const searchState = reactive({
@@ -164,6 +163,7 @@
       function getExpandedKeys() {
         return state.expandedKeys;
       }
+
       function setSelectedKeys(keys: KeyType[]) {
         state.selectedKeys = keys;
       }
@@ -186,10 +186,6 @@
 
       function expandAll(expandAll: boolean) {
         state.expandedKeys = expandAll ? getAllKeys() : ([] as KeyType[]);
-      }
-
-      function onStrictlyChange(strictly: boolean) {
-        state.checkStrictly = strictly;
       }
 
       watch(
@@ -314,10 +310,6 @@
         },
       );
 
-      watchEffect(() => {
-        state.checkStrictly = props.checkStrictly;
-      });
-
       const instance: TreeActionType = {
         setExpandedKeys,
         getExpandedKeys,
@@ -430,7 +422,6 @@
                 search={search}
                 toolbar={toolbar}
                 helpMessage={helpMessage}
-                onStrictlyChange={onStrictlyChange}
                 onSearch={handleSearch}
                 searchText={searchState.searchText}
               >

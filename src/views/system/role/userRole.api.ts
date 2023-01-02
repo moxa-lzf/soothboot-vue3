@@ -12,6 +12,7 @@ export const userRoleApi = new UserRoleApi('/sys/userRole').api;
 enum Api {
   saveUserRole = '/sys/userRole/saveUserRole',
   getUserByRoleId = '/sys/userRole/getUserByRoleId',
+  getRoleByUserId = '/sys/userRole/getRoleByUserId',
 }
 
 export const saveUserRole = (params, handleSuccess) => {
@@ -22,4 +23,8 @@ export const saveUserRole = (params, handleSuccess) => {
 
 export const getUserByRoleId = (params) => {
   return defHttp.get({ url: Api.getUserByRoleId, params });
+};
+
+export const getRoleByUserId = (params) => {
+  return defHttp.get({ url: Api.getRoleByUserId, params });
 };

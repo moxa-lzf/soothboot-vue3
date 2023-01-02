@@ -13,7 +13,6 @@
       toolbar
       :treeData="treeData"
       :fieldNames="{ key: 'id', title: 'name' }"
-      :checkStrictly="true"
       :clickRowToExpand="false"
       title="所拥有的的权限"
     />
@@ -76,6 +75,4 @@
   }
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

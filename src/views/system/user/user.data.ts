@@ -1,6 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import{roleApi}from '/@/views/system/role/role.api';
+import { roleApi } from '/@/views/system/role/role.api';
 export const columns: BasicColumn[] = [
   {
     title: '账号',
@@ -48,23 +48,18 @@ export const searchFormSchema: FormSchema[] = [
 
 export const formSchema: FormSchema[] = [
   {
+    field: 'id',
+    label: '',
+    component: 'Input',
+    show: false,
+  },
+  {
     field: 'username',
     label: '账号',
     component: 'Input',
     rules: [
       {
         required: true,
-      },
-      {
-//        validator(_, value) {
-//          return new Promise((resolve, reject) => {
-//            isAccountExist(value)
-//              .then(() => resolve())
-//              .catch((err) => {
-//                reject(err.message || '验证失败');
-//              });
-//          });
-//        },
       },
     ],
   },
@@ -76,7 +71,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '角色',
-    field: 'role',
+    field: 'roleIdList',
     component: 'ApiSelect',
     componentProps: {
       api: roleApi.list,
@@ -87,32 +82,34 @@ export const formSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'dept',
+    field: 'deptIdList',
     label: '部门',
     component: 'TreeSelect',
     componentProps: {
+      multiple: true,
       fieldNames: {
         label: 'deptName',
         key: 'id',
         value: 'id',
       },
-      getPopupContainer: () => document.body,
     },
     required: true,
   },
   {
     label: '性别',
     field: 'sex',
-    component: 'Input',
+    component: 'DictSelect',
+    componentProps: {
+      code: 'sex',
+      stringToNumber: true,
+    },
   },
   {
     label: '手机号码',
     field: 'phone',
     component: 'Input',
-    dynamicRules: ({ model, schema }) => {
-      return [
-        { pattern: /^1[3|4|5|7|8|9][0-9]\d{8}$/, message: '手机号码格式有误' },
-        ];
-      },
-  }
+    dynamicRules: () => {
+      return [{ pattern: /^1[3|4|5|7|8|9][0-9]\d{8}$/, message: '手机号码格式有误' }];
+    },
+  },
 ];

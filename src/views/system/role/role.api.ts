@@ -9,7 +9,6 @@ export const roleApi = new RoleApi('/sys/role').api;
 enum Api {
   queryRolePermission = '/sys/permission/queryRolePermission',
   saveRolePermission = '/sys/permission/saveRolePermission',
-  batchDeleteUserRole = '/sys/user/deleteUserRoleBatch',
 }
 /**
  * 查询角色权限

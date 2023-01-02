@@ -38,14 +38,13 @@
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
-      autoSubmitOnEnter: true,
     },
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     actionColumn: {
-      width: 120,
+      width: 180,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },

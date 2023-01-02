@@ -109,15 +109,13 @@
 
     return checkable
       ? [
-          { label: t('component.tree.selectAll'), value: ToolbarEnum.SELECT_ALL },
+          { label: '选择全部', value: ToolbarEnum.SELECT_ALL },
           {
-            label: t('component.tree.unSelectAll'),
+            label: '取消选择',
             value: ToolbarEnum.UN_SELECT_ALL,
             divider: checkable,
           },
           ...defaultToolbarList,
-          { label: t('component.tree.checkStrictly'), value: ToolbarEnum.CHECK_STRICTLY },
-          { label: t('component.tree.checkUnStrictly'), value: ToolbarEnum.CHECK_UN_STRICTLY },
         ]
       : defaultToolbarList;
   });
@@ -136,12 +134,6 @@
         break;
       case ToolbarEnum.UN_EXPAND_ALL:
         props.expandAll?.(false);
-        break;
-      case ToolbarEnum.CHECK_STRICTLY:
-        emit('strictly-change', false);
-        break;
-      case ToolbarEnum.CHECK_UN_STRICTLY:
-        emit('strictly-change', true);
         break;
     }
   }
