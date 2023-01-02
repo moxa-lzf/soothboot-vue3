@@ -133,5 +133,5 @@ export const itemFormSchema: FormSchema[] = [
     label: '排序',
     component: 'InputNumber',
     defaultValue: 1,
-  }
+  },
 ];

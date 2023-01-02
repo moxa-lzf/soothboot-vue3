@@ -57,6 +57,9 @@ export const formSchema: FormSchema[] = [
     field: 'username',
     label: '账号',
     component: 'Input',
+    dynamicDisabled: ({ values }) => {
+      return !!values.id;
+    },
     rules: [
       {
         required: true,

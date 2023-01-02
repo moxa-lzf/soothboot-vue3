@@ -58,9 +58,9 @@
           const values = await validate();
           setModalProps({ confirmLoading: true });
           if (unref(isUpdate)) {
-            editUser(values);
+            await editUser(values);
           } else {
-            saveUser(values);
+            await saveUser(values);
           }
           closeModal();
           emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
