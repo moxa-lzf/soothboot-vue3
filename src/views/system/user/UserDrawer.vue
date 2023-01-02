@@ -16,7 +16,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './user.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { saveOrUpdateUser, getUserRoles, getUserDepartList } from './user.api';
+  import { saveOrUpdateUser, getUserRoles } from './user.api';
   // import { useDrawerAdaptiveWidth } from '/@/hooks/jeecg/useAdaptiveWidth';
   // 声明Emits
   const emit = defineEmits(['success', 'register']);
@@ -57,7 +57,7 @@
       } catch (error) {}
 
       //查所属部门/赋值
-      const userDepart = await getUserDepartList({ userId: data.record.id });
+      const userDepart =[];// await getUserDepartList({ userId: data.record.id });
       if (userDepart && userDepart.length > 0) {
         data.record.selecteddeparts = userDepart;
         let selectDepartKeys = Array.from(userDepart, ({ key }) => key);

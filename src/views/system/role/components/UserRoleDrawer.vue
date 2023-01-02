@@ -13,29 +13,25 @@
   </BasicDrawer>
 </template>
 <script lang="ts" setup>
-  import { ref, defineProps, watch, unref } from 'vue';
-  import { BasicTable, useTable, TableAction } from '/src/components/Table';
-  import { BasicDrawer, useDrawer, useDrawerInner } from '/src/components/Drawer';
-  import { useModal } from '/src/components/Modal';
+  import { ref } from 'vue';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
+  import { useModal } from '/@/components/Modal';
   import UseSelectModal from './UseSelectModal.vue';
-  import { userList, deleteUserRole, batchDeleteUserRole, addUserRole } from '../role.api';
+  import { userRoleApi, saveUserRole, getUserByRoleId } from '../userRole.api';
   import { userColumns } from '../role.data';
 
-  const emit = defineEmits(['register', 'hideUserList']);
-  const checkedKeys = ref<Array<string | number>>([]);
   const roleId = ref('');
-  const [registerBaseDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
+  const [registerBaseDrawer] = useDrawerInner(async (data) => {
     roleId.value = data.id;
     setProps({ searchInfo: { roleId: data.id } });
     reload();
   });
   //注册drawer
-  const [registerDrawer, { openDrawer }] = useDrawer();
-  //注册drawer
   const [registerModal, { openModal }] = useModal();
-  const [registerTable, { reload, updateTableDataRecord, setProps }] = useTable({
+  const [registerTable, { reload, setProps }] = useTable({
     title: '用户列表',
-    api: userList,
+    api: getUserByRoleId,
     columns: userColumns,
     striped: true,
     useSearchForm: false,
@@ -58,21 +54,8 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteUserRole({ userId: record.id, roleId: roleId.value }, reload);
-  }
-
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    await batchDeleteUserRole({ userIds: checkedKeys.value.join(','), roleId: roleId.value }, reload);
-  }
-
-  /**
-   * 成功回调
-   */
-  function handleSuccess({ isUpdate, values }) {
-    isUpdate ? updateTableDataRecord(values.id, values) : reload();
+    await userRoleApi.remove({ id: record.id });
+    reload();
   }
   /**
    * 选择已有用户
@@ -84,7 +67,7 @@
    * 添加已有用户
    */
   async function selectOk(val) {
-    await addUserRole({ roleId: roleId.value, userIdList: val }, reload);
+    await saveUserRole({ roleId: roleId.value, userIdList: val }, reload);
   }
   /**
    * 操作栏

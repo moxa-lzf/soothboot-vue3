@@ -1,18 +1,16 @@
 import { defHttp } from '/@/utils/http/axios';
-import { BaseApi } from "/@/api/base/baseApi";
+import { BaseApi } from '/@/api/base/baseApi';
 
 class UserApi extends BaseApi{
   constructor(requestUrl) {
     super(requestUrl);
   }
 }
-export const userApi=new UserApi('/sys/user');
-enum Api{
+export const userApi = new UserApi('/sys/user').api;
+enum Api {
   save = '/sys/user/add',
   edit = '/sys/user/edit',
-  list='/sys/user/list',
-  userDepartList = '/sys/user/userDepartList',
-
+  list = '/sys/user/list',
   getUserRole = '/sys/user/queryUserRole',
 }
 /**
@@ -32,7 +30,4 @@ export const saveOrUpdateUser = (params, isUpdate) => {
 export const list = (params) => {
   return defHttp.get({ url: Api.list, params });
 };
-/**
-* 获取指定用户负责部门
-*/
-export const getUserDepartList = (params) => defHttp.get({ url: Api.userDepartList, params }, { successMessageMode: 'none' });
+
