@@ -31,7 +31,7 @@ export default defineComponent({
     api: listTree,
       columns,
       formConfig: {
-        labelWidth: 120,
+        labelWidth: 80,
         schemas: searchFormSchema
       },
       pagination: false,

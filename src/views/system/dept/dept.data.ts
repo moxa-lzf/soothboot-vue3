@@ -1,18 +1,10 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { h } from 'vue';
-import { Tag } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
     title: '部门名称',
     dataIndex: 'deptName',
-    align: 'left',
-  },
-  {
-    title: '排序',
-    dataIndex: 'orderNo',
-    width: 50,
   },
   {
     title: '状态',
@@ -31,7 +23,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '部门名称',
     component: 'Input',
     colProps: { span: 6 },
-  }
+  },
 ];
 
 export const formSchema: FormSchema[] = [
@@ -70,10 +62,11 @@ export const formSchema: FormSchema[] = [
     field: 'status',
     label: '状态',
     component: 'DictSelect',
-    defaultValue: '0',
+    defaultValue: 0,
     componentProps: {
-      code:'status',
-      compType:'radioButton',
+      code: 'status',
+      compType: 'radioButton',
+      stringToNumber: true,
     },
     required: true,
   },

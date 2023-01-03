@@ -1,13 +1,13 @@
 import { defHttp } from '/@/utils/http/axios';
-import { BaseApi } from "/@/api/base/baseApi";
+import { BaseApi } from '/@/api/base/baseApi';
 
-class DeptApi extends BaseApi{
+class DeptApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
 }
 
-export const deptApi=new DeptApi('/sys/dept').api;
+export const deptApi = new DeptApi('/sys/dept').api;
 
 enum Api {
   listTree = '/sys/dept/listTree',
@@ -15,4 +15,4 @@ enum Api {
 
 export const listTree = (params) => {
   return defHttp.get({ url: Api.listTree, params });
-}
+};
