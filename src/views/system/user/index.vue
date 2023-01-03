@@ -58,15 +58,15 @@
   }
 
   function handleEdit(record: Recordable) {
-    console.log(record);
     openModal(true, {
       record,
       isUpdate: true,
     });
   }
 
-  function handleDelete(record: Recordable) {
-    console.log(record);
+  async function handleDelete(record: Recordable) {
+    await userApi.remove({ id: record.id });
+    reload();
   }
 
   function handleSuccess({ isUpdate, values }) {
