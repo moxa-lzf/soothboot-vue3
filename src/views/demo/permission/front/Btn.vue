@@ -78,8 +78,8 @@
       return {
         userStore,
         RoleEnum,
-        isSuper: computed(() => userStore.getRoleList.includes(RoleEnum.SUPER)),
-        isTest: computed(() => userStore.getRoleList.includes(RoleEnum.TEST)),
+        isSuper: computed(() => userStore.getRoleList?.includes(RoleEnum.SUPER)),
+        isTest: computed(() => userStore.getRoleList?.includes(RoleEnum.TEST)),
         changeRole,
         hasPermission,
       };

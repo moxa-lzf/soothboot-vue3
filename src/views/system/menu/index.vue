@@ -46,7 +46,7 @@ const [registerTable, { reload, expandAll, collapseAll }] = useTable({
   showIndexColumn: false,
   canResize: false,
   actionColumn: {
-    width: 100,
+    width: 180,
     title: "操作",
     dataIndex: "action",
     slots: { customRender: "action" },

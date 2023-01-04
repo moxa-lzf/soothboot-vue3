@@ -8,8 +8,8 @@ export function configMockPlugin(isBuild: boolean) {
   return viteMockServe({
     ignore: /^\_/,
     mockPath: 'mock',
-    localEnabled: !isBuild,
-    prodEnabled: isBuild,
+    localEnabled: true,
+    prodEnabled: false,
     injectCode: `
       import { setupProdMockServer } from '../mock/_createProductionServer';
 
