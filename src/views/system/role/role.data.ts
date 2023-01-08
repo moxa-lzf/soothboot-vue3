@@ -35,13 +35,13 @@ export const searchFormSchema: FormSchema[] = [
     field: 'roleName',
     label: '角色名称',
     component: 'Input',
-    colProps: { span: 6 },
+    colProps: { span: 8 },
   },
   {
     field: 'roleCode',
     label: '角色编码',
     component: 'Input',
-    colProps: { span: 6 },
+    colProps: { span: 8 },
   },
 ];
 /**

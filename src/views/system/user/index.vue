@@ -78,7 +78,6 @@
   }
 
   function handleSelect(deptIds = []) {
-    console.log(deptIds);
     searchInfo.deptIds = deptIds;
     reload();
   }
