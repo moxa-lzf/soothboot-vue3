@@ -7,6 +7,10 @@ export const columns: BasicColumn[] = [
     dataIndex: 'deptName',
   },
   {
+    title: '部门编码',
+    dataIndex: 'deptCode',
+  },
+  {
     title: '状态',
     dataIndex: ['dict', 'status'],
     width: 80,
@@ -24,6 +28,12 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Input',
     colProps: { span: 6 },
   },
+  {
+    field: 'deptCode',
+    label: '部门编码',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
 ];
 
 export const formSchema: FormSchema[] = [
@@ -38,6 +48,15 @@ export const formSchema: FormSchema[] = [
     label: '部门名称',
     component: 'Input',
     required: true,
+  },
+  {
+    field: 'deptCode',
+    label: '部门编码',
+    component: 'Input',
+    required: true,
+    dynamicDisabled: ({ values }) => {
+      return !!values.id;
+    },
   },
   {
     field: 'parentId',

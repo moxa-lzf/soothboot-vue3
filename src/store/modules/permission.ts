@@ -23,7 +23,7 @@ import { getPermCode } from '/@/api/sys/user';
 
 import { useMessage } from '/@/hooks/web/useMessage';
 import { PageEnum } from '/@/enums/pageEnum';
-import * as process from "process";
+import * as process from 'process';
 
 interface PermissionState {
   // Permission code list
@@ -230,7 +230,11 @@ export const usePermissionStore = defineStore({
           // Dynamically introduce components
           // 动态引入组件
           routeList = transformObjToRoute(routeList);
-          if(process.env.NODE_ENV==='development'){
+          const viteUseMock = import.meta.env.VITE_USE_MOCK;
+          if (
+            (typeof viteUseMock == 'boolean' && viteUseMock) ||
+            (typeof viteUseMock == 'string' && viteUseMock === 'true')
+          ) {
             routeList.push(...asyncRoutes);
           }
           //  Background routing to menu structure

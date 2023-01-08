@@ -2,7 +2,6 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Icon } from '/@/components/Icon';
-import { ajaxGetDictItems  } from './menu.api';
 
 const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;
@@ -18,13 +17,10 @@ export const columns: BasicColumn[] = [
   {
     title: '菜单名称',
     dataIndex: 'name',
-    width: 200,
-    align: 'left',
   },
   {
     title: '菜单类型',
     dataIndex: ['dict', 'menuType'],
-    width: 150,
   },
   {
     title: '图标',
@@ -38,13 +34,11 @@ export const columns: BasicColumn[] = [
     title: '组件',
     dataIndex: 'component',
     align: 'left',
-    width: 150,
   },
   {
     title: '路径',
     dataIndex: 'url',
     align: 'left',
-    width: 150,
   },
   {
     title: '排序',
@@ -58,7 +52,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'name',
     label: '菜单名称',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
 ];
 
@@ -97,7 +91,7 @@ export const formSchema: FormSchema[] = [
             },
           ]);
           //update-begin---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
-          if (isMenu(e) && !formModel.id && formModel.component=='layouts/RouteView') {
+          if (isMenu(e) && !formModel.id && formModel.component == 'layouts/RouteView') {
             formModel.component = '';
           }
           //update-end---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
@@ -134,7 +128,9 @@ export const formSchema: FormSchema[] = [
     label: '访问路径',
     component: 'Input',
     required: true,
-    ifShow: ({ values }) => !(values.component === ComponentTypes.IFrame && values.internalOrExternal) && values.menuType !== 2,
+    ifShow: ({ values }) =>
+      !(values.component === ComponentTypes.IFrame && values.internalOrExternal) &&
+      values.menuType !== 2,
   },
   {
     field: 'component',
@@ -143,7 +139,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       placeholder: '请输入前端组件',
     },
-    defaultValue:'layouts/RouteView',
+    defaultValue: 'layouts/RouteView',
     required: true,
     ifShow: ({ values }) => !isButton(values.menuType),
   },
@@ -171,7 +167,8 @@ export const formSchema: FormSchema[] = [
       { required: true, message: '请输入Iframe地址' },
       { type: 'url', message: '请输入正确的url地址' },
     ],
-    ifShow: ({ values }) => !isButton(values.menuType) && values.component === ComponentTypes.IFrame,
+    ifShow: ({ values }) =>
+      !isButton(values.menuType) && values.component === ComponentTypes.IFrame,
   },
   {
     field: 'redirect',
@@ -290,59 +287,5 @@ export const formSchema: FormSchema[] = [
       unCheckedChildren: '内部',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
-  },
-];
-
-export const dataRuleFormSchema: FormSchema[] = [
-  {
-    label: 'id',
-    field: 'id',
-    component: 'Input',
-    show: false,
-  },
-  {
-    field: 'ruleName',
-    label: '规则名称',
-    component: 'Input',
-    required: true,
-  },
-  {
-    field: 'ruleColumn',
-    label: '规则字段',
-    component: 'Input',
-    ifShow: ({ values }) => {
-      return values.ruleConditions !== 'USE_SQL_RULES';
-    },
-  },
-  {
-    field: 'ruleConditions',
-    label: '条件规则',
-    required: true,
-    component: 'ApiSelect',
-    componentProps: {
-      api: ajaxGetDictItems,
-      params: { code: 'rule_conditions' },
-      labelField: 'text',
-      valueField: 'value',
-      getPopupContainer: (node) => document.body,
-    },
-  },
-  {
-    field: 'ruleValue',
-    label: '规则值',
-    component: 'Input',
-    required: true,
-  },
-  {
-    field: 'status',
-    label: '状态',
-    component: 'RadioButtonGroup',
-    defaultValue: '1',
-    componentProps: {
-      options: [
-        { label: '无效', value: '0' },
-        { label: '有效', value: '1' },
-      ],
-    },
   },
 ];

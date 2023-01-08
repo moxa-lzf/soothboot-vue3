@@ -1,6 +1,6 @@
 <template>
   <BasicTable @register="registerTable">
-    <template #tableTitle>
+    <template #toolbar>
       <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
         新增
       </a-button>
@@ -16,8 +16,7 @@
   <RolePermissionDrawer @register="rolePermissionDrawer" />
 </template>
 <script lang="ts" name="system-role" setup>
-  import { ref } from 'vue';
-  import { BasicTable, TableAction, useTable } from '/@/components/Table';
+  import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
   import { useModal } from '/@/components/Modal';
   import RoleModal from './components/RoleModal.vue';
@@ -44,7 +43,7 @@
     bordered: true,
     showIndexColumn: false,
     actionColumn: {
-      width: 180,
+      width: 150,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -90,18 +89,27 @@
    * 角色用户
    */
   function handleUser(record) {
-    //onSelectChange(selectedRowKeys)
     openRoleUserDrawer(true, record);
   }
 
   /**
    * 操作栏
    */
-  function getTableAction(record) {
+  function getTableAction(record): ActionItem[] {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+      },
+      {
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+        },
       },
     ];
   }
@@ -109,22 +117,17 @@
   /**
    * 下拉操作栏
    */
-  function getDropDownAction(record) {
+  function getDropDownAction(record): ActionItem[] | null {
     return [
       {
-        label: '授权',
+        icon: 'ant-design:team-outlined',
+        label: '角色权限',
         onClick: handlePerssion.bind(null, record),
       },
       {
-        label: '用户',
+        icon: 'ant-design:user-add-outlined',
+        label: '角色用户',
         onClick: handleUser.bind(null, record),
-      },
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
       },
     ];
   }

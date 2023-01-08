@@ -5,104 +5,91 @@
         <a-button type="primary" @click="handleCreate"> 新增部门</a-button>
       </template>
       <template #action="{ record }">
-        <TableAction :actions="getTableAction(record)"
-                     :dropDownActions="getDropDownAction(record)" />
+        <TableAction
+          :actions="getTableAction(record)"
+          :dropDownActions="getDropDownAction(record)"
+        />
       </template>
     </BasicTable>
     <DeptModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import { BasicTable, useTable, TableAction } from "/@/components/Table";
+<script lang="ts" setup>
+  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
 
-import { useModal } from "/@/components/Modal";
-import DeptModal from "./DeptModal.vue";
+  import { useModal } from '/@/components/Modal';
+  import DeptModal from './DeptModal.vue';
 
-import { columns, searchFormSchema } from "./dept.data";
-import {listTree}from './dept.api'
-export default defineComponent({
-  name: "DeptManagement",
-  components: { BasicTable, DeptModal, TableAction },
-  setup() {
-    const [registerModal, { openModal }] = useModal();
-    const [registerTable, { reload }] = useTable({
-      title: "部门列表",
+  import { columns, searchFormSchema } from './dept.data';
+  import { deptApi, listTree } from './dept.api';
+
+  const [registerModal, { openModal }] = useModal();
+  const [registerTable, { reload }] = useTable({
+    title: '部门列表',
     api: listTree,
-      columns,
-      formConfig: {
-        labelWidth: 80,
-        schemas: searchFormSchema
-      },
-      pagination: false,
-      striped: false,
-      useSearchForm: true,
-      showTableSetting: true,
-      bordered: true,
-      showIndexColumn: false,
-      canResize: false,
-      actionColumn: {
-        width: 80,
-        title: "操作",
-        dataIndex: "action",
-        slots: { customRender: "action" },
-        fixed: undefined
-      }
+    columns,
+    formConfig: {
+      labelWidth: 80,
+      schemas: searchFormSchema,
+    },
+    pagination: false,
+    striped: false,
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
+    showIndexColumn: false,
+    canResize: false,
+    actionColumn: {
+      width: 150,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+      fixed: undefined,
+    },
+  });
+
+  function handleCreate() {
+    openModal(true, {
+      isUpdate: false,
     });
-
-    function handleCreate() {
-      openModal(true, {
-        isUpdate: false
-      });
-    }
-
-    function handleEdit(record: Recordable) {
-      openModal(true, {
-        record,
-        isUpdate: true
-      });
-    }
-
-    function handleDelete(record: Recordable) {
-      console.log(record);
-    }
-
-    function handleSuccess() {
-      reload();
-    }
-
-    function getTableAction(record) {
-      return [
-        {
-          label: "编辑",
-          onClick: handleEdit.bind(null, record)
-        }
-      ];
-    }
-
-    function getDropDownAction(record) {
-      return [
-        {
-          label: "删除",
-          color: "error",
-          popConfirm: {
-            title: "是否确认删除",
-            confirm: handleDelete.bind(null, record)
-          }
-        }
-      ];
-    }
-
-    return {
-      registerTable,
-      registerModal,
-      handleCreate,
-      handleEdit,
-      handleDelete,
-      handleSuccess,
-      getTableAction,
-      getDropDownAction
-    };
   }
-});
+
+  function handleEdit(record: Recordable) {
+    openModal(true, {
+      record,
+      isUpdate: true,
+    });
+  }
+
+  async function handleDelete(record: Recordable) {
+    await deptApi.remove({ id: record.id });
+    reload();
+  }
+
+  function handleSuccess() {
+    reload();
+  }
+
+  function getTableAction(record): ActionItem[] {
+    return [
+      {
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
+        onClick: handleEdit.bind(null, record),
+      },
+      {
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+        },
+      },
+    ];
+  }
+
+  function getDropDownAction(record): ActionItem[] | null {
+    return null;
+  }
 </script>

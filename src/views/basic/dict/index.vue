@@ -34,7 +34,7 @@
 
   // 列表页面公共参数、方法
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
-    title: '数据字典',
+    title: '数据字典列表',
     api: dictApi.page,
     columns: columns,
     formConfig: {
@@ -46,7 +46,7 @@
     bordered: true,
     showIndexColumn: false,
     actionColumn: {
-      width: 100,
+      width: 150,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },

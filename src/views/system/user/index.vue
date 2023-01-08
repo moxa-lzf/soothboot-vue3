@@ -44,7 +44,7 @@
     showTableSetting: true,
     bordered: true,
     actionColumn: {
-      width: 180,
+      width: 150,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
@@ -88,8 +88,18 @@
   function getTableAction(record): ActionItem[] {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+      },
+      {
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+        },
       },
     ];
   }
@@ -97,15 +107,7 @@
   /**
    * 下拉操作栏
    */
-  function getDropDownAction(record): ActionItem[] {
-    return [
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
-      },
-    ];
+  function getDropDownAction(record): ActionItem[] | null {
+    return null;
   }
 </script>
