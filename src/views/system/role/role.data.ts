@@ -28,6 +28,7 @@ export const userColumns = [
   {
     title: '状态',
     dataIndex: ['dict', 'status'],
+    width: 80,
   },
 ];
 export const searchFormSchema: FormSchema[] = [
@@ -52,13 +53,13 @@ export const searchUserFormSchema: FormSchema[] = [
     field: 'username',
     label: '用户账号',
     component: 'Input',
-    colProps: { span: 6 },
+    colProps: { span: 8 },
   },
   {
     field: 'realname',
     label: '用户姓名',
     component: 'Input',
-    colProps: { span: 6 },
+    colProps: { span: 8 },
   },
 ];
 

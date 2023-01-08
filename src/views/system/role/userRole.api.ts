@@ -15,13 +15,14 @@ enum Api {
   getRoleByUserId = '/sys/userRole/getRoleByUserId',
 }
 
-export const saveUserRole = (params, handleSuccess) => {
-  return defHttp.post({ url: Api.saveUserRole, params }).then(() => {
-    handleSuccess();
-  });
+export const saveUserRole = (params) => {
+  return defHttp.post({ url: Api.saveUserRole, params });
 };
 
 export const getUserByRoleId = (params) => {
+  if(!params.roleId){
+return [];
+  }
   return defHttp.get({ url: Api.getUserByRoleId, params });
 };
 
