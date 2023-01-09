@@ -5,17 +5,14 @@ export const columns: BasicColumn[] = [
   {
     title: '字典名称',
     dataIndex: 'dictName',
-    width: 240,
   },
   {
     title: '字典编码',
     dataIndex: 'dictCode',
-    width: 240,
   },
   {
     title: '描述',
     dataIndex: 'description',
-    // width: 120
   },
 ];
 
@@ -24,13 +21,13 @@ export const searchFormSchema: FormSchema[] = [
     label: '字典名称',
     field: 'dictName',
     component: 'Input',
-    colProps: { span: 6 },
+    colProps: { span: 8 },
   },
   {
     label: '字典编码',
     field: 'dictCode',
     component: 'Input',
-    colProps: { span: 6 },
+    colProps: { span: 8 },
   },
 ];
 
@@ -67,12 +64,14 @@ export const dictItemColumns: BasicColumn[] = [
   {
     title: '名称',
     dataIndex: 'itemText',
-    width: 80,
   },
   {
     title: '数据值',
     dataIndex: 'itemValue',
-    width: 80,
+  },
+  {
+    title: '描述',
+    dataIndex: 'description',
   },
 ];
 
@@ -84,7 +83,14 @@ export const itemFormSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '名称',
+    label: '字典名称',
+    field: 'dictName',
+    required: true,
+    component: 'Input',
+    dynamicDisabled:true,
+  },
+  {
+    label: '字典项名称',
     field: 'itemText',
     required: true,
     component: 'Input',
@@ -93,35 +99,7 @@ export const itemFormSchema: FormSchema[] = [
     label: '数据值',
     field: 'itemValue',
     component: 'Input',
-    dynamicRules: ({ values, model }) => {
-      return [
-        {
-          required: true,
-          validator: (_, value) => {
-            if (!value) {
-              return Promise.reject('请输入数据值');
-            }
-            if (new RegExp("[`~!@#$^&*()=|{}'.<>《》/?！￥（）—【】‘；：”“。，、？]").test(value)) {
-              return Promise.reject('数据值不能包含特殊字符！');
-            }
-            return new Promise<void>((resolve, reject) => {
-              const params = {
-                dictId: values.dictId,
-                id: model.id,
-                itemValue: value,
-              };
-              dictItemCheck(params)
-                .then((res) => {
-                  res.success ? resolve() : reject(res.message || '校验失败');
-                })
-                .catch((err) => {
-                  reject(err.message || '验证失败');
-                });
-            });
-          },
-        },
-      ];
-    },
+    required:true,
   },
   {
     label: '描述',
