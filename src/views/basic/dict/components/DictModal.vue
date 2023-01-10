@@ -1,12 +1,18 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" width="500px" @ok="handleSubmit">
+  <BasicModal
+    v-bind="$attrs"
+    @register="registerModal"
+    :title="getTitle"
+    width="500px"
+    @ok="handleSubmit"
+  >
     <BasicForm @register="registerForm" />
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
-  import { BasicModal, useModalInner } from '/src/components/Modal';
-  import { BasicForm, useForm } from '/src/components/Form';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from '../dict.data';
   import { dictApi } from '../dict.api';
   // 声明Emits
@@ -15,7 +21,7 @@
   const rowId = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
-     labelWidth: 80,
+    labelWidth: 80,
     baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,

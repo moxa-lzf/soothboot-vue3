@@ -1,6 +1,5 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { dictItemCheck } from './dict.api';
 export const columns: BasicColumn[] = [
   {
     title: '字典名称',
@@ -87,7 +86,7 @@ export const itemFormSchema: FormSchema[] = [
     field: 'dictName',
     required: true,
     component: 'Input',
-    dynamicDisabled:true,
+    dynamicDisabled: true,
   },
   {
     label: '字典项名称',
@@ -99,7 +98,7 @@ export const itemFormSchema: FormSchema[] = [
     label: '数据值',
     field: 'itemValue',
     component: 'Input',
-    required:true,
+    required: true,
   },
   {
     label: '描述',

@@ -1,8 +1,8 @@
-import { BaseApi } from "/@/api/base/baseApi";
+import { BaseApi } from '/@/api/base/baseApi';
 
-class DictItemApi extends BaseApi{
+class DictItemApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
 }
-export const dictItemApi=new DictItemApi('/sys/dictItem').api;
+export const dictItemApi = new DictItemApi('/sys/dictItem').api;
