@@ -38,8 +38,8 @@ export const searchFormSchema: FormSchema[] = [
 
 export const formSchema: FormSchema[] = [
   {
-    field: 'id',
-    label: 'id',
+    field: 'deptId',
+    label: 'deptId',
     component: 'Input',
     show: false,
   },
@@ -55,7 +55,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     required: true,
     dynamicDisabled: ({ values }) => {
-      return !!values.id;
+      return !!values.deptId;
     },
   },
   {
@@ -65,8 +65,8 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       fieldNames: {
         label: 'deptName',
-        key: 'id',
-        value: 'id',
+        key: 'deptId',
+        value: 'deptId',
       },
     },
   },
