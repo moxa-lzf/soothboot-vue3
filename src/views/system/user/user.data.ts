@@ -92,8 +92,8 @@ export const formSchema: FormSchema[] = [
       multiple: true,
       fieldNames: {
         label: 'deptName',
-        key: 'id',
-        value: 'id',
+        key: 'deptId',
+        value: 'deptId',
       },
     },
     required: true,

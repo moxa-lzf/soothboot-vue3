@@ -1,5 +1,10 @@
 <template>
-<RadioGroup v-if="compType ==='radio'" v-bind="attrs" v-model:value="state" @change="handleChange">
+  <RadioGroup
+    v-if="compType === 'radio'"
+    v-bind="attrs"
+    v-model:value="state"
+    @change="handleChange"
+  >
     <template v-for="item in dictOptions" :key="`${item.value}`">
       <Radio :value="item.value">
         {{ item.label }}
@@ -7,7 +12,13 @@
     </template>
   </RadioGroup>
 
-<RadioGroup v-else-if="compType === 'radioButton'" v-bind="attrs" v-model:value="state" buttonStyle="solid" @change="handleChange">
+  <RadioGroup
+    v-else-if="compType === 'radioButton'"
+    v-bind="attrs"
+    v-model:value="state"
+    buttonStyle="solid"
+    @change="handleChange"
+  >
     <template v-for="item in dictOptions" :key="`${item.value}`">
       <RadioButton :value="item.value">
         {{ item.label }}
@@ -15,7 +26,7 @@
     </template>
   </RadioGroup>
 
-<template v-else-if="compType === 'select'">
+  <template v-else-if="compType === 'select'">
     <!-- 显示加载效果 -->
     <Input v-if="loadingEcho" readOnly placeholder="加载中…">
       <template #prefix>
@@ -43,19 +54,25 @@
   </template>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType, ref, reactive, watchEffect, computed, unref, watch, onMounted, nextTick } from 'vue';
-  import { Form,Select,SelectOption,Input,Radio,RadioGroup,RadioButton } from 'ant-design-vue';
+  import { defineComponent, ref, watchEffect, computed, unref, watch, nextTick } from 'vue';
+  import {
+    Form,
+    Select,
+    SelectOption,
+    Input,
+    Radio,
+  } from 'ant-design-vue';
   import { propTypes } from '/@/utils/propTypes';
   import { useAttrs } from '/@/hooks/core/useAttrs';
   import { defHttp } from '/@/utils/http/axios';
-  import { get, omit } from 'lodash-es';
+  import { omit } from 'lodash-es';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
   import { LoadingOutlined } from '@ant-design/icons-vue';
 
   export default defineComponent({
     name: 'DictSelect',
+    components: { LoadingOutlined, Select, SelectOption, Input, Radio, RadioGroup:Radio.Group, RadioButton:Radio.Button },
     inheritAttrs: false,
-    components: { LoadingOutlined,Select,SelectOption,Input,Radio,RadioGroup,RadioButton },
     props: {
       value: propTypes.oneOfType([propTypes.string, propTypes.number, propTypes.array]),
       code: propTypes.string,
@@ -119,19 +136,19 @@
             emit('change', '');
             nextTick(() => onFieldChange());
           }
-        }
+        },
       );
       //update-end-author:taoyan date:20220404 for: 使用useRuleFormItem定义的value，会有一个问题，如果不是操作设置的值而是代码设置的控件值而不能触发change事件
 
       async function initDictData() {
         let { code, stringToNumber } = props;
         //根据字典Code, 初始化字典数组
-      const dictData=await defHttp.get({ url: `/sys/dictItem/`+code});
+        const dictData = await defHttp.get({ url: `/sys/dictItem/` + code });
         dictOptions.value = dictData.reduce((prev, next) => {
           if (next) {
-          const value = next['itemValue'];
+            const value = next['itemValue'];
             prev.push({
-            label: next['itemText'],
+              label: next['itemText'],
               value: stringToNumber ? +value : value,
               ...omit(next, ['text', 'value']),
             });
@@ -167,5 +184,5 @@
         handleFilterOption,
       };
     },
-});
+  });
 </script>

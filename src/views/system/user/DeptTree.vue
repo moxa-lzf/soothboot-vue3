@@ -34,7 +34,7 @@
         let nodeIds = [];
         if (selectedNodes && selectedNodes.length > 0) {
           for (let selectedNode of selectedNodes) {
-            nodeIds.push(selectedNode.id);
+            nodeIds.push(selectedNode.deptId);
             if (selectedNode.children && selectedNode.children.length > 0) {
               nodeIds.push(...getNodeIds(selectedNode.children));
             }
