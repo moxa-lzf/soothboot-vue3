@@ -24,7 +24,7 @@
   import { useModal } from '/@/components/Modal';
   import FieldTypeModal from './components/FieldTypeModal.vue';
   import { columns, searchFormSchema } from './fieldType.data';
-  import { list, deleteFieldType, batchDeleteFieldType } from './fieldType.api';
+  import { list } from './fieldType.api';
 
   const [registerModal, { openModal }] = useModal();
   import { initTypeField } from './fieldType.api';
@@ -59,31 +59,6 @@
       isUpdate: true,
     });
   }
-
-  /**
-   * 详情
-   */
-  async function handleDetail(record) {
-    openModal(true, {
-      record,
-      isUpdate: true,
-    });
-  }
-
-  /**
-   * 删除事件
-   */
-  async function handleDelete(record) {
-    await deleteFieldType({ id: record.id }, reload);
-  }
-
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    await batchDeleteFieldType({ ids: selectedRowKeys.value }, reload);
-  }
-
   /**
    * 成功回调
    */

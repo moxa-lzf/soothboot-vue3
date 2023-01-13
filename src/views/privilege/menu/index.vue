@@ -19,8 +19,8 @@
   </div>
 </template>
 <script lang="ts" name="system-menu" setup>
-  import { nextTick, ref } from 'vue';
-  import {BasicTable, useTable, TableAction, ActionItem} from '/@/components/Table';
+  import { ref } from 'vue';
+  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
   import { columns, searchFormSchema } from './menu.data';
@@ -142,7 +142,7 @@
   /**
    * 下拉操作栏
    */
-  function getDropDownAction(record): ActionItem[]|null {
+  function getDropDownAction(record): ActionItem[] | null {
     return [
       {
         icon: 'ant-design:vertical-align-bottom-outlined',

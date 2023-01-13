@@ -8,6 +8,8 @@ export enum ToolbarEnum {
   UN_SELECT_ALL,
   EXPAND_ALL,
   UN_EXPAND_ALL,
+  CHECK_STRICTLY,
+  CHECK_UN_STRICTLY,
 }
 
 export const treeEmits = [

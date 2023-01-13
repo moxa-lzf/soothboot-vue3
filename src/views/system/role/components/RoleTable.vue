@@ -31,8 +31,6 @@
   const [roleUserDrawer, { openDrawer: openRoleUserDrawer }] = useDrawer();
   const [rolePermissionDrawer, { openDrawer: openRolePermissionDrawer }] = useDrawer();
   const [registerModal, { openModal }] = useModal();
-  // 声明Emits
-  const emit = defineEmits(['change']);
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
     title: '角色列表',

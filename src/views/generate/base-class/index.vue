@@ -2,8 +2,10 @@
   <!--引用表格-->
   <BasicTable @register="registerTable">
     <!--插槽:table标题-->
-    <template #tooltar>
-      <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate"> 新增</a-button>
+    <template #toolbar>
+      <Button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+        新增
+      </Button>
     </template>
     <!--操作栏-->
     <template #action="{ record }">
@@ -17,35 +19,29 @@
 <script lang="ts" name="system-dict" setup>
   //ts语法
   import { ref, computed, unref } from 'vue';
-  import { BasicTable,useTable, TableAction } from '/src/components/Table';
-  import { useDrawer } from '/src/components/Drawer';
-  import { useModal } from '/src/components/Modal';
+  import { Button } from 'ant-design-vue';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { useModal } from '/@/components/Modal';
   import FieldTypeModal from './components/BaseClassModal.vue';
-  import { useMessage } from '/src/hooks/web/useMessage';
   import { columns, searchFormSchema } from './baseClass.data';
-  import { list, deleteFieldType, batchDeleteFieldType } from './baseClass.api';
+  import { list, deleteFieldType } from './baseClass.api';
 
-  const { createMessage } = useMessage();
-  //字典model
   const [registerModal, { openModal }] = useModal();
-  //字典配置drawer
-  const [registerDrawer, { openDrawer }] = useDrawer();
-
   // 列表页面公共参数、方法
-const [registerTable, { reload, updateTableDataRecord }]  = useTable({
-      title: '基类管理',
-      api: list,
-      columns: columns,
-      formConfig: {
-        schemas: searchFormSchema,
-      },
-      actionColumn: {
-        width: 240,
-      },
-  showIndexColumn: false,
-  useSearchForm: true,
-  showTableSetting: true,
-  bordered: true
+  const [registerTable, { reload, updateTableDataRecord }] = useTable({
+    title: '基类管理',
+    api: list,
+    columns: columns,
+    formConfig: {
+      schemas: searchFormSchema,
+    },
+    actionColumn: {
+      width: 240,
+    },
+    showIndexColumn: false,
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
   });
   /**
    * 新增事件
@@ -65,25 +61,10 @@ const [registerTable, { reload, updateTableDataRecord }]  = useTable({
     });
   }
   /**
-   * 详情
-   */
-  async function handleDetail(record) {
-    openModal(true, {
-      record,
-      isUpdate: true,
-    });
-  }
-  /**
    * 删除事件
    */
   async function handleDelete(record) {
     await deleteFieldType({ id: record.id }, reload);
-  }
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    await batchDeleteFieldType({ ids: selectedRowKeys.value }, reload);
   }
   /**
    * 成功回调

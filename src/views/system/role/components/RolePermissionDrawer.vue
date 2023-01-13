@@ -13,8 +13,9 @@
       toolbar
       :treeData="treeData"
       :fieldNames="{ key: 'id', title: 'name' }"
+      :checkStrictly="true"
       :clickRowToExpand="false"
-      title="所拥有的的权限"
+      title="所拥有的权限"
     />
     <!--右下角按钮-->
     <template #footer>
@@ -35,7 +36,7 @@
   import { BasicTree, TreeItem } from '/@/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
   import { queryRolePermission, saveRolePermission } from '../role.api';
-  import { listTree } from '/@/views/system/menu/menu.api';
+  import { listTree } from '/@/views/privilege/menu/menu.api';
   const treeRef = ref(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);

@@ -4,72 +4,72 @@
   </BasicModal>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, unref } from "vue";
-import { BasicModal, useModalInner } from "/@/components/Modal";
-import { BasicForm, useForm } from "/@/components/Form/index";
-import { formSchema } from "./dept.data";
+  import { defineComponent, ref, computed, unref } from 'vue';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { BasicForm, useForm } from '/@/components/Form/index';
+  import { formSchema } from './dept.data';
 
-import { listTree,deptApi } from "./dept.api";
+  import { listTree, deptApi } from './dept.api';
 
-export default defineComponent({
-  name: "DeptModal",
-  components: { BasicModal, BasicForm },
-  emits: ["success", "register"],
-  setup(_, { emit }) {
-    const isUpdate = ref(true);
+  export default defineComponent({
+    name: 'DeptModal',
+    components: { BasicModal, BasicForm },
+    emits: ['success', 'register'],
+    setup(_, { emit }) {
+      const isUpdate = ref(true);
 
-    const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
-      labelWidth: 80,
-      baseColProps: { span: 24 },
-      schemas: formSchema,
-      showActionButtonGroup: false
-    });
-
-    const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
-      resetFields();
-      setModalProps({ confirmLoading: false });
-      isUpdate.value = !!data?.isUpdate;
-      let treeData = await listTree({});
-      if (unref(isUpdate)) {
-        setFieldsValue({
-          ...data.record
-        });
-        const deptId = data.record.id;
-        filterDept(treeData, deptId);
-      }
-      updateSchema({
-        field: "parentId",
-        componentProps: { treeData }
+      const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
+        labelWidth: 80,
+        baseColProps: { span: 24 },
+        schemas: formSchema,
+        showActionButtonGroup: false,
       });
-    });
 
-    const getTitle = computed(() => (!unref(isUpdate) ? "新增部门" : "编辑部门"));
+      const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+        resetFields();
+        setModalProps({ confirmLoading: false });
+        isUpdate.value = !!data?.isUpdate;
+        let treeData = await listTree({});
+        if (unref(isUpdate)) {
+          setFieldsValue({
+            ...data.record,
+          });
+          const deptId = data.record.id;
+          filterDept(treeData, deptId);
+        }
+        updateSchema({
+          field: 'parentId',
+          componentProps: { treeData },
+        });
+      });
 
-    function filterDept(treeData, deptId) {
-      for (let i = 0; i < treeData.length; i++) {
-        if (treeData[i].id === deptId) {
-          treeData.splice(i, 1);
-          return;
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增部门' : '编辑部门'));
+
+      function filterDept(treeData, deptId) {
+        for (let i = 0; i < treeData.length; i++) {
+          if (treeData[i].id === deptId) {
+            treeData.splice(i, 1);
+            return;
+          }
+        }
+        if (treeData.children && treeData.children.length > 0) {
+          filterDept(treeData.children, deptId);
         }
       }
-      if (treeData.children && treeData.children.length > 0) {
-        filterDept(treeData.children, deptId);
-      }
-    }
 
-    async function handleSubmit() {
-      try {
-        const values = await validate();
-        setModalProps({ confirmLoading: true });
-        await deptApi.saveOrEdit(values,unref(isUpdate));
-        closeModal();
-        emit("success");
-      } finally {
-        setModalProps({ confirmLoading: false });
+      async function handleSubmit() {
+        try {
+          const values = await validate();
+          setModalProps({ confirmLoading: true });
+          await deptApi.saveOrEdit(values, unref(isUpdate));
+          closeModal();
+          emit('success');
+        } finally {
+          setModalProps({ confirmLoading: false });
+        }
       }
-    }
 
-    return { registerModal, registerForm, getTitle, handleSubmit };
-  }
-});
+      return { registerModal, registerForm, getTitle, handleSubmit };
+    },
+  });
 </script>

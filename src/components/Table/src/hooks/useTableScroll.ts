@@ -58,7 +58,6 @@ export function useTableScroll(
   async function calcTableHeight() {
     const { resizeHeightOffset, pagination, maxHeight, isCanResizeParent, useSearchForm } =
       unref(propsRef);
-    const tableData = unref(getDataSourceRef);
 
     const table = unref(tableElRef);
     if (!table) return;
@@ -90,7 +89,7 @@ export function useTableScroll(
 
     bodyEl!.style.height = 'unset';
 
-    if (!unref(getCanResize) || !unref(tableData) || tableData.length === 0) return;
+    if (!unref(getCanResize)) return;
 
     await nextTick();
     // Add a delay to get the correct bottomIncludeBody paginationHeight footerHeight headerHeight

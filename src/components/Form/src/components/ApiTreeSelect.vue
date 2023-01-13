@@ -21,6 +21,11 @@
     components: { ATreeSelect: TreeSelect, LoadingOutlined },
     props: {
       api: { type: Function as PropType<(arg?: Recordable) => Promise<Recordable>> },
+      afterFetch: {
+        type: Function as PropType<(arg?: Recordable) => Promise<Recordable>>,
+        required: false,
+        default: null,
+      },
       params: { type: Object },
       immediate: { type: Boolean, default: true },
       resultField: propTypes.string.def(''),
@@ -61,7 +66,7 @@
       });
 
       async function fetch() {
-        const { api } = props;
+        const { api, afterFetch } = props;
         if (!api || !isFunction(api)) return;
         loading.value = true;
         treeData.value = [];
@@ -75,6 +80,9 @@
         if (!result) return;
         if (!isArray(result)) {
           result = get(result, props.resultField);
+        }
+        if (afterFetch) {
+          result = afterFetch(result);
         }
         treeData.value = (result as Recordable[]) || [];
         isFirstLoaded.value = true;
