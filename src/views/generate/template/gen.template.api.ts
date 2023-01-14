@@ -1,8 +1,8 @@
-import {BaseApi} from "/@/api/base/baseApi";
+import { BaseApi } from '/@/api/base/baseApi';
 
-class TemplateApi extends BaseApi{
-  constructor(){
-    super('/generate/template');
+class TemplateApi extends BaseApi {
+  constructor(requestUrl) {
+    super(requestUrl);
   }
 }
-export const templateApi=new TemplateApi().api;
+export const templateApi = new TemplateApi('/generate/template').api;

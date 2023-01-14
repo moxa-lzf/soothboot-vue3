@@ -1,20 +1,28 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" width="500px" @ok="handleSubmit">
+  <BasicModal
+    v-bind="$attrs"
+    @register="registerModal"
+    :title="getTitle"
+    width="500px"
+    @ok="handleSubmit"
+  >
     <BasicForm @register="registerForm" />
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
-  import { BasicModal, useModalInner } from '/src/components/Modal';
-  import { BasicForm, useForm } from '/src/components/Form';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from '../baseClass.data';
-  import { saveOrUpdate } from '../baseClass.api';
+  import { baseClassApi } from '../baseClass.api';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   const rowId = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+    labelWidth: 100,
+    baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
@@ -40,7 +48,7 @@
       let values = await validate();
       setModalProps({ confirmLoading: true });
       //提交表单
-      await saveOrUpdate(values, isUpdate.value);
+      await baseClassApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表

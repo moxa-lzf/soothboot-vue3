@@ -99,6 +99,9 @@ export const itemFormSchema: FormSchema[] = [
     field: 'itemValue',
     component: 'Input',
     required: true,
+    dynamicDisabled: ({ values }) => {
+      return !!values.id;
+    },
   },
   {
     label: '描述',

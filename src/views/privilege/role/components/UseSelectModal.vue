@@ -13,7 +13,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
   import { userColumns, searchUserFormSchema } from '../role.data';
-  import { userApi } from '../../user/user.api';
+  import { userApi } from '../../../system/user/user.api';
   // 声明Emits
   const emit = defineEmits(['select', 'register']);
   const [registerModal, { setModalProps, closeModal }] = useModalInner();

@@ -7,8 +7,8 @@
     width="40%"
   >
     <BasicForm @register="registerForm">
-      <template #cron>
-        <EasyCron />
+      <template #cron="{ model, field }">
+        <EasyCron v-model:value="model[field]" />
       </template>
     </BasicForm>
   </BasicModal>
@@ -19,7 +19,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './quartz.data';
   import { EasyCron } from '/@/components/EasyCron';
-  import { saveOrUpdateQuartz } from './quartz.api';
+  import { quartzApi } from './quartz.api';
   import { isJsonObjectString } from '/@/utils/is';
   // Emits声明
   const emit = defineEmits(['register', 'success']);
@@ -59,7 +59,7 @@
       let values = await validate();
       setModalProps({ confirmLoading: true });
       //提交表单
-      await saveOrUpdateQuartz(values, isUpdate.value);
+      await quartzApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表

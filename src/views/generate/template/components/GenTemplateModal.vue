@@ -1,21 +1,28 @@
 <template>
-<BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" defaultFullscreen width="100%" @ok="handleSubmit">
+  <BasicModal
+    v-bind="$attrs"
+    @register="registerModal"
+    :title="getTitle"
+    defaultFullscreen
+    width="100%"
+    @ok="handleSubmit"
+  >
     <BasicForm @register="registerForm" />
-    <CodeEditor v-model:value="content"></CodeEditor>
+    <CodeEditor v-model:value="content" />
   </BasicModal>
 </template>
 <script lang="ts" setup>
-import { CodeEditor } from '/@/components/CodeEditor';
+  import { CodeEditor } from '/@/components/CodeEditor';
   import { ref, computed, unref } from 'vue';
-  import { BasicModal, useModalInner } from '/src/components/Modal';
-  import { BasicForm, useForm } from '/src/components/Form';
+  import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from '../gen.template.data';
-  import { saveOrUpdate,get} from '../gen.template.api0';
+  import { templateApi } from '../gen.template.api';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   const rowId = ref('');
-  const content=ref('');
+  const content = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     schemas: formSchema,
@@ -29,11 +36,11 @@ import { CodeEditor } from '/@/components/CodeEditor';
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       rowId.value = data.record.id;
-      const templateData=await get({id:data.record.id});
-      content.value=templateData.content
+      const templateData = await templateApi.get({ id: data.record.id });
+      content.value = templateData.content;
       await setFieldsValue(templateData);
-    }else if(content.value){
-    content.value='';
+    } else if (content.value) {
+      content.value = '';
     }
   });
   //设置标题
@@ -42,10 +49,10 @@ import { CodeEditor } from '/@/components/CodeEditor';
   async function handleSubmit() {
     try {
       let values = await validate();
-      values.content=content.value;
+      values.content = content.value;
       setModalProps({ confirmLoading: true });
       //提交表单
-      await saveOrUpdate(values, isUpdate.value);
+      await templateApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表

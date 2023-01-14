@@ -18,12 +18,10 @@
   </div>
 </template>
 <script lang="ts" name="monitor-datasource" setup>
-  import { ref, watch } from 'vue';
+  import { watch } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
-  import { useMessage } from '/@/hooks/web/useMessage';
   import { columns, searchFormSchema } from '../gen.template.data';
-  import { remove, removeBatch } from '../gen.template.api0';
   import { templateApi } from '../gen.template.api';
   import GenTemplateModal from './GenTemplateModal.vue';
 
@@ -36,7 +34,6 @@
       reload({ searchInfo: { groupId: props.data.record.id } });
     },
   );
-  const { createMessage } = useMessage();
   const [registerModal, { openModal }] = useModal();
 
   // 列表页面公共参数、方法
@@ -98,13 +95,7 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await remove({ id: record.id }, reload);
-  }
-
-  /**
-   * 批量删除事件
-   */
-  async function batchHandleDelete() {
-    await removeBatch({ ids: selectedRowKeys.value }, reload);
+    await templateApi.remove({ id: record.id });
+    reload();
   }
 </script>

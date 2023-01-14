@@ -26,7 +26,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './datasource.data';
-  import { saveOrUpdateDataSource, getDataSourceById, testConnection } from './datasource.api';
+  import { datasourceApi, testConnection } from './datasource.api';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   const { createMessage } = useMessage();
@@ -49,7 +49,7 @@
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       //获取详情
-      data.record = await getDataSourceById({ id: data.record.id });
+      data.record = await datasourceApi.get({ id: data.record.id });
       //表单赋值
       await setFieldsValue({
         ...data.record,
@@ -83,7 +83,7 @@
       let values = await validate();
       setModalProps({ confirmLoading: true });
       //提交表单
-      await saveOrUpdateDataSource(values, isUpdate.value);
+      await datasourceApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表

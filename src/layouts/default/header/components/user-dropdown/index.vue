@@ -14,6 +14,7 @@
         <MenuItem key="account" text="账户设置" icon="ant-design:setting-outlined" />
         <MenuItem key="password" text="密码修改" icon="ant-design:edit-outlined" />
         <MenuItem key="dept" text="切换部门" icon="ant-design:cluster-outlined" />
+        <MenuItem key="cache" text="刷新缓存" icon="ant-design:sync-outlined" />
         <MenuItem v-if="getUseLockPage" key="lock" text="锁定屏幕" icon="ion:lock-closed-outline" />
         <MenuItem key="logout" text="退出系统" icon="ion:power-outline" />
       </Menu>
@@ -34,13 +35,12 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useModal } from '/@/components/Modal';
-  import { useGo } from '/@/hooks/web/usePage';
   import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
-
+  import { defHttp } from '/@/utils/http/axios';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'dept' | 'account' | 'password' | 'lock';
+  type MenuEvent = 'logout' | 'dept' | 'account' | 'password' | 'lock' | 'cache';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -61,7 +61,6 @@
       const { t } = useI18n();
       const { getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
-      const go = useGo();
       const getUserInfo = computed(() => {
         const { realName = '', avatar, desc } = userStore.getUserInfo || {};
         return { realName, avatar: avatar || headerImg, desc };
@@ -92,7 +91,9 @@
       function accountSetting() {
         openAccountModal(true, { record: userStore.getUserInfo });
       }
-
+      function refreshCache() {
+        defHttp.get({ url: '/sys/refreshCache'});
+      }
       function handleMenuClick(e: MenuInfo) {
         switch (e.key as MenuEvent) {
           case 'logout':
@@ -108,6 +109,9 @@
             break;
           case 'account':
             accountSetting();
+            break;
+          case 'cache':
+            refreshCache();
             break;
         }
       }

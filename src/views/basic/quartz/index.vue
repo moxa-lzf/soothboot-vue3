@@ -11,27 +11,30 @@
         >
       </template>
       <template #action="{ record }">
-        <TableAction :actions="getActions(record)" :dropDownActions="getDropDownAction(record)" />
+        <TableAction
+          :actions="getTableAction(record)"
+          :dropDownActions="getDropDownAction(record)"
+        />
       </template>
     </BasicTable>
     <QuartzModal @register="registerModal" @success="reload" />
   </div>
 </template>
 <script lang="ts" name="monitor-quartz" setup>
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
-  import { deleteQuartz, executeImmediately, resumeJob, pauseJob, quartzApi } from './quartz.api';
+  import { executeImmediately, resumeJob, pauseJob, quartzApi } from './quartz.api';
   import { columns, searchFormSchema } from './quartz.data';
   import QuartzModal from './QuartzModal.vue';
 
   const [registerModal, { openModal }] = useModal();
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
-    title: '任务列表',
+    title: '定时任务列表',
     api: quartzApi.page,
     columns: columns,
     formConfig: {
-      labelWidth: 120,
+      labelWidth: 100,
       schemas: searchFormSchema,
       fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
     },
@@ -51,7 +54,29 @@
    * 操作列定义
    * @param record
    */
-  function getActions(record) {
+  function getTableAction(record): ActionItem[] {
+    return [
+      {
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
+        onClick: handleEdit.bind(null, record),
+      },
+      {
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+        },
+      },
+    ];
+  }
+
+  /**
+   * 下拉操作栏
+   */
+  function getDropDownAction(record): ActionItem[] | null {
     return [
       {
         label: '启动',
@@ -73,32 +98,13 @@
           return record.status == 0;
         },
       },
-    ];
-  }
-
-  /**
-   * 下拉操作栏
-   */
-  function getDropDownAction(record) {
-    return [
       {
         label: '立即执行',
         popConfirm: {
           title: '是否立即执行任务?',
           confirm: handlerExecute.bind(null, record),
         },
-      },
-      {
-        label: '编辑',
-        onClick: handleEdit.bind(null, record),
-      },
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
-      },
+      }
     ];
   }
 
@@ -125,7 +131,8 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteQuartz({ id: record.id }, reload);
+    await quartzApi.remove({ id: record.id });
+    reload();
   }
 
   /**

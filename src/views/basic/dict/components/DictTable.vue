@@ -109,15 +109,6 @@
   }
 
   /**
-   * 字典配置
-   */
-  function handleItem(record) {
-    openDrawer(true, {
-      id: record.id,
-    });
-  }
-
-  /**
    * 操作栏
    */
   function getTableAction(record): ActionItem[] {

@@ -1,6 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { roleApi } from '/@/views/system/role/role.api';
+import { roleApi } from '/@/views/privilege/role/role.api';
 export const columns: BasicColumn[] = [
   {
     title: '账号',

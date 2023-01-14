@@ -8,7 +8,7 @@ export const columns: BasicColumn[] = [
   {
     title: '属性类型',
     dataIndex: 'attrType',
-  }
+  },
 ];
 
 export const searchFormSchema: FormSchema[] = [
@@ -43,6 +43,6 @@ export const formSchema: FormSchema[] = [
     label: '属性类型',
     field: 'attrType',
     required: true,
-    component: 'Input'
+    component: 'Input',
   },
 ];

@@ -10,15 +10,15 @@
       >
     </template>
     <template #action="{ record }">
-      <TableAction :actions="getActions(record)" />
+      <TableAction :actions="getTableAction(record)" />
     </template>
   </BasicTable>
   <DataSourceModal @register="registerModal" @success="reload" />
 </template>
 <script lang="ts" setup>
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
-  import { getDataSourceList, deleteDataSource } from './datasource.api';
+  import { datasourceApi } from './datasource.api';
   import { columns, searchFormSchema } from './datasource.data';
   import DataSourceModal from './DataSourceModal.vue';
   const [registerModal, { openModal }] = useModal();
@@ -26,12 +26,11 @@
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
     title: '任务列表',
-    api: getDataSourceList,
+    api: datasourceApi.page,
     columns: columns,
     formConfig: {
       labelWidth: 100,
       schemas: searchFormSchema,
-      fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
     },
     useSearchForm: true,
     showTableSetting: true,
@@ -47,17 +46,19 @@
   });
 
   /**
-   * 操作列定义
-   * @param record
+   * 操作栏
    */
-  function getActions(record) {
+  function getTableAction(record): ActionItem[] {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
       },
       {
-        label: '删除',
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
@@ -89,6 +90,7 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteDataSource({ id: record.id }, reload);
+    await datasourceApi.remove({ id: record.id });
+    reload();
   }
 </script>

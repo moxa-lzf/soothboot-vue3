@@ -20,28 +20,31 @@
   //ts语法
   import { ref, computed, unref } from 'vue';
   import { Button } from 'ant-design-vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import {BasicTable, useTable, TableAction, ActionItem} from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import FieldTypeModal from './components/BaseClassModal.vue';
   import { columns, searchFormSchema } from './baseClass.data';
-  import { list, deleteFieldType } from './baseClass.api';
+  import { baseClassApi } from './baseClass.api';
 
   const [registerModal, { openModal }] = useModal();
   // 列表页面公共参数、方法
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
     title: '基类管理',
-    api: list,
+    api: baseClassApi.page,
     columns: columns,
     formConfig: {
       schemas: searchFormSchema,
-    },
-    actionColumn: {
-      width: 240,
     },
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
+    actionColumn: {
+      width: 150,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+    },
   });
   /**
    * 新增事件
@@ -64,7 +67,8 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteFieldType({ id: record.id }, reload);
+    await baseClassApi.remove({ id: record.id });
+    reload();
   }
   /**
    * 成功回调
@@ -79,16 +83,19 @@
   /**
    * 操作栏
    */
-  function getTableAction(record) {
+  function getTableAction(record): ActionItem[] {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
       },
       {
-        label: '删除',
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
         popConfirm: {
-          title: '确定删除吗?',
+          title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
         },
       },

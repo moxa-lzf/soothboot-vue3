@@ -7,5 +7,5 @@
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
   import RoleTable from './components/RoleTable.vue';
-  import DeptTree from '../user/DeptTree.vue';
+  import DeptTree from '../../system/user/DeptTree.vue';
 </script>

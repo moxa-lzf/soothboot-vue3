@@ -34,7 +34,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'jobClassName',
     label: '任务类名',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'status',
@@ -44,7 +44,7 @@ export const searchFormSchema: FormSchema[] = [
       dictCode: 'quartz_status',
       stringToNumber: true,
     },
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
 ];
 
@@ -69,46 +69,9 @@ export const formSchema: FormSchema[] = [
     slot: 'cron',
   },
   {
-    field: 'paramterType',
-    label: '参数类型',
-    component: 'Select',
-    defaultValue: 'string',
-    componentProps: {
-      options: [
-        { label: '字符串', value: 'string' },
-        { label: 'JSON对象', value: 'json' },
-      ],
-    },
-  },
-  {
     field: 'parameter',
     label: '参数',
     component: 'InputTextArea',
-    ifShow: ({ values }) => {
-      return values.paramterType == 'string';
-    },
-  },
-  {
-    field: 'parameter',
-    label: '参数',
-    component: 'JAddInput',
-    helpMessage: '键值对形式填写',
-    ifShow: ({ values }) => {
-      return values.paramterType == 'json';
-    },
-  },
-  {
-    field: 'status',
-    label: '状态',
-    component: 'DictSelect',
-    componentProps: {
-      code: 'quartz_status',
-      type: 'radioButton',
-      stringToNumber: true,
-      dropdownStyle: {
-        maxHeight: '6vh',
-      },
-    },
   },
   {
     field: 'description',

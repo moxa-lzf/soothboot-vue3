@@ -65,9 +65,13 @@
    * 提交
    */
   async function handleSubmit() {
+    let checkedKeys = unref(treeRef).getCheckedKeys();
+    if (checkedKeys != null && typeof checkedKeys === 'object') {
+      checkedKeys = checkedKeys['checked'];
+    }
     let params = {
       roleId: unref(roleId),
-      permissionIds: unref(treeRef).getCheckedKeys(),
+      permissionIds: checkedKeys,
     };
     loading.value = true;
     await saveRolePermission(params);

@@ -10,7 +10,7 @@
   import { formSchema } from './user.data';
   import { listTree } from '/@/views/system/dept/dept.api';
   import { saveUser, editUser } from './user.api';
-  import { getRoleByUserId } from '/@/views/system/role/userRole.api';
+  import { getRoleByUserId } from '/@/views/privilege/role/userRole.api';
   import { getDeptByUserId } from '/@/views/system/dept/userDept.api';
   export default defineComponent({
     name: 'UserModal',

@@ -6,7 +6,7 @@
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { BasicForm, useForm } from '/@/components/Form/index';
+  import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from '../role.data';
   import{roleApi}from '../role.api'
 

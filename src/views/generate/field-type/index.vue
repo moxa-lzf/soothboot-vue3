@@ -12,7 +12,6 @@
       <TableAction :actions="getTableAction(record)" />
     </template>
   </BasicTable>
-  <!--字典弹窗-->
   <FieldTypeModal @register="registerModal" @success="handleSuccess" />
 </template>
 
@@ -24,30 +23,33 @@
   import { useModal } from '/@/components/Modal';
   import FieldTypeModal from './components/FieldTypeModal.vue';
   import { columns, searchFormSchema } from './fieldType.data';
-  import { list } from './fieldType.api';
+  import { fieldTypeApi, initTypeField } from './fieldType.api';
 
   const [registerModal, { openModal }] = useModal();
-  import { initTypeField } from './fieldType.api';
   // 列表页面公共参数、方法
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
     title: '类型映射',
-    api: list,
+    api: fieldTypeApi.page,
     columns: columns,
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
     },
-    actionColumn: {
-      width: 240,
-    },
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
+    actionColumn: {
+      width: 100,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+    },
   });
 
   async function handleInitFieldType() {
     await initTypeField();
+    reload();
   }
 
   /**
@@ -64,6 +66,7 @@
    */
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
+      debugger
       updateTableDataRecord(values.id, values);
     } else {
       reload();
@@ -76,7 +79,8 @@
   function getTableAction(record) {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
       },
     ];

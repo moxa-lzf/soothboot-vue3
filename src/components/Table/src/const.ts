@@ -11,7 +11,7 @@ const {
   defaultFilterFn,
 } = table;
 
-export const ROW_KEY = 'key';
+export const ROW_KEY = 'id';
 
 // Optional display number per page;
 export const PAGE_SIZE_OPTIONS = pageSizeOptions;
