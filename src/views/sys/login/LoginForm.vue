@@ -121,7 +121,6 @@
   const ARow = Row;
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
-  const { t } = useI18n();
   const { notification } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();

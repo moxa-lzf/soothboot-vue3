@@ -38,6 +38,9 @@ export const formSchema: FormSchema[] = [
     field: 'columnType',
     required: true,
     component: 'Input',
+    dynamicDisabled: ({ values }) => {
+      return !!values.id;
+    },
   },
   {
     label: '属性类型',

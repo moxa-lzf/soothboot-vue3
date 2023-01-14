@@ -66,7 +66,7 @@
    */
   async function handleSubmit() {
     let checkedKeys = unref(treeRef).getCheckedKeys();
-    if (checkedKeys != null && typeof checkedKeys === 'object') {
+    if (!(checkedKeys instanceof Array)) {
       checkedKeys = checkedKeys['checked'];
     }
     let params = {

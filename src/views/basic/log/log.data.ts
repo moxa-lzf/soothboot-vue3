@@ -2,41 +2,32 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '日志内容',
-    dataIndex: 'logContent',
-    width: 100,
-    align: 'left',
+    title: '业务模块',
+    dataIndex: 'bizModule',
   },
   {
-    title: '操作人ID',
-    dataIndex: 'userid',
-    width: 80,
+    title: '操作描述',
+    dataIndex: 'description',
   },
   {
-    title: '操作人',
+    title: '操作人账号',
     dataIndex: 'username',
-    width: 80,
+  },
+  {
+    title: '操作人名称',
+    dataIndex: 'realname',
   },
   {
     title: 'IP',
     dataIndex: 'ip',
-    width: 80,
   },
   {
     title: '耗时(毫秒)',
     dataIndex: 'costTime',
-    width: 80,
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    sorter: true,
-    width: 80,
-  },
-  {
-    title: '日志类型',
-    dataIndex: 'logType_dictText',
-    width: 60,
+    title: '状态',
+    dataIndex: 'status',
   },
 ];
 
@@ -57,7 +48,7 @@ export const searchFormSchema: FormSchema[] = [
     field: 'keyWord',
     label: '搜索日志',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'fieldTime',
@@ -67,7 +58,7 @@ export const searchFormSchema: FormSchema[] = [
       valueType: 'Date',
     },
     colProps: {
-      span: 8,
+      span: 6,
     },
   },
 ];

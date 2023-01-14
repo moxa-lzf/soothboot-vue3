@@ -5,6 +5,7 @@ import { setAuthCache } from '/@/utils/auth';
 import { TOKEN_KEY } from '/@/enums/cacheEnum';
 import { router } from '/@/router';
 import { PageEnum } from '/@/enums/pageEnum';
+import { TipEnum } from '/@/enums/tipEnum';
 
 enum Api {
   Login = '/sys/login',
@@ -18,10 +19,13 @@ enum Api {
  * @description: user login api
  */
 export function loginApi(params: LoginParams) {
-  return defHttp.post<LoginResultModel>({
-    url: Api.Login,
-    params,
-  });
+  return defHttp.post<LoginResultModel>(
+    {
+      url: Api.Login,
+      params,
+    },
+    { successTip: TipEnum.NONE, errorTip: TipEnum.NONE },
+  );
 }
 
 /**

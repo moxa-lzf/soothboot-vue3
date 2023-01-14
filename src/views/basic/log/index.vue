@@ -1,40 +1,36 @@
 <template>
   <BasicTable @register="registerTable" :searchInfo="searchInfo" :columns="logColumns">
     <template #toolbar>
-      <Tabs defaultActiveKey="1" @change="tabChange" size="small">
-        <TabPane tab="登录日志" key="1"></TabPane>
-      <TabPane tab="操作日志" key="2"></TabPane>
-      <TabPane tab="访问日志" key="3"></TabPane>
-      <TabPane tab="错误日志" key="4"></TabPane>
+      <Tabs defaultActiveKey="auth" @change="tabChange" size="small">
+        <TabPane tab="认证日志" key="auth" />
+        <TabPane tab="操作日志" key="operate" />
       </Tabs>
     </template>
   </BasicTable>
 </template>
 <script lang="ts" name="monitor-log" setup>
   import { ref } from 'vue';
-  import{Tabs,TabPane}from 'ant-design-vue';
+  import { Tabs, TabPane } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { logApi } from './log.api';
   import { columns, searchFormSchema, operationLogColumn } from './log.data';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  const { createMessage } = useMessage();
   const checkedKeys = ref<Array<string | number>>([]);
 
   const logColumns = ref<any>(columns);
   const searchInfo = { logType: '1' };
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
-      title: '日志列表',
-      api: logApi.page,
-      expandRowByClick: true,
-      showActionColumn: false,
-      rowSelection: {
-        columnWidth: 20,
-      },
-      formConfig: {
-        schemas: searchFormSchema,
-        fieldMapToTime: [['fieldTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD']],
-      },
+    title: '日志列表',
+    api: logApi.page,
+    showIndexColumn: false,
+    useSearchForm: true,
+    showTableSetting: true,
+    bordered: true,
+    formConfig: {
+      labelWidth: 100,
+      schemas: searchFormSchema,
+      fieldMapToTime: [['fieldTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD']],
+    },
   });
 
   // 日志类型
