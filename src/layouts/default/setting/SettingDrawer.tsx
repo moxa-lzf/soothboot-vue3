@@ -19,6 +19,7 @@ import { useMenuSetting } from '/@/hooks/setting/useMenuSetting';
 import { useHeaderSetting } from '/@/hooks/setting/useHeaderSetting';
 import { useMultipleTabSetting } from '/@/hooks/setting/useMultipleTabSetting';
 import { useTransitionSetting } from '/@/hooks/setting/useTransitionSetting';
+import { useTipSetting } from '/@/hooks/setting/useTipSetting';
 import { useI18n } from '/@/hooks/web/useI18n';
 
 import { baseHandler } from './handler';
@@ -31,6 +32,7 @@ import {
   routerTransitionOptions,
   menuTypeList,
   mixSidebarTriggerOptions,
+  tipOptions,
 } from './enum';
 
 import {
@@ -60,6 +62,8 @@ export default defineComponent({
 
     const { getOpenPageLoading, getBasicTransition, getEnableTransition, getOpenNProgress } =
       useTransitionSetting();
+
+    const { getSuccessTip, getErrorTip } = useTipSetting();
 
     const {
       getIsHorizontal,
@@ -396,6 +400,27 @@ export default defineComponent({
       );
     }
 
+    function renderTip() {
+      const successTipDef = unref(getSuccessTip);
+      const errorTipDef = unref(getErrorTip);
+      return (
+        <>
+          <SelectItem
+            title={'成功提示'}
+            event={HandlerEnum.SUCCESS_TIP}
+            def={successTipDef}
+            options={tipOptions}
+          />
+          <SelectItem
+            title={t('错误提示')}
+            event={HandlerEnum.ERROR_TIP}
+            def={errorTipDef}
+            options={tipOptions}
+          />
+        </>
+      );
+    }
+
     return () => (
       <BasicDrawer
         {...attrs}
@@ -419,6 +444,8 @@ export default defineComponent({
         {renderContent()}
         <Divider>{() => t('layout.setting.animation')}</Divider>
         {renderTransition()}
+        <Divider>{() => '提示'}</Divider>
+        {renderTip()}
         <Divider />
         <SettingFooter />
       </BasicDrawer>

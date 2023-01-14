@@ -8,5 +8,5 @@ enum Api {
  * 详细信息
  */
 export const queryDiskInfo = () => {
-  return defHttp.get({ url: Api.queryDiskInfo }, { successMessageMode: 'none' });
+  return defHttp.get({ url: Api.queryDiskInfo });
 };

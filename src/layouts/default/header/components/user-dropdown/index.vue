@@ -4,7 +4,7 @@
       <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
-          {{ getUserInfo.realName }}
+          {{ getUserInfo.realname }}
         </span>
       </span>
     </span>
@@ -22,7 +22,6 @@
   </Dropdown>
   <LockAction @register="register" />
   <UpdatePassword ref="updatePasswordRef" />
-  <AccountSetting @register="registerAccount" />
 </template>
 <script lang="ts">
   import { Dropdown, Menu } from 'ant-design-vue';
@@ -35,6 +34,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useModal } from '/@/components/Modal';
+  import { useGo } from '/@/hooks/web/usePage';
   import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
   import { defHttp } from '/@/utils/http/axios';
@@ -48,9 +48,7 @@
       Dropdown,
       Menu,
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
-      MenuDivider: Menu.Divider,
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
-      AccountSetting: createAsyncComponent(() => import('./AccountSetting.vue')),
       UpdatePassword: createAsyncComponent(() => import('./UpdatePassword.vue')),
     },
     props: {
@@ -61,14 +59,13 @@
       const { t } = useI18n();
       const { getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
+      const go = useGo();
       const getUserInfo = computed(() => {
-        const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
+        const { realname = '', avatar, desc } = userStore.getUserInfo || {};
+        return { realname, avatar: avatar || headerImg, desc };
       });
 
       const [register, { openModal }] = useModal();
-
-      const [registerAccount, { openModal: openAccountModal }] = useModal();
 
       function handleLock() {
         openModal(true);
@@ -89,10 +86,11 @@
       }
 
       function accountSetting() {
-        openAccountModal(true, { record: userStore.getUserInfo });
+        go(`/system/setting`);
       }
+
       function refreshCache() {
-        defHttp.get({ url: '/sys/refreshCache'});
+        defHttp.get({ url: '/sys/refreshCache' });
       }
       function handleMenuClick(e: MenuInfo) {
         switch (e.key as MenuEvent) {
@@ -122,7 +120,6 @@
         getUserInfo,
         handleMenuClick,
         register,
-        registerAccount,
         getUseLockPage,
         updatePasswordRef,
         accountSettingRef,

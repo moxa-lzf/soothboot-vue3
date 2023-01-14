@@ -9,8 +9,9 @@ import { VAxios } from './Axios';
 import { checkStatus } from './checkStatus';
 import { useGlobSetting } from '/@/hooks/setting';
 import { useMessage } from '/@/hooks/web/useMessage';
+import { useTipSetting } from '/@/hooks/setting/useTipSetting';
 import { RequestEnum, ResultEnum, ContentTypeEnum, ConfigEnum } from '/@/enums/httpEnum';
-import { isString, isUnDef, isNull, isEmpty } from '/@/utils/is';
+import { isString } from '/@/utils/is';
 import { getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
@@ -18,10 +19,13 @@ import { joinTimestamp, formatRequestDate } from './helper';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
+import { TipEnum } from '/@/enums/tipEnum';
+import { h, unref } from 'vue';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
-const { createMessage, createErrorModal, createSuccessModal } = useMessage();
+const { createMessage, createConfirm, createErrorModal, createSuccessModal, notification } =
+  useMessage();
 
 /**
  * @description: 数据处理，方便区分多种处理方式
@@ -54,45 +58,73 @@ const transform: AxiosTransform = {
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
     if (hasSuccess) {
-      let successMsg = message;
-
-      if (isNull(successMsg) || isUnDef(successMsg) || isEmpty(successMsg)) {
-        successMsg = '操作成功';
-      }
-
-      if (options.successMessageMode === 'modal') {
-        createSuccessModal({ title: '成功提示', content: successMsg });
-      } else if (options.successMessageMode === 'message') {
-        createMessage.success(successMsg);
+      if (message) {
+        let successTip = options.successTip;
+        if (!successTip) {
+          const tipSetting = useTipSetting();
+          successTip = unref(tipSetting.getSuccessTip);
+        }
+        if (successTip) {
+          switch (successTip) {
+            case TipEnum.MESSAGE:
+              createMessage.success(message);
+              break;
+            case TipEnum.CONFIRM:
+              createConfirm({
+                iconType: 'success',
+                title: () => h('span', '成功提示'),
+                content: () => h('span', message),
+              });
+              break;
+            case TipEnum.MODAL:
+              createSuccessModal({ title: '成功提示', content: message });
+              break;
+            case TipEnum.NOTIFICATION:
+              notification.success({ message });
+              break;
+          }
+        }
       }
       return result;
     }
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
     // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
-    let timeoutMsg = '';
     switch (code) {
       case ResultEnum.TIMEOUT:
-        timeoutMsg = '登录超时,请重新登录!';
         const userStore = useUserStoreWithOut();
         userStore.setToken(undefined);
         userStore.logout(true);
         break;
-      default:
-        if (message) {
-          timeoutMsg = message;
+    }
+    if (message) {
+      let errorTip = options.errorTip;
+      if (!errorTip) {
+        const tipSetting = useTipSetting();
+        errorTip = unref(tipSetting.getErrorTip);
+      }
+      if (errorTip) {
+        switch (errorTip) {
+          case TipEnum.MESSAGE:
+            createMessage.error(message);
+            break;
+          case TipEnum.CONFIRM:
+            createConfirm({
+              iconType: 'error',
+              title: () => h('span', '错误提示'),
+              content: () => h('span', message),
+            });
+            break;
+          case TipEnum.MODAL:
+            createErrorModal({ title: '错误提示', content: message });
+            break;
+          case TipEnum.NOTIFICATION:
+            notification.error({ message });
+            break;
         }
+      }
     }
-
-    // errorMessageMode='modal'的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-    // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
-    if (options.errorMessageMode === 'modal') {
-      createErrorModal({ title: '错误提示', content: timeoutMsg });
-    } else if (options.errorMessageMode === 'message') {
-      createMessage.error(timeoutMsg);
-    }
-
-    throw new Error(timeoutMsg || '请求出错，请稍候重试');
+    throw new Error(message || '请求出错，请稍候重试');
   },
 
   // 请求之前处理config
@@ -159,7 +191,7 @@ const transform: AxiosTransform = {
       (config as Recordable).headers.Authorization = options.authenticationScheme
         ? `${options.authenticationScheme} ${token}`
         : token;
-      config.headers[ConfigEnum.TOKEN]=token;
+      config.headers[ConfigEnum.TOKEN] = token;
     }
     return config;
   },
@@ -178,7 +210,6 @@ const transform: AxiosTransform = {
     const errorLogStore = useErrorLogStoreWithOut();
     errorLogStore.addAjaxErrorInfo(error);
     const { response, code, message, config } = error || {};
-    const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
     const msg: string = response?.data?.error?.message ?? '';
     const err: string = error?.toString?.() ?? '';
     let errMessage = '';
@@ -196,18 +227,13 @@ const transform: AxiosTransform = {
       }
 
       if (errMessage) {
-        if (errorMessageMode === 'modal') {
-          createErrorModal({ title: '错误提示', content: errMessage });
-        } else if (errorMessageMode === 'message') {
-          createMessage.error(errMessage);
-        }
         return Promise.reject(error);
       }
     } catch (error) {
       throw new Error(error as unknown as string);
     }
 
-    checkStatus(error?.response?.status, msg, errorMessageMode);
+    checkStatus(error?.response?.status, msg);
 
     // 添加自动重试机制 保险起见 只针对GET请求
     const retryRequest = new AxiosRetry();
@@ -250,8 +276,6 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           joinParamsToUrl: false,
           // 格式化提交参数时间
           formatDate: true,
-          // 消息提示类型
-          errorMessageMode: 'message',
           // 接口地址
           apiUrl: globSetting.apiUrl,
           // 接口拼接地址
@@ -274,11 +298,3 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
   );
 }
 export const defHttp = createAxios();
-
-// other api url
-// export const otherHttp = createAxios({
-//   requestOptions: {
-//     apiUrl: 'xxx',
-//     urlPrefix: 'xxx',
-//   },
-// });

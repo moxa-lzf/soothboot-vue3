@@ -168,6 +168,12 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
 
     case HandlerEnum.HEADER_SHOW:
       return { headerSetting: { show: value } };
+
+    // ============tip==================
+    case HandlerEnum.SUCCESS_TIP:
+      return { tipSetting: { successTip: value } };
+    case HandlerEnum.ERROR_TIP:
+      return { tipSetting: { errorTip: value } };
     default:
       return {};
   }

@@ -6,6 +6,7 @@
       :class="`${prefixCls}-select`"
       @change="handleChange"
       :disabled="disabled"
+      :allowClear="allowClear"
       size="small"
       :options="options"
     />
@@ -27,6 +28,9 @@
         type: Number as PropType<HandlerEnum>,
       },
       disabled: {
+        type: Boolean,
+      },
+      allowClear: {
         type: Boolean,
       },
       title: {

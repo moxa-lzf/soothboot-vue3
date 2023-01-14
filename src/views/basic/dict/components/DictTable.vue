@@ -18,25 +18,19 @@
     </BasicTable>
     <!--字典弹窗-->
     <DictModal @register="registerModal" @success="handleSuccess" />
-    <!--字典配置抽屉-->
-    <DictItemList @register="registerDrawer" />
   </PageWrapper>
 </template>
 
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
-  import { useDrawer } from '/@/components/Drawer';
   import { useModal } from '/@/components/Modal';
-  import DictItemList from './DictItemList.vue';
   import DictModal from './DictModal.vue';
   import { columns, searchFormSchema } from '../dict.data';
   import { dictApi } from '../dict.api';
 
   //字典model
   const [registerModal, { openModal }] = useModal();
-  //字典配置drawer
-  const [registerDrawer, { openDrawer }] = useDrawer();
   const emit = defineEmits(['change']);
   // 列表页面公共参数、方法
   const [registerTable, { reload, updateTableDataRecord }] = useTable({

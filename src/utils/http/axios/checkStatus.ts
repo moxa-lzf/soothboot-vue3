@@ -1,20 +1,10 @@
-import type { ErrorMessageMode } from '/#/axios';
-import { useMessage } from '/@/hooks/web/useMessage';
-// import router from '/@/router';
-// import { PageEnum } from '/@/enums/pageEnum';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import projectSetting from '/@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '/@/enums/appEnum';
 
-const { createMessage, createErrorModal } = useMessage();
-const error = createMessage.error!;
 const stp = projectSetting.sessionTimeoutProcessing;
 
-export function checkStatus(
-  status: number,
-  msg: string,
-  errorMessageMode: ErrorMessageMode = 'message',
-): void {
+export function checkStatus(status: number, msg: string): void {
   const userStore = useUserStoreWithOut();
   let errMessage = '';
 
@@ -67,12 +57,5 @@ export function checkStatus(
       break;
     default:
   }
-
-  if (errMessage) {
-    if (errorMessageMode === 'modal') {
-      createErrorModal({ title: '错误提示', content: errMessage });
-    } else if (errorMessageMode === 'message') {
-      error({ content: errMessage, key: `global_error_message_status_${status}` });
-    }
-  }
+  throw Error(errMessage);
 }

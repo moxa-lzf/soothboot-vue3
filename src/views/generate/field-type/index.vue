@@ -66,7 +66,6 @@
    */
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
-      debugger
       updateTableDataRecord(values.id, values);
     } else {
       reload();

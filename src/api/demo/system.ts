@@ -41,4 +41,4 @@ export const setRoleStatus = (id: number, status: string) =>
   defHttp.post({ url: Api.setRoleStatus, params: { id, status } });
 
 export const isAccountExist = (account: string) =>
-  defHttp.post({ url: Api.IsAccountExist, params: { account } }, { errorMessageMode: 'none' });
+  defHttp.post({ url: Api.IsAccountExist, params: { account } });

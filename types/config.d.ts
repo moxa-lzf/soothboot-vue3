@@ -9,6 +9,7 @@ import {
 } from '/@/enums/appEnum';
 
 import { CacheTypeEnum } from '/@/enums/cacheEnum';
+import { TipEnum } from '/@/enums/tipEnum';
 
 export type LocaleType = 'zh_CN' | 'en' | 'ru' | 'ja' | 'ko';
 
@@ -77,7 +78,10 @@ export interface TransitionSetting {
   // Whether to open the top progress bar
   openNProgress: boolean;
 }
-
+export interface TipSetting {
+  successTip: TipEnum;
+  errorTip: TipEnum;
+}
 export interface ProjectConfig {
   // Storage location of permission related information
   permissionCacheType: CacheTypeEnum;
@@ -114,6 +118,8 @@ export interface ProjectConfig {
   multiTabsSetting: MultiTabsSetting;
   // Animation configuration
   transitionSetting: TransitionSetting;
+
+  tipSetting: TipSetting;
   // pageLayout whether to enable keep-alive
   openKeepAlive: boolean;
   // Lock screen time

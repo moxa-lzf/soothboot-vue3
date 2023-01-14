@@ -11,11 +11,6 @@ export const columns: BasicColumn[] = [
     dataIndex: 'deptCode',
   },
   {
-    title: '状态',
-    dataIndex: ['dict', 'status'],
-    width: 80,
-  },
-  {
     title: '备注',
     dataIndex: 'description',
   },
@@ -75,18 +70,6 @@ export const formSchema: FormSchema[] = [
     label: '排序',
     defaultValue: 1,
     component: 'InputNumber',
-    required: true,
-  },
-  {
-    field: 'status',
-    label: '状态',
-    component: 'DictSelect',
-    defaultValue: 0,
-    componentProps: {
-      code: 'status',
-      compType: 'radioButton',
-      stringToNumber: true,
-    },
     required: true,
   },
   {

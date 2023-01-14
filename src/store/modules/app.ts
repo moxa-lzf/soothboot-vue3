@@ -3,6 +3,7 @@ import type {
   HeaderSetting,
   MenuSetting,
   TransitionSetting,
+  TipSetting,
   MultiTabsSetting,
 } from '/#/config';
 import type { BeforeMiniState } from '/#/store';
@@ -59,6 +60,9 @@ export const useAppStore = defineStore({
     },
     getTransitionSetting(): TransitionSetting {
       return this.getProjectConfig.transitionSetting;
+    },
+    getTipSetting(): TipSetting {
+      return this.getProjectConfig.tipSetting;
     },
     getMultiTabsSetting(): MultiTabsSetting {
       return this.getProjectConfig.multiTabsSetting;

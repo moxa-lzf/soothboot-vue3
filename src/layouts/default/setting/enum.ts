@@ -1,13 +1,13 @@
-import { ContentEnum, RouterTransitionEnum } from '/@/enums/appEnum';
+import {ContentEnum, RouterTransitionEnum} from '/@/enums/appEnum';
 import {
   MenuModeEnum,
   MenuTypeEnum,
+  MixSidebarTriggerEnum,
   TopMenuAlignEnum,
   TriggerEnum,
-  MixSidebarTriggerEnum,
 } from '/@/enums/menuEnum';
-
-import { useI18n } from '/@/hooks/web/useI18n';
+import {TipEnum} from '/@/enums/tipEnum'
+import {useI18n} from '/@/hooks/web/useI18n';
 
 const { t } = useI18n();
 
@@ -57,6 +57,8 @@ export enum HandlerEnum {
   OPEN_PROGRESS,
   OPEN_PAGE_LOADING,
   OPEN_ROUTE_TRANSITION,
+  SUCCESS_TIP,
+  ERROR_TIP,
 }
 
 export const contentModeOptions = [
@@ -105,6 +107,29 @@ export const getMenuTriggerOptions = (hideTop: boolean) => {
         ]),
   ];
 };
+
+export const tipOptions = [
+  {
+    value: TipEnum.MESSAGE,
+    label: '消息提示',
+  },
+  {
+    value: TipEnum.CONFIRM,
+    label: '确认提示',
+  },
+  {
+    value: TipEnum.MODAL,
+    label: '弹出提示',
+  },
+  {
+    value: TipEnum.NOTIFICATION,
+    label: '通知提示',
+  },
+  {
+    value: TipEnum.NONE,
+    label: '无',
+  },
+];
 
 export const routerTransitionOptions = [
   RouterTransitionEnum.ZOOM_FADE,

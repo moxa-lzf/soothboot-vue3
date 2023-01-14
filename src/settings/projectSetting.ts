@@ -1,5 +1,6 @@
 import type { ProjectConfig } from '/#/config';
 import { MenuTypeEnum, MenuModeEnum, TriggerEnum, MixSidebarTriggerEnum } from '/@/enums/menuEnum';
+import { TipEnum } from '/@/enums/tipEnum';
 import { CacheTypeEnum } from '/@/enums/cacheEnum';
 import {
   ContentEnum,
@@ -148,6 +149,10 @@ const setting: ProjectConfig = {
     openNProgress: false,
   },
 
+  tipSetting: {
+    successTip: TipEnum.MESSAGE,
+    errorTip: TipEnum.MESSAGE,
+  },
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
   openKeepAlive: true,
 
