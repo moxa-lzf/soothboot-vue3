@@ -142,7 +142,7 @@
     const { api, params } = props;
     if (api && isFunction(api)) {
       const res = await api({ ...params, page: page.value, pageSize: pageSize.value, ...p });
-      data.value = res.items;
+      data.value = res.rows;
       total.value = res.total;
     }
   }

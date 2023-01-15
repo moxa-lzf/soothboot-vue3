@@ -1,55 +1,153 @@
 <template>
-  <BasicTable @register="registerTable" :searchInfo="searchInfo" :columns="logColumns">
-    <template #toolbar>
-      <Tabs defaultActiveKey="auth" @change="tabChange" size="small">
-        <TabPane tab="认证日志" key="auth" />
-        <TabPane tab="操作日志" key="operate" />
-      </Tabs>
+  <BasicTable @register="registerTable">
+    <template #expandedRowRender="{ record }">
+      <Description
+        title="日志详情"
+        layout="horizontal"
+        :column="1"
+        :data="getData(record)"
+        :schema="getSchema(record)"
+      />
     </template>
   </BasicTable>
 </template>
-<script lang="ts" name="monitor-log" setup>
-  import { ref } from 'vue';
-  import { Tabs, TabPane } from 'ant-design-vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+<script lang="ts" setup>
+  import { h, ref, unref } from 'vue';
+  import { BasicTable, useTable } from '/@/components/Table';
+  import { DescItem, Description } from '/@/components/Description/index';
+  import { CodeEditor } from '/@/components/CodeEditor';
   import { logApi } from './log.api';
-  import { columns, searchFormSchema, operationLogColumn } from './log.data';
-  const checkedKeys = ref<Array<string | number>>([]);
+  import { columns, searchFormSchema } from './log.data';
+  const logData = ref({});
 
-  const logColumns = ref<any>(columns);
-  const searchInfo = { logType: '1' };
   // 列表页面公共参数、方法
-  const [registerTable, { reload }] = useTable({
+  const [registerTable] = useTable({
     title: '日志列表',
     api: logApi.page,
+    beforeFetch(param) {
+      const keyWord = param.keyWord;
+      if (keyWord) {
+        delete param.keyWord;
+        param['bizModule'] = param['description'] = param['realname'] = keyWord;
+      }
+    },
+    columns,
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
+    expandRowByClick: true,
     bordered: true,
     formConfig: {
-      labelWidth: 100,
+      labelWidth: 80,
       schemas: searchFormSchema,
-      fieldMapToTime: [['fieldTime', ['createTime_begin', 'createTime_end'], 'YYYY-MM-DD']],
     },
   });
-
-  // 日志类型
-  function tabChange(key) {
-    searchInfo.logType = key;
-    //update-begin---author:wangshuai ---date:20220506  for：[VUEN-943]vue3日志管理列表翻译不对------------
-    if (key == '1') {
-      logColumns.value = columns;
-    } else {
-      logColumns.value = operationLogColumn;
+  function getData(record) {
+    let id = record.id;
+    if (!unref(logData)[id]) {
+      unref(logData)[id] = [];
+      logApi.get({ id: record.id }).then((res) => {
+        unref(logData)[id] = res;
+      });
     }
-    //update-end---author:wangshuai ---date:20220506  for：[VUEN-943]vue3日志管理列表翻译不对--------------
-    reload();
+    return unref(logData)[id];
   }
-
-  /**
-   * 选择事件
-   */
-  function onSelectChange(selectedRowKeys: (string | number)[]) {
-    checkedKeys.value = selectedRowKeys;
+  function getSchema(record) {
+    const schema: DescItem[] = [
+      {
+        field: 'bizModule',
+        label: '业务模块',
+      },
+      {
+        field: 'description',
+        label: '操作描述',
+      },
+      {
+        field: 'username',
+        label: '操作人账号',
+      },
+      {
+        field: 'realname',
+        label: '操作人名称',
+      },
+      {
+        field: 'ip',
+        label: 'IP',
+      },
+      {
+        field: 'costTime',
+        label: '耗时(毫秒)',
+      },
+      {
+        field: 'logType',
+        label: '日志类型',
+        render: (val, data) => {
+          if (data && data.dict) {
+            return data.dict.logType;
+          } else {
+            return val;
+          }
+        },
+      },
+      {
+        field: 'status',
+        label: '状态',
+        render: (val, data) => {
+          if (data && data.dict) {
+            return data.dict.status;
+          } else {
+            return val;
+          }
+        },
+      },
+      {
+        field: 'requestType',
+        label: '请求类型',
+      },
+      {
+        field: 'method',
+        label: '请求方法',
+      },
+      {
+        field: 'requestUrl',
+        label: '请求地址',
+      },
+      {
+        field: 'userAgent',
+        label: '操作设备',
+      },
+      {
+        field: 'requestParam',
+        label: '请求参数',
+      },
+      {
+        field: 'createTime',
+        label: '操作时间',
+      },
+    ];
+    if (record.status > 0) {
+      const errorSchema: DescItem[] = [
+        {
+          field: 'message',
+          label: '异常信息',
+        },
+        {
+          field: 'exceptionClass',
+          label: '异常类名',
+        },
+        {
+          field: 'stackTrace',
+          label: '异常详情',
+          render: (val) => {
+            if (!val) {
+              val = '';
+            }
+            return h(CodeEditor, { value: val, readonly: true });
+          },
+        },
+      ];
+      schema.push(...errorSchema);
+    }
+    return schema;
   }
 </script>

@@ -36,7 +36,6 @@
     formConfig: {
       labelWidth: 100,
       schemas: searchFormSchema,
-      fieldMapToTime: [['fieldTime', ['beginDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
     },
     useSearchForm: true,
     showTableSetting: true,

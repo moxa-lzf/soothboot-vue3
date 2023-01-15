@@ -10,10 +10,6 @@ export const columns: BasicColumn[] = [
     dataIndex: 'description',
   },
   {
-    title: '操作人账号',
-    dataIndex: 'username',
-  },
-  {
     title: '操作人名称',
     dataIndex: 'realname',
   },
@@ -26,20 +22,16 @@ export const columns: BasicColumn[] = [
     dataIndex: 'costTime',
   },
   {
-    title: '状态',
-    dataIndex: 'status',
+    title: '操作时间',
+    dataIndex: 'createTime',
   },
-];
-
-/**
- * 操作日志需要操作类型
- */
-export const operationLogColumn: BasicColumn[] = [
-  ...columns,
   {
-    title: '操作类型',
-    dataIndex: 'operateType_dictText',
-    width: 40,
+    title: '日志类型',
+    dataIndex: ['dict', 'logType'],
+  },
+  {
+    title: '状态',
+    dataIndex: ['dict', 'status'],
   },
 ];
 
@@ -48,17 +40,46 @@ export const searchFormSchema: FormSchema[] = [
     field: 'keyWord',
     label: '搜索日志',
     component: 'Input',
-    colProps: { span: 6 },
+    componentProps: {
+      placeholder: '请输入业务模块/操作描述/操作人名称',
+    },
+    colProps: { span: 5 },
   },
   {
-    field: 'fieldTime',
+    field: 'logType',
+    component: 'DictSelect',
+    label: '日志类型',
+    componentProps: {
+      code: 'log_type',
+      compType: 'select',
+      mode: 'multiple',
+    },
+    colProps: {
+      span: 4,
+    },
+  },
+  {
+    field: 'status',
+    component: 'DictSelect',
+    label: '状态',
+    componentProps: {
+      code: 'success_status',
+      compType: 'select',
+      mode: 'multiple',
+    },
+    colProps: {
+      span: 4,
+    },
+  },
+  {
+    field: 'createTime',
     component: 'RangePicker',
     label: '创建时间',
     componentProps: {
       valueType: 'Date',
     },
     colProps: {
-      span: 6,
+      span: 4,
     },
   },
 ];

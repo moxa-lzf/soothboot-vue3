@@ -1,7 +1,7 @@
 // Interface data format used to return a unified format
 import { ResultEnum } from '/@/enums/httpEnum';
 
-export function resultSuccess<T = Recordable>(result: T, { message = 'ok' } = {}) {
+export function resultSuccess<T = Recordable>(result: T, { message = '' } = {}) {
   return {
     code: ResultEnum.SUCCESS,
     result,
@@ -14,7 +14,7 @@ export function resultPageSuccess<T = any>(
   page: number,
   pageSize: number,
   list: T[],
-  { message = 'ok' } = {},
+  { message = '' } = {},
 ) {
   const pageData = pagination(page, pageSize, list);
 
