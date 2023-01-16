@@ -1,13 +1,10 @@
 <template>
-  <BasicTree
-    title="模板组"
-    toolbar
-    :treeData="treeData"
-    :actionList="actionList"
-    @select="onSelect"
-  >
-    <template #treeAction>
-      <PlusOutlined @click="handlePlus" />
+  <BasicTree title="模板组" search :treeData="treeData" :actionList="actionList" @select="onSelect">
+    <template #action>
+      <Tooltip>
+        <template #title>新增</template>
+        <PlusOutlined @click="handlePlus" />
+      </Tooltip>
     </template>
   </BasicTree>
   <TemplateGroupModal @register="registerModal" @success="initTemplateGroupTree" />
@@ -16,7 +13,7 @@
   import { h, ref } from 'vue';
   import { BasicTree } from '/@/components/Tree/index';
   import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue';
-  import { Popconfirm } from 'ant-design-vue';
+  import { Popconfirm, Tooltip } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
   import { templateGroupList, removeGroup } from '../gen.template.api0';
 

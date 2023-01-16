@@ -6,7 +6,7 @@
           <ListItemMeta>
             <template #title>
               {{ item.title }}
-              <div class="extra" v-if="item.extra">
+              <div class="extra" v-if="item.extra" @click="onItemClick(item.key)">
                 {{ item.extra }}
               </div>
             </template>
@@ -18,19 +18,37 @@
       </template>
     </List>
   </CollapseContainer>
+  <UpdatePassword @register="registerModal" />
 </template>
 <script lang="ts">
   import { List } from 'ant-design-vue';
   import { defineComponent } from 'vue';
   import { CollapseContainer } from '/@/components/Container';
+  import UpdatePassword from './components/UpdatePassword.vue';
 
   import { secureSettingList } from './data';
-
+  import { useModal } from '/@/components/Modal';
+  const [registerModal, { openModal }] = useModal();
   export default defineComponent({
-    components: { CollapseContainer, List, ListItem: List.Item, ListItemMeta: List.Item.Meta },
+    components: {
+      CollapseContainer,
+      List,
+      ListItem: List.Item,
+      ListItemMeta: List.Item.Meta,
+      UpdatePassword,
+    },
     setup() {
+      function onItemClick(key) {
+        switch (key) {
+          case 'pwd':
+            openModal(true,{});
+            break;
+        }
+      }
       return {
+        registerModal,
         list: secureSettingList,
+        onItemClick,
       };
     },
   });

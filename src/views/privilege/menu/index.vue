@@ -20,12 +20,12 @@
 </template>
 <script lang="ts" name="system-menu" setup>
   import { ref } from 'vue';
+  import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
   import MenuDrawer from './MenuDrawer.vue';
   import { columns, searchFormSchema } from './menu.data';
   import { menuApi, listTree } from './menu.api';
-  import { Button } from 'ant-design-vue';
   const checkedKeys = ref<Array<string | number>>([]);
   const showFooter = ref(true);
   const [registerDrawer, { openDrawer }] = useDrawer();
@@ -34,7 +34,7 @@
     title: '菜单列表',
     api: listTree,
     columns: columns,
-    size: 'small',
+    expandRowByClick: true,
     formConfig: {
       schemas: searchFormSchema,
     },
@@ -54,22 +54,6 @@
       fixed: undefined,
     },
   });
-  /**
-   * 选择列配置
-   */
-  const rowSelection = {
-    type: 'checkbox',
-    columnWidth: 30,
-    selectedRowKeys: checkedKeys,
-    onChange: onSelectChange,
-  };
-
-  /**
-   * 选择事件
-   */
-  function onSelectChange(selectedRowKeys: (string | number)[]) {
-    checkedKeys.value = selectedRowKeys;
-  }
 
   /**
    * 新增

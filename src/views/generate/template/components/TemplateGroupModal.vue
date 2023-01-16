@@ -3,7 +3,7 @@
     v-bind="$attrs"
     @register="registerModal"
     :title="getTitle"
-    width="40%"
+    width="500px"
     @ok="handleSubmit"
   >
     <BasicForm @register="registerForm" />
@@ -21,6 +21,8 @@
   const rowId = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+    labelWidth: 100,
+    baseColProps: { span: 24 },
     schemas: formGroupSchema,
     showActionButtonGroup: false,
   });

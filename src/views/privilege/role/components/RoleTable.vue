@@ -1,20 +1,23 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-  <BasicTable @register="registerTable">
-    <template #toolbar>
-      <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
-        新增
-      </a-button>
-    </template>
-    <template #action="{ record }">
-      <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)" />
-    </template>
-  </BasicTable>
-  <!--角色用户表格-->
-  <UserRoleDrawer @register="roleUserDrawer" />
-  <RoleModal @register="registerModal"/>
-  <!--角色菜单授权抽屉-->
-  <RolePermissionDrawer @register="rolePermissionDrawer" />
+    <BasicTable @register="registerTable">
+      <template #toolbar>
+        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+          新增
+        </a-button>
+      </template>
+      <template #action="{ record }">
+        <TableAction
+          :actions="getTableAction(record)"
+          :dropDownActions="getDropDownAction(record)"
+        />
+      </template>
+    </BasicTable>
+    <!--角色用户表格-->
+    <UserRoleDrawer @register="roleUserDrawer" />
+    <RoleModal @register="registerModal" @success="handleSucc"/>
+    <!--角色菜单授权抽屉-->
+    <RolePermissionDrawer @register="rolePermissionDrawer" />
   </PageWrapper>
 </template>
 <script lang="ts" name="system-role" setup>

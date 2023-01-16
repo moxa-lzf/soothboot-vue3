@@ -1,12 +1,16 @@
 import { FormSchema } from '/@/components/Table';
 export const columns = [
   {
-    title: '角色名称',
+    title: '名称',
     dataIndex: 'roleName',
   },
   {
-    title: '角色编码',
+    title: '编码',
     dataIndex: 'roleCode',
+  },
+  {
+    title: '部门',
+    dataIndex: 'deptId',
   },
   {
     title: '备注',
@@ -18,11 +22,11 @@ export const columns = [
  */
 export const userColumns = [
   {
-    title: '用户账号',
+    title: '账号',
     dataIndex: 'username',
   },
   {
-    title: '用户姓名',
+    title: '姓名',
     dataIndex: 'realname',
   },
   {
@@ -34,13 +38,13 @@ export const userColumns = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'roleName',
-    label: '角色名称',
+    label: '名称',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     field: 'roleCode',
-    label: '角色编码',
+    label: '编码',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -51,13 +55,13 @@ export const searchFormSchema: FormSchema[] = [
 export const searchUserFormSchema: FormSchema[] = [
   {
     field: 'username',
-    label: '用户账号',
+    label: '账号',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     field: 'realname',
-    label: '用户姓名',
+    label: '姓名',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -72,18 +76,25 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'roleName',
-    label: '角色名称',
+    label: '名称',
     required: true,
     component: 'Input',
   },
   {
     field: 'roleCode',
-    label: '角色编码',
+    label: '编码',
     required: true,
     component: 'Input',
     dynamicDisabled: ({ values }) => {
       return !!values.id;
     },
+  },
+  {
+    label: '部门',
+    field: 'deptId',
+    required: true,
+    component: 'Input',
+    slot: 'dept',
   },
   {
     label: '备注',

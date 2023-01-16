@@ -24,14 +24,8 @@
   const [registerTable] = useTable({
     title: '日志列表',
     api: logApi.page,
-    beforeFetch(param) {
-      const keyWord = param.keyWord;
-      if (keyWord) {
-        delete param.keyWord;
-        param['bizModule'] = param['description'] = param['realname'] = keyWord;
-      }
-    },
     columns,
+    isTreeTable: true,
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
@@ -40,6 +34,13 @@
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
+    },
+    beforeFetch(param) {
+      const keyWord = param.keyWord;
+      if (keyWord) {
+        delete param.keyWord;
+        param['bizModule'] = param['description'] = param['realname'] = keyWord;
+      }
     },
   });
   function getData(record) {

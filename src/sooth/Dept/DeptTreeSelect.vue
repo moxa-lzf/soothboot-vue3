@@ -19,6 +19,11 @@
       const getAttrs = computed(() => {
         return {
           api,
+          fieldNames: {
+            label: 'deptName',
+            key: 'deptId',
+            value: 'deptId',
+          },
           afterFetch,
           ...attrs,
         };

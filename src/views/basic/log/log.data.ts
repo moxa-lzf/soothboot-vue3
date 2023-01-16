@@ -74,7 +74,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'createTime',
     component: 'RangePicker',
-    label: '创建时间',
+    label: '操作时间',
     componentProps: {
       valueType: 'Date',
     },

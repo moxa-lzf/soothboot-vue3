@@ -1,6 +1,6 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-  <DeptTree class="w-1/4 xl:w-1/5"></DeptTree>
+    <DeptTree class="w-1/4 xl:w-1/5"></DeptTree>
     <RoleTable class="w-3/4 xl:w-4/5" />
   </PageWrapper>
 </template>

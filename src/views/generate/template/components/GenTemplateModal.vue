@@ -7,8 +7,11 @@
     width="100%"
     @ok="handleSubmit"
   >
-    <BasicForm @register="registerForm" />
-    <CodeEditor v-model:value="content" />
+    <BasicForm @register="registerForm">
+      <template #content="{ model, field }">
+        <CodeEditor v-model:value="model[field]" />
+      </template>
+    </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts" setup>
@@ -25,6 +28,7 @@
   const content = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+    labelWidth: 100,
     schemas: formSchema,
     showActionButtonGroup: false,
   });

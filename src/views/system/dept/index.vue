@@ -2,7 +2,9 @@
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate"> 新增部门</a-button>
+        <Button type="primary" @click="handleCreate"> 新增部门</Button>
+        <Button type="primary" preIcon="ic:round-expand" @click="expandAll">展开全部</Button>
+        <Button type="primary" preIcon="ic:round-compress" @click="collapseAll">折叠全部 </Button>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -15,23 +17,23 @@
   </div>
 </template>
 <script lang="ts" setup>
+  import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
-
   import { useModal } from '/@/components/Modal';
   import DeptModal from './DeptModal.vue';
-
   import { columns, searchFormSchema } from './dept.data';
   import { deptApi, listTree } from './dept.api';
-
   const [registerModal, { openModal }] = useModal();
-  const [registerTable, { reload }] = useTable({
+  const [registerTable, { reload, expandAll, collapseAll }] = useTable({
     title: '部门列表',
     api: listTree,
     columns,
+    expandRowByClick: true,
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
     },
+    isTreeTable: true,
     pagination: false,
     striped: false,
     useSearchForm: true,

@@ -12,8 +12,6 @@
     <template #overlay>
       <Menu @click="handleMenuClick">
         <MenuItem key="account" text="账户设置" icon="ant-design:setting-outlined" />
-        <MenuItem key="password" text="密码修改" icon="ant-design:edit-outlined" />
-        <MenuItem key="dept" text="切换部门" icon="ant-design:cluster-outlined" />
         <MenuItem key="cache" text="刷新缓存" icon="ant-design:sync-outlined" />
         <MenuItem v-if="getUseLockPage" key="lock" text="锁定屏幕" icon="ion:lock-closed-outline" />
         <MenuItem key="logout" text="退出系统" icon="ion:power-outline" />
@@ -21,7 +19,6 @@
     </template>
   </Dropdown>
   <LockAction @register="register" />
-  <UpdatePassword ref="updatePasswordRef" />
 </template>
 <script lang="ts">
   import { Dropdown, Menu } from 'ant-design-vue';
@@ -40,7 +37,7 @@
   import { defHttp } from '/@/utils/http/axios';
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'dept' | 'account' | 'password' | 'lock' | 'cache';
+  type MenuEvent = 'logout' | 'account' | 'lock' | 'cache';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -49,7 +46,6 @@
       Menu,
       MenuItem: createAsyncComponent(() => import('./DropMenuItem.vue')),
       LockAction: createAsyncComponent(() => import('../lock/LockModal.vue')),
-      UpdatePassword: createAsyncComponent(() => import('./UpdatePassword.vue')),
     },
     props: {
       theme: propTypes.oneOf(['dark', 'light']),
@@ -76,14 +72,7 @@
         userStore.confirmLoginOut();
       }
 
-      // 修改密码
-      const updatePasswordRef = ref();
-
       const accountSettingRef = ref();
-
-      function updatePassword() {
-        updatePasswordRef.value.show(userStore.getUserInfo.username);
-      }
 
       function accountSetting() {
         go(`/system/setting`);
@@ -99,11 +88,6 @@
             break;
           case 'lock':
             handleLock();
-            break;
-          case 'dept':
-            break;
-          case 'password':
-            updatePassword();
             break;
           case 'account':
             accountSetting();
@@ -121,7 +105,6 @@
         handleMenuClick,
         register,
         getUseLockPage,
-        updatePasswordRef,
         accountSettingRef,
       };
     },

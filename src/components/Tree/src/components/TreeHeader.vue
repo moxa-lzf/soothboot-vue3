@@ -16,6 +16,7 @@
           v-model:value="searchValue"
         />
       </div>
+      <slot name="action"></slot>
       <Dropdown @click.prevent v-if="toolbar">
         <Icon icon="ion:ellipsis-vertical" />
         <template #overlay>

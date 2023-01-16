@@ -14,24 +14,14 @@ export const columns: BasicColumn[] = [
   {
     title: '模板名称',
     dataIndex: 'name',
-    width: 200,
-    align: 'left',
   },
   {
     title: '模板组名称',
     dataIndex: ['dict', 'groupId'],
-    width: 200,
-    align: 'left',
   },
   {
-    title: '有效状态',
-    dataIndex: 'validStatus',
-    customRender: (record) => {
-      console.log(record);
-      return h('');
-    },
-    width: 200,
-    align: 'left',
+    title: '备注',
+    dataIndex: 'description',
   },
 ];
 export const formGroupSchema: FormSchema[] = [
@@ -61,7 +51,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     required: true,
     colProps: {
-      span: 8,
+      span: 12,
     },
   },
   {
@@ -75,20 +65,17 @@ export const formSchema: FormSchema[] = [
     },
     required: true,
     colProps: {
-      span: 8,
+      span: 12,
     },
   },
   {
-    field: 'validStatus',
-    label: '有效状态',
-    component: 'DictSelect',
+    field: 'content',
+    label: '模板',
+    component: 'Input',
     required: true,
-    componentProps: {
-      code: 'valid_status',
-      stringToNumber: true,
-    },
+    slot: 'content',
     colProps: {
-      span: 8,
+      span: 24,
     },
   },
 ];
