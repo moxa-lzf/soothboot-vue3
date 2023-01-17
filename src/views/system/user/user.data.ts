@@ -13,15 +13,10 @@ export const columns: BasicColumn[] = [
   {
     title: '性别',
     dataIndex: ['dict', 'sex'],
-    width: 80,
   },
   {
     title: '手机号',
     dataIndex: 'phone',
-  },
-  {
-    title: '状态',
-    dataIndex: ['dict', 'status'],
   },
 ];
 

@@ -1,5 +1,5 @@
 FROM nginx
-MAINTAINER moxa
+MAINTAINER sooth
 VOLUME /tmp
 ENV LANG en_US.UTF-8
 RUN echo "server {  \
@@ -7,7 +7,7 @@ RUN echo "server {  \
                       location   /sooth/ { \
                       proxy_pass              http://192.168.0.237:3000/sooth/; \
                       proxy_redirect          off; \
-                      proxy_set_header        Host jeecg-boot-system; \
+                      proxy_set_header        Host \$http_host; \
                       proxy_set_header        X-Real-IP \$remote_addr; \
                       proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for; \
                   } \

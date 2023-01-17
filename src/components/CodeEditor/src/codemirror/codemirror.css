@@ -490,9 +490,7 @@ div.CodeMirror-dragcursors {
 .CodeMirror-crosshair {
   cursor: crosshair;
 }
-.CodeMirror-line{
-  left:20px;
-}
+
 .CodeMirror-line::selection,
 .CodeMirror-line > span::selection,
 .CodeMirror-line > span > span::selection {

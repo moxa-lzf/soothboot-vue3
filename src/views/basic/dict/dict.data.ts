@@ -3,11 +3,11 @@ import { FormSchema } from '/@/components/Table';
 export const columns: BasicColumn[] = [
   {
     title: '字典名称',
-    dataIndex: 'dictName',
+    dataIndex: 'name',
   },
   {
     title: '字典编码',
-    dataIndex: 'dictCode',
+    dataIndex: 'code',
   },
   {
     title: '描述',
@@ -18,13 +18,13 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     label: '字典名称',
-    field: 'dictName',
+    field: 'name',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     label: '字典编码',
-    field: 'dictCode',
+    field: 'code',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -39,13 +39,13 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '字典名称',
-    field: 'dictName',
+    field: 'name',
     required: true,
     component: 'Input',
   },
   {
     label: '字典编码',
-    field: 'dictCode',
+    field: 'code',
     component: 'Input',
     required: true,
     dynamicDisabled: ({ values }) => {
@@ -62,11 +62,11 @@ export const formSchema: FormSchema[] = [
 export const dictItemColumns: BasicColumn[] = [
   {
     title: '名称',
-    dataIndex: 'itemText',
+    dataIndex: 'name',
   },
   {
     title: '数据值',
-    dataIndex: 'itemValue',
+    dataIndex: 'value',
   },
   {
     title: '描述',
@@ -83,20 +83,20 @@ export const itemFormSchema: FormSchema[] = [
   },
   {
     label: '字典名称',
-    field: 'dictName',
+    field: 'dicName',
     required: true,
     component: 'Input',
     dynamicDisabled: true,
   },
   {
     label: '字典项名称',
-    field: 'itemText',
+    field: 'name',
     required: true,
     component: 'Input',
   },
   {
     label: '数据值',
-    field: 'itemValue',
+    field: 'value',
     component: 'Input',
     required: true,
     dynamicDisabled: ({ values }) => {

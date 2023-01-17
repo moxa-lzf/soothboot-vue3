@@ -15,7 +15,6 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { updatePassword } from '../../user/user.api';
-  const username = ref('');
   //表单配置
   const [registerForm, { resetFields, validate, clearValidate }] = useForm({
     labelWidth: 100,
@@ -58,11 +57,10 @@
 
   //表单提交事件
   async function handleSubmit() {
-    const values = await validate();
+    const params = await validate();
     setModalProps({ confirmLoading: true });
     try {
       //提交表单
-      let params = Object.assign({ username: unref(username) }, values);
       await updatePassword(params);
       closeModal();
     } finally {

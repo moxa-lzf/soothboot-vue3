@@ -49,6 +49,7 @@ export const baseSetschemas: FormSchema[] = [
     colProps: { span: 18 },
     componentProps: {
       code: 'sex',
+      stringToNumber: true,
     },
   },
   {

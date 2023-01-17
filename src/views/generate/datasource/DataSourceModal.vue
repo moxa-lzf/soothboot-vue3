@@ -4,7 +4,7 @@
     @register="registerModal"
     :title="title"
     @ok="handleSubmit"
-    width="40%"
+    width="700px"
   >
     <BasicForm @register="registerForm">
       <template #pwd="{ model, field }">
@@ -60,21 +60,8 @@
   const title = computed(() => (!unref(isUpdate) ? '新增数据源' : '编辑数据源'));
 
   async function handleTest() {
-    let keys = ['dbType', 'dbDriver', 'dbUrl', 'dbName', 'dbUsername', 'dbPassword'];
-    // 获取以上字段的值，并清除校验状态
-    let fieldsValues = getFieldsValue(keys);
-    let setFields = {};
-    keys.forEach((key) => (setFields[key] = { value: fieldsValues[key], errors: null }));
-    await validateFields(keys).then((values) => {
-      let loading = createMessage.loading('连接中....', 0);
-      testConnection(values)
-        .then((data) => {
-          if (data.success) {
-            createMessage.success('连接成功');
-          }
-        })
-        .finally(() => loading());
-    });
+    const params = await validate();
+    await testConnection(params);
   }
 
   //表单提交事件
