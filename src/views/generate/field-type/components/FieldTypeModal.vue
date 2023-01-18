@@ -27,10 +27,9 @@
     showActionButtonGroup: false,
   });
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+  const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
     //重置表单
     await resetFields();
-    setModalProps({ confirmLoading: false, minHeight: 80 });
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       rowId.value = data.record.id;
@@ -44,17 +43,14 @@
   const getTitle = computed(() => (!unref(isUpdate) ? '新增类型映射' : '编辑类型映射'));
   //表单提交事件
   async function handleSubmit() {
-    try {
-      let values = await validate();
-      setModalProps({ confirmLoading: true });
+    let values = await validate();
+    openOKLoading(async () => {
       //提交表单
       await fieldTypeApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
-    } finally {
-      setModalProps({ confirmLoading: false });
-    }
+    });
   }
 </script>

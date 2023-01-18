@@ -16,7 +16,7 @@
   import { userApi } from '../../../system/user/user.api';
   // 声明Emits
   const emit = defineEmits(['select', 'register']);
-  const [registerModal, { setModalProps, closeModal }] = useModalInner();
+  const [registerModal, { openOKLoading, closeModal }] = useModalInner();
   //注册table数据
   const [registerTable, { getSelectRowKeys }] = useTable({
     api: userApi.page,
@@ -43,11 +43,11 @@
 
   //提交事件
   function handleSubmit() {
-    setModalProps({ confirmLoading: true });
-    //刷新列表
-    emit('select', getSelectRowKeys());
-    setModalProps({ confirmLoading: false });
-    //关闭弹窗
-    closeModal();
+    openOKLoading(() => {
+      //刷新列表
+      emit('select', getSelectRowKeys());
+      //关闭弹窗
+      closeModal();
+    });
   }
 </script>

@@ -10,7 +10,6 @@
   </BasicModal>
 </template>
 <script lang="ts" setup>
-  import { ref, unref } from 'vue';
   import { rules } from '/@/utils/helper/validator';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
@@ -50,7 +49,7 @@
     showActionButtonGroup: false,
   });
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(() => {
+  const [registerModal, { openOKLoading, closeModal }] = useModalInner(() => {
     resetFields();
     clearValidate();
   });
@@ -58,13 +57,10 @@
   //表单提交事件
   async function handleSubmit() {
     const params = await validate();
-    setModalProps({ confirmLoading: true });
-    try {
+    openOKLoading(async () => {
       //提交表单
       await updatePassword(params);
       closeModal();
-    } finally {
-      setModalProps({ confirmLoading: false });
-    }
+    });
   }
 </script>

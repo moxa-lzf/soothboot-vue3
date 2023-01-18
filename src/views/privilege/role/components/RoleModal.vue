@@ -17,7 +17,7 @@
 
   export default defineComponent({
     name: 'RoleModal',
-    components: { BasicModal, BasicForm ,DeptTreeSelect},
+    components: { BasicModal, BasicForm, DeptTreeSelect },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
@@ -29,9 +29,8 @@
         showActionButtonGroup: false,
       });
 
-      const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+      const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
         resetFields();
-        setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
@@ -45,15 +44,12 @@
       const getTitle = computed(() => (!unref(isUpdate) ? '新增角色' : '编辑角色'));
 
       async function handleSubmit() {
-        try {
-          const values = await validate();
-          setModalProps({ confirmLoading: true });
+        const values = await validate();
+        openOKLoading(async () => {
           await roleApi.saveOrEdit(values, unref(isUpdate));
           closeModal();
           emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
-        } finally {
-          setModalProps({ confirmLoading: false });
-        }
+        });
       }
 
       return { registerModal, registerForm, getTitle, handleSubmit };

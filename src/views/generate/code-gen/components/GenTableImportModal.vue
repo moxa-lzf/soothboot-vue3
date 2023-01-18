@@ -45,9 +45,9 @@
 
   const emit = defineEmits(['success']);
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {});
+  const [registerModal, { closeModal }] = useModalInner(async (data) => {});
 
-  const [registerTable, { reload, setProps }] = useTable({
+  const [registerTable] = useTable({
     api: getTableList,
     columns: genTableImportColumns,
     formConfig: {

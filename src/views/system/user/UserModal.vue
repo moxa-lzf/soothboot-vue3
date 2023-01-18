@@ -27,9 +27,8 @@
         showActionButtonGroup: false,
       });
 
-      const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+      const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
         resetFields();
-        setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
@@ -54,9 +53,8 @@
       const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));
 
       async function handleSubmit() {
-        try {
-          const values = await validate();
-          setModalProps({ confirmLoading: true });
+        const values = await validate();
+        openOKLoading(async () => {
           if (unref(isUpdate)) {
             await editUser(values);
           } else {
@@ -64,11 +62,8 @@
           }
           closeModal();
           emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
-        } finally {
-          setModalProps({ confirmLoading: false });
-        }
+        });
       }
-
       return { registerModal, registerForm, getTitle, handleSubmit };
     },
   });

@@ -27,10 +27,9 @@
     showActionButtonGroup: false,
   });
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+  const [registerModal, { closeModal, openOKLoading }] = useModalInner(async (data) => {
     //重置表单
     await resetFields();
-    setModalProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       //表单赋值
@@ -50,18 +49,15 @@
 
   //表单提交事件
   async function handleSubmit() {
-    try {
-      const values = await validate();
-      values.dictId = props.dict?.id;
-      setModalProps({ confirmLoading: true });
+    const values = await validate();
+    values.dictId = props.dict?.id;
+    openOKLoading(async () => {
       //提交表单
       await dictItemApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表
       emit('success');
-    } finally {
-      setModalProps({ confirmLoading: false });
-    }
+    });
   }
 </script>

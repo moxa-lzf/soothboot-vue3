@@ -131,21 +131,38 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
       callbackFn(data);
     });
   });
-
+  const changeLoading = (loading = true) => {
+    getInstance()?.setModalProps({ loading });
+  };
+  const openLoading = async (handleFunction) => {
+    changeLoading(true);
+    try {
+      await handleFunction();
+    } finally {
+      changeLoading(false);
+    }
+  };
+  const changeOkLoading = (loading = true) => {
+    getInstance()?.setModalProps({ confirmLoading: loading });
+  };
+  const openOKLoading = async (handleFunction) => {
+    changeOkLoading(true);
+    try {
+      await handleFunction();
+    } finally {
+      changeOkLoading(false);
+    }
+  };
   return [
     register,
     {
-      changeLoading: (loading = true) => {
-        getInstance()?.setModalProps({ loading });
-      },
+      changeLoading,
+      openLoading,
+      changeOkLoading,
+      openOKLoading,
       getVisible: computed((): boolean => {
         return visibleData[~~unref(uidRef)];
       }),
-
-      changeOkLoading: (loading = true) => {
-        getInstance()?.setModalProps({ confirmLoading: loading });
-      },
-
       closeModal: () => {
         getInstance()?.setModalProps({ visible: false });
       },

@@ -27,25 +27,21 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema } from './datasource.data';
   import { datasourceApi, testConnection } from './datasource.api';
-  import { useMessage } from '/@/hooks/web/useMessage';
 
-  const { createMessage } = useMessage();
   // Emits声明
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   //表单配置
-  const [registerForm, { getFieldsValue, resetFields, validateFields, setFieldsValue, validate }] =
-    useForm({
-      labelWidth: 100,
-      baseColProps: { span: 24 },
-      schemas: formSchema,
-      showActionButtonGroup: false,
-    });
+  const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+    labelWidth: 100,
+    baseColProps: { span: 24 },
+    schemas: formSchema,
+    showActionButtonGroup: false,
+  });
   //表单赋值
-  const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+  const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
     //重置表单
     await resetFields();
-    setModalProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       //获取详情
@@ -66,17 +62,14 @@
 
   //表单提交事件
   async function handleSubmit() {
-    try {
-      let values = await validate();
-      setModalProps({ confirmLoading: true });
+    let values = await validate();
+    openOKLoading(async () => {
       //提交表单
       await datasourceApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表
       emit('success');
-    } finally {
-      setModalProps({ confirmLoading: false });
-    }
+    });
   }
 </script>

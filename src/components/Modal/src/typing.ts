@@ -23,6 +23,8 @@ export interface ReturnInnerMethods extends ModalMethods {
   closeModal: () => void;
   changeLoading: (loading: boolean) => void;
   changeOkLoading: (loading: boolean) => void;
+  openLoading: (handleFunction: any) => void;
+  openOKLoading: (handleFunction: any) => void;
   getVisible?: ComputedRef<boolean>;
   redoModalHeight: () => void;
 }

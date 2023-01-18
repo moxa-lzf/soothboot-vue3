@@ -62,10 +62,6 @@
       }
       function openModalLoading() {
         openModal1(true);
-        // setModalProps({ loading: true });
-        // setTimeout(() => {
-        //   setModalProps({ loading: false });
-        // }, 2000);
       }
 
       function openTargetModal(index) {

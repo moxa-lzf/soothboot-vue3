@@ -25,9 +25,8 @@
         showActionButtonGroup: false,
       });
 
-      const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
+      const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
         resetFields();
-        setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
         let treeData = await listTree({});
         if (unref(isUpdate)) {
@@ -58,17 +57,13 @@
       }
 
       async function handleSubmit() {
-        try {
-          const values = await validate();
-          setModalProps({ confirmLoading: true });
+        const values = await validate();
+        openOKLoading(async () => {
           await deptApi.saveOrEdit(values, unref(isUpdate));
           closeModal();
           emit('success');
-        } finally {
-          setModalProps({ confirmLoading: false });
-        }
+        });
       }
-
       return { registerModal, registerForm, getTitle, handleSubmit };
     },
   });
