@@ -11,7 +11,7 @@
         </a-button>
       </template>
       <template #action="{ record }">
-        <TableAction :actions="getActions(record)" />
+        <TableAction :actions="getTableAction(record)" />
       </template>
     </BasicTable>
     <GenTemplateModal @register="registerModal" @success="reload" />
@@ -58,17 +58,19 @@
   });
 
   /**
-   * 操作列定义
-   * @param record
+   * 操作栏
    */
-  function getActions(record) {
+  function getTableAction(record): ActionItem[] {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
       },
       {
-        label: '删除',
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),

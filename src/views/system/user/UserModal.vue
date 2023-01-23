@@ -1,26 +1,30 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
+    <BasicForm @register="registerForm">
+       <template #dept="{ model, field }">
+        <DeptTreeSelect v-model:value="model[field]" :multiple="true" />
+      </template>
+    </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
+  import { DeptTreeSelect } from '/@/sooth/Dept';
   import { formSchema } from './user.data';
-  import { listTree } from '/@/views/system/dept/dept.api';
   import { saveUser, editUser } from './user.api';
   import { getRoleByUserId } from '/@/views/privilege/role/userRole.api';
   import { getDeptByUserId } from '/@/views/system/dept/userDept.api';
   export default defineComponent({
     name: 'UserModal',
-    components: { BasicModal, BasicForm },
+    components: { BasicModal, BasicForm, DeptTreeSelect },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
       const rowId = ref('');
 
-      const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
+      const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
         labelWidth: 80,
         baseColProps: { span: 24 },
         schemas: formSchema,
@@ -41,13 +45,6 @@
             deptIdList: deptList.map((dept) => dept.deptId),
           });
         }
-        const treeData = await listTree({});
-        updateSchema([
-          {
-            field: 'deptIdList',
-            componentProps: { treeData },
-          },
-        ]);
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增用户' : '编辑用户'));

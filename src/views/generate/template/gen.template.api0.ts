@@ -1,5 +1,4 @@
 import { defHttp } from "/@/utils/http/axios";
-
 enum Api {
   edit = "/generate/template/edit",
   save = "/generate/template/save",

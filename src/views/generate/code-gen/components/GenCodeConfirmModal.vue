@@ -20,6 +20,8 @@
   const tableName = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+  labelWidth:100,
+  baseColProps:{span:24},
     schemas: formConfirmSchema,
     showActionButtonGroup: false,
   });

@@ -20,20 +20,40 @@
         />
       </div>
     </div>
+        <!--添加tableTop插槽-->
+    <div style="margin: -4px 0 -2px; padding-top: 5px">
+      <slot name="tableTop">
+        <Alert type="info" show-icon class="alert" v-if="openRowSelection != null">
+          <template #message>
+            <template v-if="selectRowKeys.length > 0">
+              <span>已选中 {{ selectRowKeys.length }} 条记录</span>
+              <Divider type="vertical" />
+              <slot name="selected"/>
+            </template>
+            <template v-else>
+              <span>未选中任何数据</span>
+            </template>
+          </template>
+        </Alert>
+      </slot>
+    </div>
+    <!--添加tableTop插槽-->
   </div>
 </template>
 <script lang="ts">
   import type { TableSetting, ColumnChangeParam } from '../types/table';
   import type { PropType } from 'vue';
-  import { defineComponent } from 'vue';
-  import { Divider } from 'ant-design-vue';
+  import { defineComponent,computed } from 'vue';
+  import { Alert,Divider } from 'ant-design-vue';
   import TableSettingComponent from './settings/index.vue';
   import TableTitle from './TableTitle.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { useTableContext } from '../hooks/useTableContext';
 
   export default defineComponent({
     name: 'BasicTableHeader',
     components: {
+      Alert,
       Divider,
       TableTitle,
       TableSetting: TableSettingComponent,
@@ -59,7 +79,10 @@
       function handleColumnChange(data: ColumnChangeParam[]) {
         emit('columns-change', data);
       }
-      return { prefixCls, handleColumnChange };
+      const { getSelectRowKeys, getRowSelection } = useTableContext();
+      const selectRowKeys = computed(() => getSelectRowKeys());
+      const openRowSelection = computed(() => getRowSelection());
+      return { prefixCls, handleColumnChange,selectRowKeys,openRowSelection };
     },
   });
 </script>

@@ -1,9 +1,12 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
+    <DeptTree class="w-1/4 xl:w-1/5" @selectAll="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增</a-button>
+      </template>
+      <template #selected>
+      <a @click="handleRemoveBatch">删除</a>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -17,10 +20,9 @@
 </template>
 <script lang="ts" setup>
   import { reactive } from 'vue';
-
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
-  import DeptTree from './DeptTree.vue';
+  import { DeptTree } from '/@/sooth/Dept';
 
   import { useModal } from '/@/components/Modal';
   import UserModal from './UserModal.vue';
@@ -30,15 +32,15 @@
 
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
-  const [registerTable, { reload, updateTableDataRecord }] = useTable({
+  const [registerTable, { reload, updateTableDataRecord, getSelectRowKeys }] = useTable({
     title: '用户列表',
     api: userApi.page,
-    rowKey: 'id',
     columns,
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
     },
+    rowSelection:{type:'checkbox'},
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
@@ -68,7 +70,10 @@
     await userApi.remove({ id: record.id });
     reload();
   }
-
+async function handleRemoveBatch(){
+  const selectRowKeys=getSelectRowKeys();
+ await userApi.removeBatch(selectRowKeys,reload);
+}
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
       updateTableDataRecord(values.id, values);

@@ -14,16 +14,35 @@
       onMounted(() => {
         fetch();
       });
+    function getNodeIds(selectedNodes) {
+        let nodeIds = [];
+        if (selectedNodes && selectedNodes.length > 0) {
+          for (let selectedNode of selectedNodes) {
+            nodeIds.push(selectedNode.deptId);
+            if (selectedNode.children && selectedNode.children.length > 0) {
+              nodeIds.push(...getNodeIds(selectedNode.children));
+            }
+          }
+        }
+        return nodeIds;
+      }
+
+      function handleSelect(keys, { selectedNodes }) {
+        emit('selectAll', getNodeIds(selectedNodes));
+      }
       const getBindValues = computed(() => {
         return {
           title: '部门列表',
+          onSelect: handleSelect,
           ...attrs,
         };
       });
+
       return () => {
         return (
           <BasicTree
-            {...unref(getBindValues)}
+            {
+            ...unref(getBindValues)}
             fieldNames={fieldNames}
             treeData={unref(treeData)}
           ></BasicTree>

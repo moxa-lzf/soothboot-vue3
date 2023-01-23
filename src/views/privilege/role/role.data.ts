@@ -10,7 +10,7 @@ export const columns = [
   },
   {
     title: '部门',
-    dataIndex: 'deptId',
+    dataIndex: ['dict','deptId'],
   },
   {
     title: '备注',

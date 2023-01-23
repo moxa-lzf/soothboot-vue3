@@ -1,6 +1,6 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <BasicTable @register="registerTable">
+    <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
           新增
@@ -15,12 +15,13 @@
     </BasicTable>
     <!--角色用户表格-->
     <UserRoleDrawer @register="roleUserDrawer" />
-    <RoleModal @register="registerModal" @success="handleSucc"/>
+    <RoleModal @register="registerModal" @success="handleSuccess"/>
     <!--角色菜单授权抽屉-->
     <RolePermissionDrawer @register="rolePermissionDrawer" />
   </PageWrapper>
 </template>
 <script lang="ts" name="system-role" setup>
+import {defineExpose,reactive} from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
   import { PageWrapper } from '/@/components/Page';
@@ -34,6 +35,7 @@
   const [roleUserDrawer, { openDrawer: openRoleUserDrawer }] = useDrawer();
   const [rolePermissionDrawer, { openDrawer: openRolePermissionDrawer }] = useDrawer();
   const [registerModal, { openModal }] = useModal();
+  const searchInfo = reactive<Recordable>({});
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
     title: '角色列表',
@@ -97,7 +99,10 @@
   function handleUser(record) {
     openRoleUserDrawer(true, record);
   }
-
+function handleSelect(deptIds){
+  searchInfo.deptId = deptIds;
+  reload();
+}
   /**
    * 操作栏
    */
@@ -127,7 +132,7 @@
     return [
       {
         icon: 'ant-design:team-outlined',
-        label: '角色权限',
+        label: '菜单权限',
         onClick: handlePerssion.bind(null, record),
       },
       {
@@ -137,4 +142,5 @@
       },
     ];
   }
+defineExpose({handleSelect});
 </script>

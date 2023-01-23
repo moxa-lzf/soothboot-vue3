@@ -82,16 +82,9 @@ export const formSchema: FormSchema[] = [
   {
     field: 'deptIdList',
     label: '部门',
-    component: 'TreeSelect',
-    componentProps: {
-      multiple: true,
-      fieldNames: {
-        label: 'deptName',
-        key: 'deptId',
-        value: 'deptId',
-      },
-    },
+    component: 'Input',
     required: true,
+    slot: 'dept',
   },
   {
     label: '性别',

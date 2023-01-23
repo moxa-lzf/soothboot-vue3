@@ -27,7 +27,7 @@
   import GenTableImportModal from './components/GenTableImportModal.vue';
   import GenCodeConfirmModal from './components/GenCodeConfirmModal.vue';
   import { columns, searchFormSchema } from './genTable.data';
-  import { list, deleteDict, preview } from './genTable.api';
+  import { genCodeApi, preview } from './genTable.api';
 
   //字典model
   const [registerImportModal, { openModal: openImportModal }] = useModal();
@@ -39,18 +39,21 @@
   // 列表页面公共参数、方法
   const [registerTable, { reload }] = useTable({
     title: '代码生成',
-    api: list,
+    api: genCodeApi.page,
     columns: columns,
     formConfig: {
       schemas: searchFormSchema,
-    },
-    actionColumn: {
-      width: 240,
     },
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
+    actionColumn: {
+      width: 150,
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+    },
   });
 
   /**
@@ -79,7 +82,8 @@
    * 删除事件
    */
   async function handleDelete(record) {
-    await deleteDict({ id: record.id }, reload);
+    await genCodeApi.remove({ id: record.id });
+    reload();
   }
 
   /**
@@ -92,11 +96,21 @@
   /**
    * 操作栏
    */
-  function getTableAction(record) {
+  function getTableAction(record): ActionItem[] {
     return [
       {
-        label: '编辑',
+        tooltip: '修改',
+        icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+      },
+      {
+        tooltip: '删除',
+        icon: 'ant-design:delete-outlined',
+        color: 'error',
+        popConfirm: {
+          title: '是否确认删除',
+          confirm: handleDelete.bind(null, record),
+        },
       },
     ];
   }
@@ -104,7 +118,7 @@
   /**
    * 下拉操作栏
    */
-  function getDropDownAction(record): ActionItem[] {
+  function getDropDownAction(record): ActionItem[]|null{
     return [
       {
         label: '预览',
@@ -117,13 +131,6 @@
       {
         label: '同步',
         onClick: handlePreview.bind(null, record),
-      },
-      {
-        label: '删除',
-        popConfirm: {
-          title: '是否确认删除',
-          confirm: handleDelete.bind(null, record),
-        },
       },
     ];
   }

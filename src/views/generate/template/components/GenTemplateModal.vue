@@ -25,7 +25,6 @@
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   const rowId = ref('');
-  const content = ref('');
   //表单配置
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
     labelWidth: 100,
@@ -40,10 +39,7 @@
     if (unref(isUpdate)) {
       rowId.value = data.record.id;
       const templateData = await templateApi.get({ id: data.record.id });
-      content.value = templateData.content;
       await setFieldsValue(templateData);
-    } else if (content.value) {
-      content.value = '';
     }
   });
   //设置标题
@@ -51,7 +47,6 @@
   //表单提交事件
   async function handleSubmit() {
     let values = await validate();
-    values.content = content.value;
     openOKLoading(async () => {
       //提交表单
       await templateApi.saveOrEdit(values, isUpdate.value);

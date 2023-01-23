@@ -1,6 +1,9 @@
 <template>
   <!--引用表格-->
   <BasicTable @register="registerTable">
+  <template #fields>
+  hello
+  </template>
     <!--插槽:table标题-->
     <template #toolbar>
       <Button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
@@ -16,9 +19,7 @@
   <FieldTypeModal @register="registerModal" @success="handleSuccess" />
 </template>
 
-<script lang="ts" name="system-dict" setup>
-  //ts语法
-  import { ref, computed, unref } from 'vue';
+<script lang="ts" setup>
   import { Button } from 'ant-design-vue';
   import {BasicTable, useTable, TableAction, ActionItem} from '/@/components/Table';
   import { useModal } from '/@/components/Modal';

@@ -2,7 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { ApiSelect, DictSelect } from '/@/components/form/index';
 import { listAttrType } from '/@/views/generate/field-type/fieldType.api';
-import { templateGroupList } from '/@/views/generate/template/gen.template.api0';
+import { groupList } from '/@/views/generate/template/gen.template.api';
 import { baseClassApi } from '/@/views/generate/base-class/baseClass.api';
 import { Checkbox, Input } from 'ant-design-vue';
 import { h } from 'vue';
@@ -81,14 +81,14 @@ export const formConfirmSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '业务名',
-    field: 'entityName',
+    label: '模块名',
+    field: 'moduleName',
     required: true,
     component: 'Input',
   },
   {
-    label: '模块名',
-    field: 'moduleName',
+    label: '业务名',
+    field: 'entityName',
     required: true,
     component: 'Input',
   },
@@ -99,14 +99,13 @@ export const formConfirmSchema: FormSchema[] = [
     component: 'Input',
   },
   {
-    label: '模板组',
-    field: 'groupId',
+    label: '模板',
+    field: 'templateIds',
     required: true,
     component: 'ApiSelect',
     componentProps: {
-      api: templateGroupList,
-      labelField: 'name',
-      valueField: 'id',
+      api: groupList,
+      mode:'multiple'
     },
   },
   {
@@ -115,7 +114,7 @@ export const formConfirmSchema: FormSchema[] = [
     component: 'ApiSelect',
     componentProps: {
       api: baseClassApi.list,
-      labelField: 'name',
+      labelField: 'className',
       valueField: 'id',
     },
   },
@@ -161,6 +160,7 @@ export const genTableColumns: BasicColumn[] = [
     customRender: (opt) => {
       return h(ApiSelect, {
         api: listAttrType,
+        class:'w-full',
         value: opt.record.attrType,
         labelField: 'attrType',
         valueField: 'attrType',
@@ -170,6 +170,7 @@ export const genTableColumns: BasicColumn[] = [
   {
     title: '主键',
     dataIndex: 'primaryPk',
+    width:100,
     customRender: (opt) => {
       return h(Checkbox, {
         checked: opt.record.primaryPk,
@@ -179,32 +180,32 @@ export const genTableColumns: BasicColumn[] = [
       });
     },
   },
-  {
-    title: '列表',
-    dataIndex: 'listType',
-    customRender: (opt) => {
-      return h(DictSelect, { code: 'show_type', value: 'no_query' });
-    },
-  },
-  {
-    title: '表单',
-    dataIndex: 'formType',
-    customRender: (opt) => {
-      return h(DictSelect, { code: 'show_type', value: 'no_query' });
-    },
-  },
-  {
-    title: '查询方式',
-    dataIndex: 'searchType',
-    customRender: (opt) => {
-      return h(DictSelect, { code: 'rule_conditions', value: null });
-    },
-  },
-  {
-    title: '校验规则',
-    dataIndex: 'validateType',
-    customRender: (opt) => {
-      return h(DictSelect, { code: 'validate_rule', value: null });
-    },
-  },
+//  {
+//    title: '列表',
+//    dataIndex: 'listType',
+//    customRender: (opt) => {
+//      return h(DictSelect, { code: 'show_type', value: 'no_query' });
+//    },
+//  },
+//  {
+//    title: '表单',
+//    dataIndex: 'formType',
+//    customRender: (opt) => {
+//      return h(DictSelect, { code: 'show_type', value: 'no_query' });
+//    },
+//  },
+//  {
+//    title: '查询方式',
+//    dataIndex: 'searchType',
+//    customRender: (opt) => {
+//      return h(DictSelect, { code: 'rule_conditions', value: null });
+//    },
+//  },
+//  {
+//    title: '校验规则',
+//    dataIndex: 'validateType',
+//    customRender: (opt) => {
+//      return h(DictSelect, { code: 'validate_rule', value: null });
+//    },
+//  },
 ];

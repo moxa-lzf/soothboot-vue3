@@ -46,6 +46,14 @@ export function useTableHeader(
                       headerTop: () => getSlot(slots, 'headerTop'),
                     }
                   : {}),
+                //添加tableTop插槽
+                ...(slots.tableTop
+                  ? {
+                  tableTop: () => getSlot(slots, 'tableTop'),
+                }
+                  : {}),
+                // 添加selected插槽
+                ...(slots.selected ? { selected: () => getSlot(slots, 'selected') } : {}),
               },
             ),
     };

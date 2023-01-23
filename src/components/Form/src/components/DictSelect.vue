@@ -146,11 +146,11 @@
         const dictData = await defHttp.get({ url: `/sys/dictItem/` + code });
         dictOptions.value = dictData.reduce((prev, next) => {
           if (next) {
-            const value = next['itemValue'];
+            const value = next['value'];
             prev.push({
-              label: next['itemText'],
+              label: next['name'],
               value: stringToNumber ? +value : value,
-              ...omit(next, ['text', 'value']),
+              ...omit(next, ['name', 'value']),
             });
           }
           return prev;

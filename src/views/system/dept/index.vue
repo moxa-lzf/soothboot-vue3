@@ -6,6 +6,9 @@
         <Button type="primary" preIcon="ic:round-expand" @click="expandAll">展开全部</Button>
         <Button type="primary" preIcon="ic:round-compress" @click="collapseAll">折叠全部 </Button>
       </template>
+         <template #selected>
+      <a @click="handleRemoveBatch">删除</a>
+      </template>
       <template #action="{ record }">
         <TableAction
           :actions="getTableAction(record)"
@@ -24,7 +27,7 @@
   import { columns, searchFormSchema } from './dept.data';
   import { deptApi, listTree } from './dept.api';
   const [registerModal, { openModal }] = useModal();
-  const [registerTable, { reload, expandAll, collapseAll }] = useTable({
+  const [registerTable, { reload, expandAll, collapseAll,getSelectRowKeys }] = useTable({
     title: '部门列表',
     api: listTree,
     columns,
@@ -33,6 +36,7 @@
       labelWidth: 80,
       schemas: searchFormSchema,
     },
+    rowSelection:{type:'checkbox'},
     isTreeTable: true,
     pagination: false,
     striped: false,
@@ -67,7 +71,10 @@
     await deptApi.remove({ id: record.id });
     reload();
   }
-
+async function handleRemoveBatch(){
+  const selectRowKeys=getSelectRowKeys();
+ await deptApi.removeBatch(selectRowKeys,reload);
+}
   function handleSuccess() {
     reload();
   }

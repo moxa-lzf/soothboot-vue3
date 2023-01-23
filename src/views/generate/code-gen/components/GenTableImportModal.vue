@@ -6,26 +6,27 @@
     @ok="handleSubmit"
     width="800px"
   >
-    <a-form :label-col="{ span: 2 }" :wrapper-col="{ span: 6 }">
-      <a-form-item label="数据源">
+    <Form>
+      <FormItem label="数据源">
         <ApiSelect
           :api="api"
+          placeholder="请选择数据源"
           :label-field="labelField"
           :value-field="valueField"
           @change="onApiChange"
         />
-      </a-form-item>
-    </a-form>
+      </FormItem>
+    </Form>
     <BasicTable
       ref="BasicTableRef"
       @register="registerTable"
-      :rowClassName="getRowClassName"
       :rowSelection="rowSelection"
     />
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { ref, unref } from 'vue';
+import {Form,FormItem}from 'ant-design-vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { BasicModal } from '/@/components/Modal';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -93,15 +94,7 @@
     emit('success');
   }
 
-  function getRowClassName(record) {
-    return record.status == 0 ? prefixCls : '';
-  }
 </script>
 <style scoped lang="less">
-  @prefix-cls: ~'@{namespace}-row-invalid';
 
-  ::v-deep(.@{prefix-cls}) {
-    background: #f4f4f4;
-    color: #bababa;
-  }
 </style>

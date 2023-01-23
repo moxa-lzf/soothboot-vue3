@@ -11,7 +11,7 @@
   </BasicModal>
 </template>
 <script lang="ts" setup>
-  import { BasicModal } from '/src/components/Modal';
+  import { BasicModal } from '/@/components/Modal';
   import { genTableColumns } from '../genTable.data';
   import { BasicTable, useTable } from '/@/components/Table/index';
   import { useModalInner } from '/@/components/Modal';
