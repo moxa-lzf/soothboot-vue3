@@ -5,6 +5,7 @@ export class BaseApi {
   readonly api: {
     postEdit: (params) => Promise<any>;
     get: (params) => Promise<any>;
+    getOne: (params) => Promise<any>;
     save: (params) => Promise<any>;
     saveOrEdit: (params, isUpdate) => Promise<any>;
     removeBatch: (params, handleSuccess) => void;
@@ -20,14 +21,27 @@ export class BaseApi {
 
   private baseApi(requestUrl: string) {
     const Api = {
+      get: `${requestUrl}/get`,
+      getOne: `${requestUrl}/getOne`,
       page: `${requestUrl}/page`,
       list: `${requestUrl}/list`,
-      get: `${requestUrl}/get`,
       save: `${requestUrl}/save`,
       postEdit: `${requestUrl}/edit`,
       putEdit: `${requestUrl}/edit`,
       remove: `${requestUrl}/remove`,
       removeBatch: `${requestUrl}/removeBatch`,
+    };
+    /**
+    * @param params
+    */
+    const get = (params) => {
+      return defHttp.get({ url: Api.get, params });
+    };
+    /**
+    * @param params
+    */
+    const getOne = (params) => {
+      return defHttp.get({ url: Api.getOne, params });
     };
     /**
      * @param params
@@ -41,12 +55,6 @@ export class BaseApi {
      */
     const list = (params) => {
       return defHttp.get({ url: Api.list, params });
-    };
-    /**
-     * @param params
-     */
-    const get = (params) => {
-      return defHttp.get({ url: Api.get, params });
     };
     /**
      * @param params
@@ -101,6 +109,6 @@ export class BaseApi {
         },
       });
     };
-    return { page, list, get, save, postEdit, putEdit, saveOrEdit, remove, removeBatch };
+    return { get, getOne, page, list, save, postEdit, putEdit, saveOrEdit, remove, removeBatch };
   }
 }

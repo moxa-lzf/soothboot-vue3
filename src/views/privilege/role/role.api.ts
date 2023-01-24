@@ -7,8 +7,8 @@ class RoleApi extends BaseApi {
 }
 export const roleApi = new RoleApi('/sys/role').api;
 enum Api {
-  queryRolePermission = '/sys/permission/queryRolePermission',
-  saveRolePermission = '/sys/permission/saveRolePermission',
+  queryRolePermission = '/sys/menu/queryRolePermission',
+  saveRolePermission = '/sys/menu/saveRolePermission',
 }
 /**
  * 查询角色权限

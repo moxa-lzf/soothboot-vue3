@@ -22,4 +22,4 @@ export const getTableFieldList=(params)=>defHttp.get({ url:Api.getTableFieldList
 
 export const preview=(params)=>defHttp.get({ url:Api.preview,params});
 
-export const generate=(params)=>defHttp.post({ url:Api.generate,params});
+export const generate=(params)=>defHttp.get({ url:Api.generate,params});

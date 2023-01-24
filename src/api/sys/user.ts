@@ -11,7 +11,7 @@ enum Api {
   Login = '/sys/login',
   Logout = '/sys/logout',
   GetUserInfo = '/sys/user/getUserInfo',
-  GetPermCode = '/sys/permission/getPermCode',
+  GetPermCode = '/sys/menu/getPermCode',
   getInputCode = '/sys/randomImage',
 }
 

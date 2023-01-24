@@ -2,7 +2,7 @@
   <BasicDrawer
     v-bind="$attrs"
     @register="registerDrawer"
-    title="角色权限配置"
+    title="菜单权限配置"
     width="650px"
     destroyOnClose
     showFooter

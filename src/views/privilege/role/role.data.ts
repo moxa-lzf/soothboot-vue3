@@ -29,11 +29,6 @@ export const userColumns = [
     title: '姓名',
     dataIndex: 'realname',
   },
-  {
-    title: '状态',
-    dataIndex: ['dict', 'status'],
-    width: 80,
-  },
 ];
 export const searchFormSchema: FormSchema[] = [
   {
@@ -102,3 +97,53 @@ export const formSchema: FormSchema[] = [
     component: 'InputTextArea',
   },
 ];
+
+export const dataFormSchema: FormSchema[] = [
+  {
+    field: 'id',
+    label: '',
+    component: 'Input',
+    show: false,
+  },
+  {
+    field: 'roleId',
+    label: '',
+    component: 'Input',
+    show: false,
+  },
+  {
+    field: 'roleName',
+    label: '名称',
+    required: true,
+    component: 'Input',
+    dynamicDisabled: ({ values }) => {
+      return true;
+      },
+  },
+  {
+    field: 'roleCode',
+    label: '编码',
+    required: true,
+    component: 'Input',
+    dynamicDisabled: ({ values }) => {
+      return true;
+      },
+  },
+  {
+    label: '数据范围',
+    field: 'permissionCode',
+    required: true,
+    component: 'DictSelect',
+    componentProps:{
+      code:'data_permission',
+      type:'select',
+      stringToNumber:true,
+    }
+  },
+  {
+    label: '',
+    field: 'deptIds',
+    component: 'Input',
+    slot:'dept',
+  },
+  ];
