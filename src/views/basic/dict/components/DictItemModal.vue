@@ -35,13 +35,11 @@
       //表单赋值
       await setFieldsValue({
         ...data.record,
-        dictName: props.dict?.dictName,
-      });
-    } else {
-      await setFieldsValue({
-        dictName: props.dict?.dictName,
       });
     }
+    await setFieldsValue({
+      dictName: props.dict.name,
+    });
   });
 
   //设置标题

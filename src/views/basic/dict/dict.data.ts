@@ -83,7 +83,7 @@ export const itemFormSchema: FormSchema[] = [
   },
   {
     label: '字典名称',
-    field: 'dicName',
+    field: 'dictName',
     required: true,
     component: 'Input',
     dynamicDisabled: true,

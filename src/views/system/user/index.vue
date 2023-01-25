@@ -29,7 +29,6 @@
 
   import { columns, searchFormSchema } from './user.data';
   import { userApi } from './user.api';
-
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSelectRowKeys }] = useTable({

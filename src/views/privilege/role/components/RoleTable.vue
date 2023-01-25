@@ -112,6 +112,9 @@ function handleSelect(deptIds){
   searchInfo.deptId = deptIds;
   reload();
 }
+function handleSuccess(){
+  reload();
+}
   /**
    * 操作栏
    */

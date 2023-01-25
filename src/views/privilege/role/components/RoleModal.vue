@@ -47,8 +47,8 @@
         const values = await validate();
         openOKLoading(async () => {
           await roleApi.saveOrEdit(values, unref(isUpdate));
-          closeModal();
           emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
+          closeModal();
         });
       }
 
