@@ -142,6 +142,8 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
     case HandlerEnum.SHOW_LOGO:
       return { showLogo: value };
 
+    case HandlerEnum.OPEN_KEEP_ALIVE:
+      return { openKeepAlive: value };
     // ============tabs==================
     case HandlerEnum.TABS_SHOW_QUICK:
       return { multiTabsSetting: { showQuick: value } };

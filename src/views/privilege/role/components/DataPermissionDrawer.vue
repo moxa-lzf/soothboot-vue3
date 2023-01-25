@@ -62,7 +62,6 @@ const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (
       ...data.record,
     });
 const result=await dataPermissionApi.getOne({roleId:data.record.roleId});
-debugger
 if(result==null){
 isUpdate.value=false;
 }else{

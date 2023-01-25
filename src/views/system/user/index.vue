@@ -3,7 +3,7 @@
     <DeptTree class="w-1/4 xl:w-1/5" @selectAll="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增</a-button>
+        <a-button v-auth="'add'" type="primary" @click="handleCreate">新增</a-button>
       </template>
       <template #selected>
       <a @click="handleRemoveBatch">删除</a>

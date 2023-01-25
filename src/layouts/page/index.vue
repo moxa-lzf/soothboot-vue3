@@ -1,10 +1,10 @@
 <template>
   <RouterView>
     <template #default="{ Component, route }">
-      <keep-alive v-if="openCache" :include="getCaches">
+      <keep-alive v-if="openCache">
         <component :is="Component" :key="route.fullPath" />
       </keep-alive>
-      <div v-else :key="route.name">
+      <div v-else>
         <component :is="Component" :key="route.fullPath" />
       </div>
     </template>
@@ -22,14 +22,11 @@
   import { useTransitionSetting } from '/@/hooks/setting/useTransitionSetting';
   import { useMultipleTabSetting } from '/@/hooks/setting/useMultipleTabSetting';
 
-  import { useMultipleTabStore } from '/@/store/modules/multipleTab';
-
   export default defineComponent({
     name: 'PageLayout',
     components: { FrameLayout },
     setup() {
       const { getShowMultipleTab } = useMultipleTabSetting();
-      const tabStore = useMultipleTabStore();
 
       const { getOpenKeepAlive, getCanEmbedIFramePage } = useRootSetting();
 
@@ -37,18 +34,10 @@
 
       const openCache = computed(() => unref(getOpenKeepAlive) && unref(getShowMultipleTab));
 
-      const getCaches = computed((): string[] => {
-        if (!unref(getOpenKeepAlive)) {
-          return [];
-        }
-        return tabStore.getCachedTabList;
-      });
-
       return {
         openCache,
         getEnableTransition,
         getBasicTransition,
-        getCaches,
         getCanEmbedIFramePage,
       };
     },

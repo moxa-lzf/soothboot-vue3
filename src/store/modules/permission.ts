@@ -136,38 +136,6 @@ export const usePermissionStore = defineStore({
         return !ignoreRoute;
       };
 
-      /**
-       * @description 根据设置的首页path，修正routes中的affix标记（固定首页）
-       * */
-      const patchHomeAffix = (routes: AppRouteRecordRaw[]) => {
-        if (!routes || routes.length === 0) return;
-        let homePath: string = userStore.getUserInfo.homePath || PageEnum.BASE_HOME;
-
-        function patcher(routes: AppRouteRecordRaw[], parentPath = '') {
-          if (parentPath) parentPath = parentPath + '/';
-          routes.forEach((route: AppRouteRecordRaw) => {
-            const { path, children, redirect } = route;
-            const currentPath = path.startsWith('/') ? path : parentPath + path;
-            if (currentPath === homePath) {
-              if (redirect) {
-                homePath = route.redirect! as string;
-              } else {
-                route.meta = Object.assign({}, route.meta, { affix: true });
-                throw new Error('end');
-              }
-            }
-            children && children.length > 0 && patcher(children, currentPath);
-          });
-        }
-
-        try {
-          patcher(routes);
-        } catch (e) {
-          // 已处理完毕跳出循环
-        }
-        return;
-      };
-
       switch (permissionMode) {
         // 角色权限
         case PermissionModeEnum.ROLE:
@@ -252,7 +220,6 @@ export const usePermissionStore = defineStore({
       }
 
       routes.push(ERROR_LOG_ROUTE);
-      patchHomeAffix(routes);
       return routes;
     },
   },

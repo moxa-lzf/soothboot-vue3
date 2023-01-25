@@ -58,6 +58,7 @@ export default defineComponent({
       getLockTime,
       getShowDarkModeToggle,
       getThemeColor,
+      getOpenKeepAlive,
     } = useRootSetting();
 
     const { getOpenPageLoading, getBasicTransition, getEnableTransition, getOpenNProgress } =
@@ -224,6 +225,11 @@ export default defineComponent({
             event={HandlerEnum.MENU_FIXED}
             def={unref(getMenuFixed)}
             disabled={!unref(getShowMenuRef) || unref(getIsMixSidebar)}
+          />
+          <SwitchItem
+            title={'路由缓存'}
+            event={HandlerEnum.OPEN_KEEP_ALIVE}
+            def={unref(getOpenKeepAlive)}
           />
           <SelectItem
             title={t('layout.setting.mixSidebarTrigger')}

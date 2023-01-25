@@ -4,12 +4,11 @@
  * @Example v-auth="RoleEnum.TEST"
  */
 import type { App, Directive, DirectiveBinding } from 'vue';
-
 import { usePermission } from '/@/hooks/web/usePermission';
 
 function isAuth(el: Element, binding: any) {
+  const path=window.location.hash.substring(1);
   const { hasPermission } = usePermission();
-
   const value = binding.value;
   if (!value) return;
   if (!hasPermission(value)) {

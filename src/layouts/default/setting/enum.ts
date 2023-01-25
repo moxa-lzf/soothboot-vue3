@@ -59,6 +59,7 @@ export enum HandlerEnum {
   OPEN_ROUTE_TRANSITION,
   SUCCESS_TIP,
   ERROR_TIP,
+  OPEN_KEEP_ALIVE,
 }
 
 export const contentModeOptions = [
