@@ -17,17 +17,9 @@ export const columns: BasicColumn[] = [
   {
     title: '菜单名称',
     dataIndex: 'name',
-  },
-  {
-    title: '菜单类型',
-    dataIndex: ['dict', 'menuType'],
-  },
-  {
-    title: '图标',
-    dataIndex: 'icon',
-    width: 50,
+    align: 'left',
     customRender: ({ record }) => {
-      return h(Icon, { icon: record.icon });
+      return h('div', {}, [h(Icon, { icon: record.icon }), record.name]);
     },
   },
   {
@@ -128,9 +120,7 @@ export const formSchema: FormSchema[] = [
     label: '访问路径',
     component: 'Input',
     required: true,
-    ifShow: ({ values }) =>
-      !(values.component === ComponentTypes.IFrame && values.internalOrExternal) &&
-      values.menuType !== 2,
+    ifShow: ({ values }) => values.menuType !== 2,
   },
   {
     field: 'component',
@@ -139,7 +129,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       placeholder: '请输入前端组件',
     },
-    defaultValue: 'layouts/RouteView',
+    defaultValue: 'layouts/default/index',
     required: true,
     ifShow: ({ values }) => !isButton(values.menuType),
   },
@@ -207,17 +197,6 @@ export const formSchema: FormSchema[] = [
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
-    field: 'route',
-    label: '是否路由菜单',
-    component: 'Switch',
-    defaultValue: true,
-    componentProps: {
-      checkedChildren: '是',
-      unCheckedChildren: '否',
-    },
-    ifShow: ({ values }) => !isButton(values.menuType),
-  },
-  {
     field: 'hidden',
     label: '隐藏路由',
     component: 'Switch',
@@ -247,17 +226,6 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       checkedChildren: '是',
       unCheckedChildren: '否',
-    },
-    ifShow: ({ values }) => !isButton(values.menuType),
-  },
-  {
-    field: 'internalOrExternal',
-    label: '打开方式',
-    component: 'Switch',
-    defaultValue: false,
-    componentProps: {
-      checkedChildren: '外部',
-      unCheckedChildren: '内部',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },

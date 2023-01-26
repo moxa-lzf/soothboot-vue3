@@ -18,7 +18,7 @@
     <MenuDrawer @register="registerDrawer" @success="handleSuccess" :showFooter="showFooter" />
   </div>
 </template>
-<script lang="ts" name="system-menu" setup>
+<script lang="ts" setup>
   import { ref } from 'vue';
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
@@ -26,7 +26,6 @@
   import MenuDrawer from './MenuDrawer.vue';
   import { columns, searchFormSchema } from './menu.data';
   import { menuApi, listTree } from './menu.api';
-  const checkedKeys = ref<Array<string | number>>([]);
   const showFooter = ref(true);
   const [registerDrawer, { openDrawer }] = useDrawer();
   // 列表页面公共参数、方法

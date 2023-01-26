@@ -23,11 +23,11 @@
 </template>
 <script lang="ts">
   import { Button, Row, Col } from 'ant-design-vue';
-  import { computed, defineComponent, onMounted } from 'vue';
+  import { computed, defineComponent, onActivated } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form';
   import { CollapseContainer } from '/@/components/Container';
   import { CropperAvatar } from '/@/components/Cropper';
-
+  import { cloneDeep } from 'lodash-es';
   import { updateBasicInfo } from '../user/user.api';
   import headerImg from '/@/assets/images/header.jpg';
   import { baseSetschemas } from './data';
@@ -52,7 +52,7 @@
         showActionButtonGroup: false,
       });
 
-      onMounted(() => {
+      onActivated(() => {
         setFieldsValue(userStore.getUserInfo);
       });
 
