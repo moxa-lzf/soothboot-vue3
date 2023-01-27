@@ -51,7 +51,7 @@
   import { PopConfirmButton } from '/@/components/Button';
   import { listTree } from '/@/views/privilege/menu/menu.api';
   import { dictItemCode } from '/@/sooth/Dict/dict.api';
-  import { saveButtonPermission } from '../buttonPermission.api';
+  import { saveButtonPermission, buttonPermissionApi } from '../buttonPermission.api';
   const treeRef = ref<Nullable<TreeActionType>>(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
@@ -70,6 +70,9 @@
       buttonData.value = buttonResult;
     }
     treeData.value = menuPermission(menuResult, buttonResult);
+    const permResult = await buttonPermissionApi.list({ roleId: data.roleId });
+    const permIdList = permResult.map((perm) => perm.id);
+    getTree().setCheckedKeys(permIdList);
     setDrawerProps({ loading: false });
   });
 
@@ -95,13 +98,13 @@
         const parentId = checkedNode.parentId;
         const type = checkedNode.type;
         if (parentId && type) {
-          checkedNodeArray.push({roleId:unref(roleId),menuId:parentId,type:type});
+          checkedNodeArray.push({ menuId: parentId, type: type });
         }
       }
     }
     loading.value = true;
     try {
-      await saveButtonPermission(checkedNodeArray);
+      await saveButtonPermission(unref(roleId), checkedNodeArray);
     } finally {
       loading.value = false;
     }
@@ -112,11 +115,10 @@
     if (buttonType.value && buttonType.value.length > 0) {
       for (let bt of buttonType.value) {
         for (let lastTree of lastTreeData) {
-          checkedKeys.push(lastTree + bt);
+          checkedKeys.push(unref(roleId) + bt + lastTree);
         }
       }
     }
-    getTree().checkAll(false);
     getTree().setCheckedKeys(checkedKeys);
   }
 
@@ -145,7 +147,7 @@
     if (buttonResult) {
       for (let button of buttonResult) {
         const permission: TreeItem = {
-          key: menu.key + button.value,
+          key: unref(roleId) + button.value + menu.key,
           name: button.name,
           type: button.value,
           parentId: menu.key,

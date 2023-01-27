@@ -2,7 +2,12 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+        <a-button
+          v-auth="PermEnum.ADD"
+          type="primary"
+          preIcon="ant-design:plus-outlined"
+          @click="handleCreate"
+        >
           新增
         </a-button>
       </template>
@@ -30,6 +35,7 @@
   import { useDrawer } from '/@/components/Drawer';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
+  import { PermEnum } from '/@/enums/permEnum';
   import RoleModal from './RoleModal.vue';
   import MenuPermissionDrawer from './MenuPermissionDrawer.vue';
   import ButtonPermissionDrawer from './ButtonPermissionDrawer.vue';
@@ -136,11 +142,13 @@
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+        auth: PermEnum.EDIT,
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),

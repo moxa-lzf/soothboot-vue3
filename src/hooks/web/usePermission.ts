@@ -78,11 +78,8 @@ export function usePermission() {
       if (hash) {
         const index = hash.indexOf('#');
         const url = hash.substring(index + 1);
-        if (!isArray(value)) {
-          const permCode = url + '/' + value;
-          return allCodeList.includes(permCode);
-        }
-        return (intersection(value, allCodeList) as string[]).length > 0;
+        const permCode = url + '/' + value;
+        return allCodeList.includes(permCode);
       }
     }
     return true;

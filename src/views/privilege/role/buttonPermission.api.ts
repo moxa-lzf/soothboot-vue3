@@ -13,5 +13,5 @@ enum Api {
 /**
  * 保存按钮权限
  */
-export const saveButtonPermission = (params) =>
-  defHttp.post({ url: Api.saveButtonPermission, params });
+export const saveButtonPermission = (roleId, params) =>
+  defHttp.post({ url: Api.saveButtonPermission + '/' + roleId, params });

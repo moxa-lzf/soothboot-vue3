@@ -1,15 +1,15 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <DeptTree class="w-1/4 xl:w-1/5" @selectAll="handleSelect"></DeptTree>
+    <DeptTree class="w-1/4 xl:w-1/5" @selectAll="handleSelect" />
     <RoleTable ref="roleTableRef" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-import {ref,unref} from 'vue';
+  import { ref, unref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import RoleTable from './components/RoleTable.vue';
-  import {DeptTree} from '/@/sooth/Dept';
-  const roleTableRef=ref(null);
+  import { DeptTree } from '/@/sooth/Dept';
+  const roleTableRef = ref(null);
   function handleSelect(deptIds = []) {
     unref(roleTableRef).handleSelect(deptIds);
   }

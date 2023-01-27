@@ -54,8 +54,9 @@
     schemas: dataFormSchema,
     showActionButtonGroup: false,
   });
-  const [registerDrawer, { closeDrawer }] = useDrawerInner(async (data) => {
+  const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     resetFields();
+    setDrawerProps({ confirmLoading: false, loading: true });
     treeData.value = await listTree({});
     setFieldsValue({
       ...data.record,
@@ -72,6 +73,7 @@
         unref(treeRef).setCheckedKeys(deptIds);
       }
     }
+    setDrawerProps({ loading: false });
   });
   /**
    * 提交
