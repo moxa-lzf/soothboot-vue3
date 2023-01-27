@@ -10,7 +10,7 @@ export const columns = [
   },
   {
     title: '部门',
-    dataIndex: ['dict','deptId'],
+    dataIndex: ['dict', 'deptId'],
   },
   {
     title: '备注',
@@ -116,34 +116,34 @@ export const dataFormSchema: FormSchema[] = [
     label: '名称',
     required: true,
     component: 'Input',
-    dynamicDisabled: ({ values }) => {
+    dynamicDisabled: () => {
       return true;
-      },
+    },
   },
   {
     field: 'roleCode',
     label: '编码',
     required: true,
     component: 'Input',
-    dynamicDisabled: ({ values }) => {
+    dynamicDisabled: () => {
       return true;
-      },
+    },
   },
   {
     label: '数据范围',
     field: 'permissionCode',
     required: true,
     component: 'DictSelect',
-    componentProps:{
-      code:'data_permission',
-      type:'select',
-      stringToNumber:true,
-    }
+    componentProps: {
+      code: 'data_permission',
+      type: 'select',
+      stringToNumber: true,
+    },
   },
   {
     label: '',
     field: 'deptIds',
     component: 'Input',
-    slot:'dept',
+    slot: 'dept',
   },
-  ];
+];

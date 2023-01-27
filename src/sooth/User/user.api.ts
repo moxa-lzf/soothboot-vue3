@@ -1,6 +1,6 @@
 import { defHttp } from '/@/utils/http/axios';
 enum Api {
-  pageUser= '/sys/dept/page',
+  pageUser = '/sys/dept/page',
 }
 
 export const pageUser = (params) => {

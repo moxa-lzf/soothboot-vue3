@@ -74,10 +74,16 @@ export function usePermission() {
 
     if (PermissionModeEnum.BACK === permMode) {
       const allCodeList = permissionStore.getPermCodeList as string[];
-      if (!isArray(value)) {
-        return allCodeList.includes(value);
+      const hash = window.location.hash;
+      if (hash) {
+        const index = hash.indexOf('#');
+        const url = hash.substring(index + 1);
+        if (!isArray(value)) {
+          const permCode = url + '/' + value;
+          return allCodeList.includes(permCode);
+        }
+        return (intersection(value, allCodeList) as string[]).length > 0;
       }
-      return (intersection(value, allCodeList) as string[]).length > 0;
     }
     return true;
   }

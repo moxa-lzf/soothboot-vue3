@@ -3,10 +3,10 @@
     <DeptTree class="w-1/4 xl:w-1/5" @selectAll="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button v-auth="'add'" type="primary" @click="handleCreate">新增</a-button>
+        <a-button v-auth="PermEnum.ADD" type="primary" @click="handleCreate">新增</a-button>
       </template>
       <template #selected>
-      <a @click="handleRemoveBatch">删除</a>
+        <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -20,15 +20,17 @@
 </template>
 <script lang="ts" setup>
   import { reactive } from 'vue';
-  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
+  import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { DeptTree } from '/@/sooth/Dept';
 
   import { useModal } from '/@/components/Modal';
+  import { PermEnum } from '/@/enums/permEnum';
   import UserModal from './UserModal.vue';
 
   import { columns, searchFormSchema } from './user.data';
   import { userApi } from './user.api';
+
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSelectRowKeys }] = useTable({
@@ -39,7 +41,7 @@
       labelWidth: 80,
       schemas: searchFormSchema,
     },
-    rowSelection:{type:'checkbox'},
+    rowSelection: { type: 'checkbox' },
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
@@ -69,10 +71,10 @@
     await userApi.remove({ id: record.id });
     reload();
   }
-async function handleRemoveBatch(){
-  const selectRowKeys=getSelectRowKeys();
- await userApi.removeBatch(selectRowKeys,reload);
-}
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await userApi.removeBatch(selectRowKeys, reload);
+  }
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
       updateTableDataRecord(values.id, values);
@@ -94,11 +96,13 @@ async function handleRemoveBatch(){
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+        auth: PermEnum.EDIT,
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),

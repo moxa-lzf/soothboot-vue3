@@ -15,21 +15,24 @@
     </BasicTable>
     <!--角色用户表格-->
     <UserRoleDrawer @register="roleUserDrawer" />
-    <RoleModal @register="registerModal" @success="handleSuccess"/>
+    <RoleModal @register="registerModal" @success="handleSuccess" />
     <!--菜单授权抽屉-->
     <MenuPermissionDrawer @register="menuPermissionDrawer" />
+    <!--按钮授权抽屉-->
+    <ButtonPermissionDrawer @register="buttonPermissionDrawer" />
     <!--数据授权抽屉-->
     <DataPermissionDrawer @register="dataPermissionDrawer" />
   </PageWrapper>
 </template>
 <script lang="ts" name="system-role" setup>
-  import {defineExpose,reactive} from 'vue';
+  import { defineExpose, reactive } from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
   import RoleModal from './RoleModal.vue';
   import MenuPermissionDrawer from './MenuPermissionDrawer.vue';
+  import ButtonPermissionDrawer from './ButtonPermissionDrawer.vue';
   import DataPermissionDrawer from './DataPermissionDrawer.vue';
   import UserRoleDrawer from './UserRoleDrawer.vue';
   import { columns, searchFormSchema } from '../role.data';
@@ -37,6 +40,7 @@
 
   const [roleUserDrawer, { openDrawer: openRoleUserDrawer }] = useDrawer();
   const [menuPermissionDrawer, { openDrawer: openMenuPermissionDrawer }] = useDrawer();
+  const [buttonPermissionDrawer, { openDrawer: openButtonPermissionDrawer }] = useDrawer();
   const [dataPermissionDrawer, { openDrawer: openDataPermissionDrawer }] = useDrawer();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
@@ -97,10 +101,18 @@
     openMenuPermissionDrawer(true, { roleId: record.id });
   }
   /**
+   * 按钮授权弹窗
+   */
+  function handleButtonPerssion(record) {
+    openButtonPermissionDrawer(true, { roleId: record.id });
+  }
+  /**
    * 数据授权弹窗
    */
   function handleDataPerssion(record) {
-    openDataPermissionDrawer(true, { record:{roleId:record.id,roleCode:record.roleCode,roleName:record.roleName} });
+    openDataPermissionDrawer(true, {
+      record: { roleId: record.id, roleCode: record.roleCode, roleName: record.roleName },
+    });
   }
   /**
    * 角色用户
@@ -108,13 +120,13 @@
   function handleUser(record) {
     openRoleUserDrawer(true, record);
   }
-function handleSelect(deptIds){
-  searchInfo.deptId = deptIds;
-  reload();
-}
-function handleSuccess(){
-  reload();
-}
+  function handleSelect(deptIds) {
+    searchInfo.deptId = deptIds;
+    reload();
+  }
+  function handleSuccess() {
+    reload();
+  }
   /**
    * 操作栏
    */
@@ -143,12 +155,17 @@ function handleSuccess(){
   function getDropDownAction(record): ActionItem[] | null {
     return [
       {
-        icon: 'ant-design:team-outlined',
+        icon: 'ant-design:menu-outlined',
         label: '菜单权限',
         onClick: handleMenuPerssion.bind(null, record),
       },
       {
-        icon: 'ant-design:database-outlined',
+        icon: 'ant-design:menu-fold-outlined',
+        label: '按钮权限',
+        onClick: handleButtonPerssion.bind(null, record),
+      },
+      {
+        icon: 'ant-design:menu-unfold-outlined',
         label: '数据权限',
         onClick: handleDataPerssion.bind(null, record),
       },
@@ -159,5 +176,5 @@ function handleSuccess(){
       },
     ];
   }
-defineExpose({handleSelect});
+  defineExpose({ handleSelect });
 </script>

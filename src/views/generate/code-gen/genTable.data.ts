@@ -1,6 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { ApiSelect, DictSelect } from '/@/components/form/index';
+import { ApiSelect } from '/@/components/Form';
 import { listAttrType } from '/@/views/generate/field-type/fieldType.api';
 import { groupList } from '/@/views/generate/template/gen.template.api';
 import { baseClassApi } from '/@/views/generate/base-class/baseClass.api';
@@ -105,7 +105,7 @@ export const formConfirmSchema: FormSchema[] = [
     component: 'ApiSelect',
     componentProps: {
       api: groupList,
-      mode:'multiple'
+      mode: 'multiple',
     },
   },
   {
@@ -160,7 +160,7 @@ export const genTableColumns: BasicColumn[] = [
     customRender: (opt) => {
       return h(ApiSelect, {
         api: listAttrType,
-        class:'w-full',
+        class: 'w-full',
         value: opt.record.attrType,
         labelField: 'attrType',
         valueField: 'attrType',
@@ -170,7 +170,7 @@ export const genTableColumns: BasicColumn[] = [
   {
     title: '主键',
     dataIndex: 'primaryPk',
-    width:100,
+    width: 100,
     customRender: (opt) => {
       return h(Checkbox, {
         checked: opt.record.primaryPk,
@@ -180,32 +180,4 @@ export const genTableColumns: BasicColumn[] = [
       });
     },
   },
-//  {
-//    title: '列表',
-//    dataIndex: 'listType',
-//    customRender: (opt) => {
-//      return h(DictSelect, { code: 'show_type', value: 'no_query' });
-//    },
-//  },
-//  {
-//    title: '表单',
-//    dataIndex: 'formType',
-//    customRender: (opt) => {
-//      return h(DictSelect, { code: 'show_type', value: 'no_query' });
-//    },
-//  },
-//  {
-//    title: '查询方式',
-//    dataIndex: 'searchType',
-//    customRender: (opt) => {
-//      return h(DictSelect, { code: 'rule_conditions', value: null });
-//    },
-//  },
-//  {
-//    title: '校验规则',
-//    dataIndex: 'validateType',
-//    customRender: (opt) => {
-//      return h(DictSelect, { code: 'validate_rule', value: null });
-//    },
-//  },
 ];

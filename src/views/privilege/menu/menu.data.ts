@@ -5,7 +5,6 @@ import { Icon } from '/@/components/Icon';
 
 const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;
-const isButton = (type) => type === 2;
 
 // 定义可选择的组件类型
 export enum ComponentTypes {
@@ -65,28 +64,11 @@ export const formSchema: FormSchema[] = [
         options: [
           { label: '一级菜单', value: 0 },
           { label: '子菜单', value: 1 },
-          { label: '按钮/权限', value: 2 },
         ],
         onChange: (e) => {
-          const { updateSchema, clearValidate } = formActionType;
-          const label = isButton(e) ? '按钮/权限' : '菜单名称';
-          //清除校验
-          clearValidate();
-          updateSchema([
-            {
-              field: 'name',
-              label: label,
-            },
-            {
-              field: 'url',
-              required: !isButton(e),
-            },
-          ]);
-          //update-begin---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
-          if (isMenu(e) && !formModel.id && formModel.component == 'layouts/RouteView') {
+          if (isMenu(e) && !formModel.id && formModel.component == ComponentTypes.Default) {
             formModel.component = '';
           }
-          //update-end---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
         },
       };
     },
@@ -131,7 +113,6 @@ export const formSchema: FormSchema[] = [
     },
     defaultValue: 'layouts/default/index',
     required: true,
-    ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'frameSrc',
@@ -142,7 +123,7 @@ export const formSchema: FormSchema[] = [
       { type: 'url', message: '请输入正确的url地址' },
     ],
     ifShow: ({ values }) =>
-      !isButton(values.menuType) && values.component === ComponentTypes.IFrame,
+      values.component === ComponentTypes.IFrame,
   },
   {
     field: 'redirect',
@@ -151,50 +132,15 @@ export const formSchema: FormSchema[] = [
     ifShow: ({ values }) => isDir(values.menuType),
   },
   {
-    field: 'perms',
-    label: '授权标识',
-    component: 'Input',
-    ifShow: ({ values }) => isButton(values.menuType),
-  },
-  {
-    field: 'permsType',
-    label: '授权策略',
-    component: 'RadioGroup',
-    defaultValue: '1',
-    helpMessage: ['可见/可访问(授权后可见/可访问)', '可编辑(未授权时禁用)'],
-    componentProps: {
-      options: [
-        { label: '可见/可访问', value: '1' },
-        { label: '可编辑', value: '2' },
-      ],
-    },
-    ifShow: ({ values }) => isButton(values.menuType),
-  },
-  {
-    field: 'status',
-    label: '状态',
-    component: 'RadioGroup',
-    defaultValue: '1',
-    componentProps: {
-      options: [
-        { label: '有效', value: '1' },
-        { label: '无效', value: '0' },
-      ],
-    },
-    ifShow: ({ values }) => isButton(values.menuType),
-  },
-  {
     field: 'icon',
     label: '菜单图标',
     component: 'IconPicker',
-    ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'sortNo',
     label: '排序',
     component: 'InputNumber',
     defaultValue: 1,
-    ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'hidden',
@@ -205,7 +151,6 @@ export const formSchema: FormSchema[] = [
       checkedChildren: '是',
       unCheckedChildren: '否',
     },
-    ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'hideTab',
@@ -216,7 +161,16 @@ export const formSchema: FormSchema[] = [
       checkedChildren: '是',
       unCheckedChildren: '否',
     },
-    ifShow: ({ values }) => !isButton(values.menuType),
+  },
+  {
+    field: 'keepAlive',
+    label: '缓存路由',
+    component: 'Switch',
+    defaultValue: false,
+    componentProps: {
+      checkedChildren: '是',
+      unCheckedChildren: '否',
+    },
   },
   {
     field: 'alwaysShow',
@@ -227,6 +181,5 @@ export const formSchema: FormSchema[] = [
       checkedChildren: '是',
       unCheckedChildren: '否',
     },
-    ifShow: ({ values }) => !isButton(values.menuType),
   },
 ];

@@ -14,7 +14,7 @@
       :treeData="treeData"
       :fieldNames="{ key: 'id', title: 'name' }"
       :checkStrictly="true"
-      :clickRowToExpand="false"
+      :clickRowToExpand="true"
       title="所拥有的权限"
     />
     <!--右下角按钮-->

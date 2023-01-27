@@ -55,23 +55,25 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, watchEffect, computed, unref, watch, nextTick } from 'vue';
-  import {
-    Form,
-    Select,
-    SelectOption,
-    Input,
-    Radio,
-  } from 'ant-design-vue';
+  import { Form, Select, SelectOption, Input, Radio } from 'ant-design-vue';
   import { propTypes } from '/@/utils/propTypes';
   import { useAttrs } from '/@/hooks/core/useAttrs';
-  import { defHttp } from '/@/utils/http/axios';
   import { omit } from 'lodash-es';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
   import { LoadingOutlined } from '@ant-design/icons-vue';
+  import { dictItemCode } from './dict.api';
 
   export default defineComponent({
     name: 'DictSelect',
-    components: { LoadingOutlined, Select, SelectOption, Input, Radio, RadioGroup:Radio.Group, RadioButton:Radio.Button },
+    components: {
+      LoadingOutlined,
+      Select,
+      SelectOption,
+      Input,
+      Radio,
+      RadioGroup: Radio.Group,
+      RadioButton: Radio.Button,
+    },
     inheritAttrs: false,
     props: {
       value: propTypes.oneOfType([propTypes.string, propTypes.number, propTypes.array]),
@@ -143,7 +145,7 @@
       async function initDictData() {
         let { code, stringToNumber } = props;
         //根据字典Code, 初始化字典数组
-        const dictData = await defHttp.get({ url: `/sys/dictItem/` + code });
+        const dictData = await dictItemCode(code);
         dictOptions.value = dictData.reduce((prev, next) => {
           if (next) {
             const value = next['value'];

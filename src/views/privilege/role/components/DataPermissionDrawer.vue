@@ -8,18 +8,18 @@
     showFooter
   >
     <BasicForm @register="registerForm">
-    <template #dept>
+      <template #dept>
         <BasicTree
-      ref="treeRef"
-      checkable
-      toolbar
-      :treeData="treeData"
-      :fieldNames="{ key: 'deptId', title: 'deptName' }"
-      :checkStrictly="true"
-      :clickRowToExpand="false"
-      title="指定部门"
-    />
-    </template>
+          ref="treeRef"
+          checkable
+          toolbar
+          :treeData="treeData"
+          :fieldNames="{ key: 'deptId', title: 'deptName' }"
+          :checkStrictly="true"
+          :clickRowToExpand="true"
+          title="指定部门"
+        />
+      </template>
     </BasicForm>
     <!--右下角按钮-->
     <template #footer>
@@ -42,11 +42,10 @@
   import { PopConfirmButton } from '/@/components/Button';
   import { dataFormSchema } from '../role.data';
   import { listTree } from '/@/views/system/dept/dept.api';
-import {dataPermissionApi} from '../dataPermission.api'
+  import { dataPermissionApi } from '../dataPermission.api';
   const treeRef = ref(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
-  const roleId = ref('');
   const loading = ref(false);
   const isUpdate = ref(true);
   const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
@@ -55,43 +54,36 @@ import {dataPermissionApi} from '../dataPermission.api'
     schemas: dataFormSchema,
     showActionButtonGroup: false,
   });
-const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
-  resetFields();
-  treeData.value=await listTree({});
+  const [registerDrawer, { closeDrawer }] = useDrawerInner(async (data) => {
+    resetFields();
+    treeData.value = await listTree({});
     setFieldsValue({
       ...data.record,
     });
-const result=await dataPermissionApi.getOne({roleId:data.record.roleId});
-if(result==null){
-isUpdate.value=false;
-}else{
-    setFieldsValue({
-      ...result,
-    });
-const deptIds=result.deptIds;
-if(deptIds){
-unref(treeRef).setCheckedKeys(deptIds);
-}
-}
+    const result = await dataPermissionApi.getOne({ roleId: data.record.roleId });
+    if (result == null) {
+      isUpdate.value = false;
+    } else {
+      setFieldsValue({
+        ...result,
+      });
+      const deptIds = result.deptIds;
+      if (deptIds) {
+        unref(treeRef).setCheckedKeys(deptIds);
+      }
+    }
   });
-  /**
-   * 数据重置
-   */
-  function reset() {
-    treeData.value = [];
-    roleId.value = '';
-  }
   /**
    * 提交
    */
   async function handleSubmit() {
-  const values=await validate();
-  let checkedKeys = unref(treeRef).getCheckedKeys();
+    const values = await validate();
+    let checkedKeys = unref(treeRef).getCheckedKeys();
     if (!(checkedKeys instanceof Array)) {
       checkedKeys = checkedKeys['checked'];
     }
-  dataPermissionApi.saveOrEdit({...values,deptIds:checkedKeys},unref(isUpdate));
-  closeDrawer();
+    dataPermissionApi.saveOrEdit({ ...values, deptIds: checkedKeys }, unref(isUpdate));
+    closeDrawer();
   }
 </script>
 

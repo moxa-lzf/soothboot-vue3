@@ -1,7 +1,7 @@
 import { BaseApi } from '/@/api/base/baseApi';
-class RoleApi extends BaseApi {
+class DataPermissionApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
 }
-export const dataPermissionApi = new RoleApi('/sys/dataPermission').api;
+export const dataPermissionApi = new DataPermissionApi('/sys/dataPermission').api;

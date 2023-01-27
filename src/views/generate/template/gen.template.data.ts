@@ -1,6 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { templateGroupList } from './gen.template.api0';
-import { h } from 'vue';
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
