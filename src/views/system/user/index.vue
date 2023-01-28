@@ -21,6 +21,7 @@
 <script lang="ts" setup>
   import { reactive } from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
+  import { ACTION_WIDTH } from '/@/components/Table/src/const';
   import { PageWrapper } from '/@/components/Page';
   import { DeptTree } from '/@/sooth/Dept';
 
@@ -47,7 +48,7 @@
     showTableSetting: true,
     bordered: true,
     actionColumn: {
-      width: 150,
+      width: ACTION_WIDTH,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },

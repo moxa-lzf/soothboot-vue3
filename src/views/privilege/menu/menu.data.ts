@@ -2,7 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Icon } from '/@/components/Icon';
-
+import { render } from '/@/utils/common/renderUtils';
 const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;
 
@@ -33,8 +33,9 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '按钮',
-    dataIndex: 'button',
+    dataIndex: 'buttonTypeList',
     align: 'left',
+    customRender: (opt) => render.renderArray(opt),
   },
   {
     title: '排序',

@@ -37,19 +37,19 @@
   import MenuDrawer from './MenuDrawer.vue';
   import ButtonDrawer from './ButtonDrawer.vue';
   import { columns, searchFormSchema } from './menu.data';
-  import { menuApi, listTree } from './menu.api';
+  import { menuApi, listMenuTree } from './menu.api';
   const showFooter = ref(true);
   const [registerMenuDrawer, { openDrawer: openMenuDrawer }] = useDrawer();
   const [registerButtonDrawer, { openDrawer: openButtonDrawer }] = useDrawer();
   // 列表页面公共参数、方法
   const [registerTable, { reload, expandAll, collapseAll }] = useTable({
     title: '菜单列表',
-    api: listTree,
+    api: listMenuTree,
     columns: columns,
-    expandRowByClick: true,
     formConfig: {
       schemas: searchFormSchema,
     },
+    expandRowByClick: false,
     isTreeTable: true,
     pagination: false,
     striped: false,

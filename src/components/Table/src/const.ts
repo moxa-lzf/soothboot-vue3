@@ -30,8 +30,10 @@ export const DEFAULT_SORT_FN = defaultSortFn;
 
 export const DEFAULT_FILTER_FN = defaultFilterFn;
 
+export const ACTION_WIDTH = 120;
+
 //  Default layout of table cells
-export const DEFAULT_ALIGN = 'center';
+export const DEFAULT_ALIGN = 'left';
 
 export const INDEX_COLUMN_FLAG = 'INDEX';
 

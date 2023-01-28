@@ -43,6 +43,7 @@
   const treeData = ref<TreeItem[]>([]);
   const menuId = ref('');
   const loading = ref(false);
+  const emit=defineEmits(['success']);
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     setDrawerProps({ confirmLoading: false, loading: true });
     menuId.value = data.menuId;
@@ -50,7 +51,7 @@
     const buttonResult = await dictItemCode(DictEnum.BUTTON_TYPE);
     treeData.value = buttonResult;
     const permResult = await buttonApi.list({ menuId: data.menuId });
-    const permIdList = permResult.map((perm) => perm.id);
+    const permIdList = permResult.map((perm) => perm.type);
     getTree().setCheckedKeys(permIdList);
     setDrawerProps({ loading: false });
   });
@@ -77,6 +78,7 @@
       loading.value = false;
     }
     closeDrawer();
+    emit('success');
   }
 </script>
 

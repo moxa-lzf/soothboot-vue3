@@ -29,7 +29,7 @@
     showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
-    expandRowByClick: true,
+    expandRowByClick: false,
     bordered: true,
     formConfig: {
       labelWidth: 80,

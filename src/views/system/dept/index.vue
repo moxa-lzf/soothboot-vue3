@@ -22,6 +22,7 @@
 <script lang="ts" setup>
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
+  import { ACTION_WIDTH } from '/@/components/Table/src/const';
   import { PermEnum } from '/@/enums/permEnum';
   import { useModal } from '/@/components/Modal';
   import DeptModal from './DeptModal.vue';
@@ -32,11 +33,11 @@
     title: '部门列表',
     api: listTree,
     columns,
-    expandRowByClick: true,
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
     },
+    expandRowByClick: false,
     rowSelection: { type: 'checkbox' },
     isTreeTable: true,
     pagination: false,
@@ -47,7 +48,7 @@
     showIndexColumn: false,
     canResize: false,
     actionColumn: {
-      width: 150,
+      width: ACTION_WIDTH,
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },

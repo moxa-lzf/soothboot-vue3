@@ -10,13 +10,13 @@ class MenuApi extends BaseApi {
 export const menuApi = new MenuApi('/sys/menu').api;
 
 enum Api {
-  listTree = '/sys/menu/listTree',
+  listMenuTree = '/sys/menu/listMenuTree',
 }
 
 /**
  * 列表接口
  * @param params
  */
-export const listTree = (params) => {
-  return defHttp.get({ url: Api.listTree, params });
+export const listMenuTree = (params) => {
+  return defHttp.get({ url: Api.listMenuTree, params });
 };

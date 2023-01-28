@@ -15,7 +15,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { formSchema, ComponentTypes } from './menu.data';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { menuApi, listTree } from './menu.api';
+  import { menuApi, listMenuTree } from './menu.api';
   // 声明Emits
   const emit = defineEmits(['success', 'register']);
   const attrs = useAttrs();
@@ -43,7 +43,7 @@
     }
     //禁用表单
     setProps({ disabled: !attrs.showFooter });
-    const treeData = await listTree({});
+    const treeData = await listMenuTree({});
     if (unref(isUpdate)) {
       filterMenu(treeData, data.record.id);
     }
