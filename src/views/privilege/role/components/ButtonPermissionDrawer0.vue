@@ -12,9 +12,10 @@
       checkable
       toolbar
       :treeData="treeData"
-      :fieldNames="{ key: 'id', title: 'name' }"
+      :fieldNames="{ key: 'key', title: 'name' }"
       :checkStrictly="true"
-      title="所拥有的按钮权限"
+      :clickRowToExpand="true"
+      title="所拥有的权限"
     >
       <template #action>
         <Select
@@ -48,12 +49,13 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
-  import { listMenuButtonTree } from '/@/views/privilege/menu/button.api';
-  import { saveButtonPermission, buttonPermissionApi } from '../buttonPermission.api';
+  import { listMenuTree } from '/@/views/privilege/menu/menu.api';
   import { dictItemCode } from '/@/sooth/Dict/dict.api';
+  import { saveButtonPermission, buttonPermissionApi } from '../buttonPermission.api';
   const treeRef = ref<Nullable<TreeActionType>>(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
+  const lastTreeData: Array<any> = [];
   const buttonType = ref([]);
   const buttonData = ref([]);
   const roleId = ref('');
@@ -62,14 +64,14 @@
     setDrawerProps({ confirmLoading: false, loading: true });
     roleId.value = data.roleId;
     //初始化数据
-    const menuButtonResult = await listMenuButtonTree();
-    treeData.value = menuButtonResult;
+    const menuResult = await listMenuTree({});
     const buttonResult = await dictItemCode('button_type');
     if (buttonResult) {
       buttonData.value = buttonResult;
     }
+    treeData.value = menuPermission(menuResult, buttonResult);
     const permResult = await buttonPermissionApi.list({ roleId: data.roleId });
-    const permIdList = permResult.map((perm) => perm.buttonId);
+    const permIdList = permResult.map((perm) => perm.id);
     getTree().setCheckedKeys(permIdList);
     setDrawerProps({ loading: false });
   });
@@ -89,39 +91,73 @@
     if (!(checkedKeys instanceof Array)) {
       checkedKeys = checkedKeys['checked'];
     }
-    const checkedArray: Array<any> = [];
+    const checkedNodeArray: Array<any> = [];
     for (let checkedKey of checkedKeys) {
       const checkedNode = getTree().getSelectedNode(checkedKey);
-      if (checkedNode?.type) {
-        checkedArray.push(checkedKey);
+      if (checkedNode && checkedNode.isLeaf) {
+        const parentId = checkedNode.parentId;
+        const type = checkedNode.type;
+        if (parentId && type) {
+          checkedNodeArray.push({ menuId: parentId, type: type });
+        }
       }
     }
     loading.value = true;
     try {
-      await saveButtonPermission(unref(roleId), checkedArray);
+      await saveButtonPermission(unref(roleId), checkedNodeArray);
     } finally {
       loading.value = false;
     }
     closeDrawer();
   }
   function handleChange() {
-    if (!buttonType.value || buttonType.value.length == 0) {
-      getTree().checkAll(false);
-    } else {
-      const checkedKeys = eachTreeData(treeData.value, buttonType.value);
-      getTree().setCheckedKeys(checkedKeys);
-    }
-  }
-  function eachTreeData(treeDataList, buttonTypeList) {
-    const treeArray: Array<any> = [];
-    for (let treeData of treeDataList) {
-      if (treeData.type && buttonTypeList.includes(treeData.type)) {
-        treeArray.push(treeData.id);
-      } else if (treeData.children && treeData.children.length > 0) {
-        treeArray.push(...eachTreeData(treeData.children, buttonTypeList));
+    let checkedKeys: Array<any> = [];
+    if (buttonType.value && buttonType.value.length > 0) {
+      for (let bt of buttonType.value) {
+        for (let lastTree of lastTreeData) {
+          checkedKeys.push(unref(roleId) + bt + lastTree);
+        }
       }
     }
-    return treeArray;
+    getTree().setCheckedKeys(checkedKeys);
+  }
+
+  function menuPermission(menuResult: Array<any>, buttonResult: Array<any>): Array<TreeItem> {
+    const resultArray: Array<TreeItem> = [];
+    for (let menu of menuResult) {
+      const permission: TreeItem = {
+        key: menu.id,
+        name: menu.name,
+        parentId: menu.parentId,
+        disableCheckbox: true,
+        isLeaf: false,
+      };
+      resultArray.push(permission);
+      if (menu.children?.length > 0) {
+        permission.children = menuPermission(menu.children, buttonResult);
+      } else {
+        lastTreeData.push(permission.key);
+        buttonPermission(permission, buttonResult);
+      }
+    }
+    return resultArray;
+  }
+  function buttonPermission(menu: TreeItem, buttonResult: Array<any>): void {
+    const buttonArray: Array<TreeItem> = [];
+    if (buttonResult) {
+      for (let button of buttonResult) {
+        const permission: TreeItem = {
+          key: unref(roleId) + button.value + menu.key,
+          name: button.name,
+          type: button.value,
+          parentId: menu.key,
+          disableCheckbox: false,
+          isLeaf: true,
+        };
+        buttonArray.push(permission);
+      }
+    }
+    menu.children = buttonArray;
   }
 </script>
 
