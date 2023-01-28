@@ -3,4 +3,5 @@ export enum PermEnum {
   EDIT = 'edit',
   REMOVE = 'remove',
   REMOVE_BATCH = 'removeBatch',
+  MORE = 'more',
 }

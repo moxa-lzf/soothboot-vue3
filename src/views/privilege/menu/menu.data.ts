@@ -32,6 +32,11 @@ export const columns: BasicColumn[] = [
     align: 'left',
   },
   {
+    title: '按钮',
+    dataIndex: 'button',
+    align: 'left',
+  },
+  {
     title: '排序',
     dataIndex: 'sortNo',
     width: 50,
@@ -122,8 +127,7 @@ export const formSchema: FormSchema[] = [
       { required: true, message: '请输入Iframe地址' },
       { type: 'url', message: '请输入正确的url地址' },
     ],
-    ifShow: ({ values }) =>
-      values.component === ComponentTypes.IFrame,
+    ifShow: ({ values }) => values.component === ComponentTypes.IFrame,
   },
   {
     field: 'redirect',

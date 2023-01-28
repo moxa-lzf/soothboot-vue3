@@ -29,7 +29,7 @@
     <DataPermissionDrawer @register="dataPermissionDrawer" />
   </PageWrapper>
 </template>
-<script lang="ts" name="system-role" setup>
+<script lang="ts" setup>
   import { defineExpose, reactive } from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';

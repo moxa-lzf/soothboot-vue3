@@ -2,7 +2,12 @@
   <div class="p-4">
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <Button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+        <Button
+          v-auth="PermEnum.ADD"
+          type="primary"
+          preIcon="ant-design:plus-outlined"
+          @click="handleCreate"
+        >
           新增菜单
         </Button>
         <Button type="primary" preIcon="ic:round-expand" @click="expandAll">展开全部</Button>
@@ -15,7 +20,12 @@
         />
       </template>
     </BasicTable>
-    <MenuDrawer @register="registerDrawer" @success="handleSuccess" :showFooter="showFooter" />
+    <MenuDrawer @register="registerMenuDrawer" @success="handleSuccess" :showFooter="showFooter" />
+    <ButtonDrawer
+      @register="registerButtonDrawer"
+      @success="handleSuccess"
+      :showFooter="showFooter"
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -23,11 +33,14 @@
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useDrawer } from '/@/components/Drawer';
+  import { PermEnum } from '/@/enums/permEnum';
   import MenuDrawer from './MenuDrawer.vue';
+  import ButtonDrawer from './ButtonDrawer.vue';
   import { columns, searchFormSchema } from './menu.data';
   import { menuApi, listTree } from './menu.api';
   const showFooter = ref(true);
-  const [registerDrawer, { openDrawer }] = useDrawer();
+  const [registerMenuDrawer, { openDrawer: openMenuDrawer }] = useDrawer();
+  const [registerButtonDrawer, { openDrawer: openButtonDrawer }] = useDrawer();
   // 列表页面公共参数、方法
   const [registerTable, { reload, expandAll, collapseAll }] = useTable({
     title: '菜单列表',
@@ -59,7 +72,7 @@
    */
   function handleCreate() {
     showFooter.value = true;
-    openDrawer(true, {
+    openMenuDrawer(true, {
       isUpdate: false,
     });
   }
@@ -69,7 +82,7 @@
    */
   function handleEdit(record) {
     showFooter.value = true;
-    openDrawer(true, {
+    openMenuDrawer(true, {
       record,
       isUpdate: true,
     });
@@ -79,12 +92,17 @@
    * 添加下级
    */
   function handleAddSub(record) {
-    openDrawer(true, {
+    openMenuDrawer(true, {
       record: { parentId: record.id, menuType: 1 },
       isUpdate: false,
     });
   }
-
+  /**
+   * 按钮设置
+   */
+  function handleButton(record) {
+    openButtonDrawer(true, { menuId: record.id });
+  }
   /**
    * 删除
    */
@@ -109,11 +127,13 @@
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+        auth: PermEnum.EDIT,
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
@@ -131,6 +151,11 @@
         icon: 'ant-design:vertical-align-bottom-outlined',
         label: '添加下级',
         onClick: handleAddSub.bind(null, record),
+      },
+      {
+        icon: 'ant-design:setting-outlined',
+        label: '按钮配置',
+        onClick: handleButton.bind(null, record),
       },
     ];
   }

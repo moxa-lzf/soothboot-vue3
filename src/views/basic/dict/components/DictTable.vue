@@ -4,7 +4,7 @@
     <BasicTable @register="registerTable">
       <!--插槽:table标题-->
       <template #toolbar>
-        <a-button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+        <a-button v-auth="PermEnum.ADD" type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
           新增
         </a-button>
       </template>
@@ -25,6 +25,7 @@
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
+  import {PermEnum} from '/@/enums/permEnum';
   import DictModal from './DictModal.vue';
   import { columns, searchFormSchema } from '../dict.data';
   import { dictApi } from '../dict.api';
@@ -111,11 +112,13 @@
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
         onClick: handleEdit.bind(null, record),
+        auth: PermEnum.EDIT,
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
