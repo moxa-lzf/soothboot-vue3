@@ -14,7 +14,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
   import { formGroupSchema } from '../gen.template.data';
-  import { saveOrUpdateGroup } from '../gen.template.api0';
+  import { templateGroupApi } from '../gen.templateGroup.api';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
@@ -47,7 +47,7 @@
     let values = await validate();
     openOKLoading(async () => {
       //提交表单
-      await saveOrUpdateGroup(values, isUpdate.value);
+      await templateGroupApi.saveOrEdit(values, isUpdate.value);
       //关闭弹窗
       closeModal();
       //刷新列表

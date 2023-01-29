@@ -1,5 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { templateGroupList } from './gen.template.api0';
+import { templateGroupApi } from './gen.templateGroup.api';
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -58,7 +58,7 @@ export const formSchema: FormSchema[] = [
     label: '模板分类',
     component: 'ApiSelect',
     componentProps: {
-      api: templateGroupList,
+      api: templateGroupApi.list,
       labelField: 'name',
       valueField: 'id',
     },

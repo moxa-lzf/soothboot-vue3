@@ -4,7 +4,12 @@
     <BasicTable @register="registerTable">
       <!--插槽:table标题-->
       <template #toolbar>
-        <a-button v-auth="PermEnum.ADD" type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
+        <a-button
+          v-auth="PermEnum.ADD"
+          type="primary"
+          preIcon="ant-design:plus-outlined"
+          @click="handleCreate"
+        >
           新增
         </a-button>
       </template>
@@ -25,7 +30,7 @@
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
-  import {PermEnum} from '/@/enums/permEnum';
+  import { PermEnum } from '/@/enums/permEnum';
   import DictModal from './DictModal.vue';
   import { columns, searchFormSchema } from '../dict.data';
   import { dictApi } from '../dict.api';

@@ -5,7 +5,7 @@ export const columns: BasicColumn[] = [
   {
     title: '基类全类名',
     dataIndex: 'className',
-    width: 300,
+    width: 400,
   },
   {
     title: '基类字段',

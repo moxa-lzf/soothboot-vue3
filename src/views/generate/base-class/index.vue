@@ -1,9 +1,6 @@
 <template>
   <!--引用表格-->
   <BasicTable @register="registerTable">
-  <template #fields>
-  hello
-  </template>
     <!--插槽:table标题-->
     <template #toolbar>
       <Button type="primary" preIcon="ant-design:plus-outlined" @click="handleCreate">
@@ -21,7 +18,7 @@
 
 <script lang="ts" setup>
   import { Button } from 'ant-design-vue';
-  import {BasicTable, useTable, TableAction, ActionItem} from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import FieldTypeModal from './components/BaseClassModal.vue';
   import { columns, searchFormSchema } from './baseClass.data';

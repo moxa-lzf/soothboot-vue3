@@ -1,5 +1,12 @@
 <template>
-  <BasicTree title="模板组" search :treeData="treeData" :actionList="actionList" @select="onSelect">
+  <BasicTree
+    title="模板组"
+    search
+    toolbar
+    :treeData="treeData"
+    :actionList="actionList"
+    @select="onSelect"
+  >
     <template #action>
       <Tooltip>
         <template #title>新增</template>
@@ -11,11 +18,11 @@
 </template>
 <script setup lang="ts">
   import { h, ref } from 'vue';
-  import { BasicTree } from '/@/components/Tree/index';
+  import { BasicTree, TreeActionItem } from '/@/components/Tree/index';
   import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue';
   import { Popconfirm, Tooltip } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
-  import { templateGroupList, removeGroup } from '../gen.template.api0';
+  import { templateGroupApi } from '../gen.templateGroup.api';
 
   const [registerModal, { openModal }] = useModal();
   import TemplateGroupModal from './TemplateGroupModal.vue';
@@ -29,7 +36,7 @@
   }
 
   function initTemplateGroupTree() {
-    templateGroupList().then((data) => {
+    templateGroupApi.list({}).then((data) => {
       treeData.value = data.map((group) => {
         return { key: group.id + '', title: group.name, record: group };
       });
@@ -52,11 +59,11 @@
   }
 
   async function handleRemove(node: any) {
-    await removeGroup({ id: node.record.id });
+    await templateGroupApi.remove({ id: node.record.id });
     initTemplateGroupTree();
   }
 
-  const actionList: ActionItem[] = [
+  const actionList: TreeActionItem[] = [
     {
       render: (node) => {
         return h(EditOutlined, {

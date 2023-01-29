@@ -54,10 +54,9 @@
     let values = await validate();
     openOKLoading(async () => {
       //提交表单
-      await generate(values);
+      const data=await generate(values);
       //关闭弹窗
       closeModal();
     });
-    console.log(values);
   }
 </script>

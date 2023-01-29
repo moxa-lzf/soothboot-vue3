@@ -19,7 +19,7 @@
 </template>
 <script lang="ts" name="monitor-datasource" setup>
   import { watch } from 'vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { columns, searchFormSchema } from '../gen.template.data';
   import { templateApi } from '../gen.template.api';
@@ -31,7 +31,7 @@
   watch(
     () => props.data,
     () => {
-      reload({ searchInfo: { groupId: props.data.record.id } });
+      reload({ searchInfo: { groupId: props.data?.record?.id } });
     },
   );
   const [registerModal, { openModal }] = useModal();

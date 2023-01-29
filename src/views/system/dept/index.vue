@@ -70,7 +70,7 @@
   }
 
   async function handleDelete(record: Recordable) {
-    await deptApi.remove({ id: record.id });
+    await deptApi.remove({ id: record.deptId });
     reload();
   }
   async function handleRemoveBatch() {

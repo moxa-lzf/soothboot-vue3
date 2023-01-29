@@ -14,7 +14,7 @@
       onMounted(() => {
         fetch();
       });
-    function getNodeIds(selectedNodes) {
+      function getNodeIds(selectedNodes) {
         let nodeIds = [];
         if (selectedNodes && selectedNodes.length > 0) {
           for (let selectedNode of selectedNodes) {
@@ -33,6 +33,8 @@
       const getBindValues = computed(() => {
         return {
           title: '部门列表',
+          search: true,
+          toolbar: true,
           onSelect: handleSelect,
           ...attrs,
         };
@@ -41,8 +43,7 @@
       return () => {
         return (
           <BasicTree
-            {
-            ...unref(getBindValues)}
+            {...unref(getBindValues)}
             fieldNames={fieldNames}
             treeData={unref(treeData)}
           ></BasicTree>
