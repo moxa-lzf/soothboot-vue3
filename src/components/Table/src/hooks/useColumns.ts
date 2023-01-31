@@ -94,6 +94,7 @@ function handleActionColumn(propsRef: ComputedRef<BasicTableProps>, columns: Bas
     columns.push({
       ...columns[hasIndex],
       fixed: 'right',
+      dataIndex: ACTION_COLUMN_FLAG.toLowerCase(),
       ...actionColumn,
       flag: ACTION_COLUMN_FLAG,
     });

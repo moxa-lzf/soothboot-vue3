@@ -9,9 +9,6 @@ export interface RequestOptions {
   formatDate?: boolean;
   // Whether to process the request result
   isTransformResponse?: boolean;
-  // Whether to return native response headers
-  // For example: use this attribute when you need to get the response headers
-  isReturnNativeResponse?: boolean;
   // Whether to join url
   joinPrefix?: boolean;
   // Interface address, use the default apiUrl if you leave it blank

@@ -62,7 +62,6 @@ import {Form,FormItem}from 'ant-design-vue';
     striped: true,
     // useSearchForm: true,
     bordered: true,
-    showIndexColumn: false,
     canResize: false,
     immediate: false,
   });

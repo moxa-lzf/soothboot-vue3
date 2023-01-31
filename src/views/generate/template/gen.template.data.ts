@@ -19,6 +19,10 @@ export const columns: BasicColumn[] = [
     dataIndex: ['dict', 'groupId'],
   },
   {
+    title: '文件名称',
+    dataIndex: 'fileName',
+  },
+  {
     title: '备注',
     dataIndex: 'description',
   },
@@ -50,7 +54,7 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     required: true,
     colProps: {
-      span: 12,
+      span: 8,
     },
   },
   {
@@ -64,7 +68,16 @@ export const formSchema: FormSchema[] = [
     },
     required: true,
     colProps: {
-      span: 12,
+      span: 8,
+    },
+  },
+  {
+    field: 'fileName',
+    label: '文件名称',
+    component: 'Input',
+    required: true,
+    colProps: {
+      span: 8,
     },
   },
   {

@@ -17,7 +17,7 @@
     <GenTemplateModal @register="registerModal" @success="reload" />
   </div>
 </template>
-<script lang="ts" name="monitor-datasource" setup>
+<script lang="ts" setup>
   import { watch } from 'vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
@@ -45,15 +45,12 @@
       labelWidth: 80,
       schemas: searchFormSchema,
     },
-    showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     actionColumn: {
-      width: 150,
+      width: 120,
       title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
     },
   });
 

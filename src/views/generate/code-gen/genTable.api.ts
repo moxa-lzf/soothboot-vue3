@@ -10,7 +10,7 @@ export const genCodeApi = new GenCodeApi('/gen/table').api;
 enum Api {
   getTableList = '/gen/table/getTableList',
   getTableFieldList = '/gen/table/getTableFieldList',
-  preview = '/gen/code/preview',
+  preview = '/gen/table/preview',
   generate = '/gen/code/generate',
 }
 
@@ -23,5 +23,4 @@ export const getTableFieldList = (params) => defHttp.get({ url: Api.getTableFiel
 
 export const preview = (params) => defHttp.get({ url: Api.preview, params });
 
-export const generate = (params) =>
-  defHttp.get({ url: Api.generate, params }, { isTransformResponse: false });
+export const generate = (params) => defHttp.post({ url: Api.generate, params },{isTransformResponse:false});

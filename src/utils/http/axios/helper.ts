@@ -1,7 +1,11 @@
 import { isObject, isString } from '/@/utils/is';
-
+import { TipEnum } from '/@/enums/tipEnum';
+import { h, unref } from 'vue';
+import { useMessage } from '/@/hooks/web/useMessage';
+import { useTipSetting } from '/@/hooks/setting/useTipSetting';
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
-
+const { createMessage, createConfirm, createErrorModal, createSuccessModal, notification } =
+  useMessage();
 export function joinTimestamp<T extends boolean>(
   join: boolean,
   restful: T,
@@ -43,6 +47,58 @@ export function formatRequestDate(params: Recordable) {
     }
     if (isObject(params[key])) {
       formatRequestDate(params[key]);
+    }
+  }
+}
+
+export function success(message: string, successTip: TipEnum | null | undefined) {
+  if (!successTip) {
+    const tipSetting = useTipSetting();
+    successTip = unref(tipSetting.getSuccessTip);
+  }
+  switch (successTip) {
+    case TipEnum.MESSAGE:
+      createMessage.success(message);
+      break;
+    case TipEnum.CONFIRM:
+      createConfirm({
+        iconType: 'success',
+        title: () => h('span', '成功提示'),
+        content: () => h('span', message),
+      });
+      break;
+    case TipEnum.MODAL:
+      createSuccessModal({ title: '成功提示', content: message });
+      break;
+    case TipEnum.NOTIFICATION:
+      notification.success({ message });
+      break;
+  }
+}
+
+export function error(message: string, errorTip?: TipEnum | null | undefined) {
+  if (!errorTip) {
+    const tipSetting = useTipSetting();
+    errorTip = unref(tipSetting.getErrorTip);
+  }
+  if (errorTip) {
+    switch (errorTip) {
+      case TipEnum.MESSAGE:
+        createMessage.error(message);
+        break;
+      case TipEnum.CONFIRM:
+        createConfirm({
+          iconType: 'error',
+          title: () => h('span', '错误提示'),
+          content: () => h('span', message),
+        });
+        break;
+      case TipEnum.MODAL:
+        createErrorModal({ title: '错误提示', content: message });
+        break;
+      case TipEnum.NOTIFICATION:
+        notification.error({ message });
+        break;
     }
   }
 }

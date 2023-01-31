@@ -86,43 +86,25 @@
         <Button block @click="setLoginState(LoginStateEnum.REGISTER)"> 注册 </Button>
       </ACol>
     </ARow>
-
-    <Divider class="enter-x">其他登录方式</Divider>
-
-    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
-      <GoogleCircleFilled />
-      <TwitterCircleFilled />
-    </div>
   </Form>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, unref, computed, onMounted } from 'vue';
-
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
-  import {
-    GithubFilled,
-    WechatFilled,
-    AlipayCircleFilled,
-    GoogleCircleFilled,
-    TwitterCircleFilled,
-  } from '@ant-design/icons-vue';
+  import Cookies from 'js-cookie';
+  import { Checkbox, Form, Input, Row, Col, Button } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
   import { getCodeInfo } from '/@/api/sys/user';
-  import { useI18n } from '/@/hooks/web/useI18n';
-  import { useMessage } from '/@/hooks/web/useMessage';
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
-  import { useDesign } from '/@/hooks/web/useDesign';
 
+  const USER_NAME = 'username';
+  const PASSWORD = 'password';
+  const REMEMBER_ME = 'rememberMe';
+  const EXPIRES = 7;
   const ACol = Col;
   const ARow = Row;
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
-  const { notification } = useMessage();
-  const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
 
   const { setLoginState, getLoginState } = useLoginState();
@@ -133,9 +115,14 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'admin',
-    password: '123456',
+    account: '',
+    password: '',
     inputCode: '',
+  });
+  onMounted(() => {
+    formData.account = Cookies.get(USER_NAME) || '';
+    formData.password = Cookies.get(PASSWORD) || '';
+    rememberMe.value = Cookies.get(REMEMBER_ME) || false;
   });
   const randCodeData = reactive({
     randCodeImage: '',
@@ -153,26 +140,22 @@
     if (!data) return;
     try {
       loading.value = true;
-      const userInfo = await userStore.login({
+      await userStore.login({
         password: data.password,
         username: data.account,
         captcha: data.inputCode,
         checkKey: randCodeData.checkKey,
-        mode: 'none', //不要默认的错误提示
       });
-      if (userInfo) {
-        notification.success({
-          message: '登录成功',
-          description: `欢迎回来： ${userInfo.realname}`,
-          duration: 3,
-        });
+      if (rememberMe.value) {
+        Cookies.set(USER_NAME, data.account, { expires: EXPIRES });
+        Cookies.set(PASSWORD, data.password, { expires: EXPIRES });
+        Cookies.set(REMEMBER_ME, true, { expires: EXPIRES });
+      } else {
+        Cookies.remove(USER_NAME);
+        Cookies.remove(PASSWORD);
+        Cookies.remove(REMEMBER_ME);
       }
     } catch (error) {
-      notification.error({
-        message: '错误提示',
-        description: (error as unknown as Error).message || '网络异常，请检查您的网络连接是否正常!',
-        duration: 3,
-      });
       handleChangeCheckCode();
     } finally {
       loading.value = false;

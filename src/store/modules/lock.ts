@@ -30,7 +30,7 @@ export const useLockStore = defineStore({
       this.lockInfo = null;
     },
     // Unlock
-    async unLock(password?: string) {
+    async unLock(password: string) {
       const userStore = useUserStore();
       if (this.lockInfo?.pwd === password) {
         this.resetLockInfo();
@@ -40,10 +40,9 @@ export const useLockStore = defineStore({
         try {
           const username = userStore.getUserInfo?.username;
           const res = await userStore.login({
-            username,
-            password: password!,
+            username: username,
+            password: password,
             goHome: false,
-            mode: 'none',
           });
           if (res) {
             this.resetLockInfo();

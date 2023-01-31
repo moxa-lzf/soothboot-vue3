@@ -90,7 +90,6 @@ import {Card,Row,Col}from 'ant-design-vue';
 
   const [registerTable, { reload }] = useTable({
     columns,
-    showIndexColumn: false,
     pagination: false,
     bordered: true,
   });

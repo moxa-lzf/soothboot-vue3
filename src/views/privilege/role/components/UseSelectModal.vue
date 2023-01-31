@@ -30,7 +30,6 @@
     useSearchForm: true,
     showTableSetting: false,
     bordered: true,
-    showIndexColumn: false,
     canResize: false,
   });
   /**

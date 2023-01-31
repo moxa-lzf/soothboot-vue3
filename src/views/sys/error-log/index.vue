@@ -56,8 +56,6 @@
     actionColumn: {
       width: 80,
       title: 'Action',
-      dataIndex: 'action',
-      // slots: { customRender: 'action' },
     },
   });
   const [registerModal, { openModal }] = useModal();

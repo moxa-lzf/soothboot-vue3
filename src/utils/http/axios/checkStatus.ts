@@ -1,7 +1,7 @@
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import projectSetting from '/@/settings/projectSetting';
 import { SessionTimeoutProcessingEnum } from '/@/enums/appEnum';
-
+import { error } from './helper';
 const stp = projectSetting.sessionTimeoutProcessing;
 
 export function checkStatus(status: number, msg: string): void {
@@ -57,5 +57,6 @@ export function checkStatus(status: number, msg: string): void {
       break;
     default:
   }
+  error(errMessage);
   throw Error(errMessage);
 }

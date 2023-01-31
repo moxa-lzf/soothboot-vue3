@@ -63,12 +63,9 @@
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
-    showIndexColumn: false,
     actionColumn: {
-      width: 150,
+      width: 120,
       title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
       fixed: undefined,
     },
   });

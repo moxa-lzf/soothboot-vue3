@@ -38,14 +38,11 @@
     showTableSetting: true,
     clickToRowSelect: false,
     bordered: true,
-    showIndexColumn: false,
     canResize: false,
     rowKey: 'id',
     actionColumn: {
-      width: 180,
+      width: 120,
       title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
       fixed: undefined,
     },
   });

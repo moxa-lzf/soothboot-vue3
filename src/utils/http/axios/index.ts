@@ -8,24 +8,18 @@ import type { AxiosTransform, CreateAxiosOptions } from './axiosTransform';
 import { VAxios } from './Axios';
 import { checkStatus } from './checkStatus';
 import { useGlobSetting } from '/@/hooks/setting';
-import { useMessage } from '/@/hooks/web/useMessage';
-import { useTipSetting } from '/@/hooks/setting/useTipSetting';
 import { RequestEnum, ResultEnum, ContentTypeEnum, ConfigEnum } from '/@/enums/httpEnum';
 import { isString } from '/@/utils/is';
 import { getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
-import { joinTimestamp, formatRequestDate } from './helper';
+import { joinTimestamp, formatRequestDate, success, error } from './helper';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
-import { TipEnum } from '/@/enums/tipEnum';
-import { h, unref } from 'vue';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
-const { createMessage, createConfirm, createErrorModal, createSuccessModal, notification } =
-  useMessage();
 
 /**
  * @description: 数据处理，方便区分多种处理方式
@@ -35,11 +29,7 @@ const transform: AxiosTransform = {
    * @description: 处理响应数据。如果数据不是预期格式，可直接抛出错误
    */
   transformResponseHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
-    const { isTransformResponse, isReturnNativeResponse } = options;
-    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
-    if (isReturnNativeResponse) {
-      return res;
-    }
+    const { isTransformResponse } = options;
     // 不进行任何处理，直接返回
     // 用于页面代码可能需要直接获取code，data，message这些信息时开启
     if (!isTransformResponse) {
@@ -59,31 +49,8 @@ const transform: AxiosTransform = {
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
     if (hasSuccess) {
       if (message) {
-        let successTip = options.successTip;
-        if (!successTip) {
-          const tipSetting = useTipSetting();
-          successTip = unref(tipSetting.getSuccessTip);
-        }
-        if (successTip) {
-          switch (successTip) {
-            case TipEnum.MESSAGE:
-              createMessage.success(message);
-              break;
-            case TipEnum.CONFIRM:
-              createConfirm({
-                iconType: 'success',
-                title: () => h('span', '成功提示'),
-                content: () => h('span', message),
-              });
-              break;
-            case TipEnum.MODAL:
-              createSuccessModal({ title: '成功提示', content: message });
-              break;
-            case TipEnum.NOTIFICATION:
-              notification.success({ message });
-              break;
-          }
-        }
+        const successTip = options.successTip;
+        success(message, successTip);
       }
       return result;
     }
@@ -98,31 +65,8 @@ const transform: AxiosTransform = {
         break;
     }
     if (message) {
-      let errorTip = options.errorTip;
-      if (!errorTip) {
-        const tipSetting = useTipSetting();
-        errorTip = unref(tipSetting.getErrorTip);
-      }
-      if (errorTip) {
-        switch (errorTip) {
-          case TipEnum.MESSAGE:
-            createMessage.error(message);
-            break;
-          case TipEnum.CONFIRM:
-            createConfirm({
-              iconType: 'error',
-              title: () => h('span', '错误提示'),
-              content: () => h('span', message),
-            });
-            break;
-          case TipEnum.MODAL:
-            createErrorModal({ title: '错误提示', content: message });
-            break;
-          case TipEnum.NOTIFICATION:
-            notification.error({ message });
-            break;
-        }
-      }
+      const errorTip = options.errorTip;
+      error(message, errorTip);
     }
     throw new Error(message || '请求出错，请稍候重试');
   },
@@ -268,8 +212,6 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         requestOptions: {
           // 默认将prefix 添加到url
           joinPrefix: true,
-          // 是否返回原生响应头 比如：需要获取响应头时使用该属性
-          isReturnNativeResponse: false,
           // 需要对返回数据进行处理
           isTransformResponse: true,
           // post请求的时候添加参数到url

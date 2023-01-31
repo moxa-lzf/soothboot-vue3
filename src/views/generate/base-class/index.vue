@@ -33,15 +33,12 @@
     formConfig: {
       schemas: searchFormSchema,
     },
-    showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     actionColumn: {
       width: 150,
       title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
     },
   });
   /**

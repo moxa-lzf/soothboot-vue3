@@ -1,11 +1,6 @@
 import { defHttp } from '/@/utils/http/axios';
-import { GetUserInfoModel, LoginParams, LoginResultModel } from './model/userModel';
-import { useUserStoreWithOut } from '/@/store/modules/user';
-import { setAuthCache } from '/@/utils/auth';
-import { TOKEN_KEY } from '/@/enums/cacheEnum';
-import { router } from '/@/router';
-import { PageEnum } from '/@/enums/pageEnum';
-import { TipEnum } from '/@/enums/tipEnum';
+import { LoginParams, LoginResultModel } from './model/userModel';
+import { UserInfo } from '/#/store';
 
 enum Api {
   Login = '/sys/login',
@@ -19,27 +14,17 @@ enum Api {
  * @description: user login api
  */
 export function loginApi(params: LoginParams) {
-  return defHttp.post<LoginResultModel>(
-    {
-      url: Api.Login,
-      params,
-    },
-    { successTip: TipEnum.NONE, errorTip: TipEnum.NONE },
-  );
+  return defHttp.post<LoginResultModel>({
+    url: Api.Login,
+    params,
+  });
 }
 
 /**
  * @description: getUserInfo
  */
-export function getUserInfo() {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }).catch((e) => {
-    if (e && (e.message.includes('timeout') || e.message.includes('401'))) {
-      const userStore = useUserStoreWithOut();
-      userStore.setToken('');
-      setAuthCache(TOKEN_KEY, null);
-      router.push(PageEnum.BASE_LOGIN);
-    }
-  });
+export function getUserInfo(): Promise<UserInfo> {
+  return defHttp.get<UserInfo>({ url: Api.GetUserInfo });
 }
 export function getPermCode() {
   return defHttp.get({ url: Api.GetPermCode });

@@ -49,7 +49,6 @@ import{Card,Tabs,Tag,TabPane,Divider}from 'ant-design-vue';
   const searchInfo = { logType: '1' };
   const [registerTable, { reload }] = useTable({
     columns,
-    showIndexColumn: false,
     bordered: true,
     pagination: false,
     canResize: false,

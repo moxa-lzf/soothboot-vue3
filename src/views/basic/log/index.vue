@@ -26,7 +26,6 @@
     api: logApi.page,
     columns,
     isTreeTable: true,
-    showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     expandRowByClick: false,

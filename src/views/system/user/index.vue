@@ -21,7 +21,6 @@
 <script lang="ts" setup>
   import { reactive } from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
-  import { ACTION_WIDTH } from '/@/components/Table/src/const';
   import { PageWrapper } from '/@/components/Page';
   import { DeptTree } from '/@/sooth/Dept';
 
@@ -43,15 +42,12 @@
       schemas: searchFormSchema,
     },
     rowSelection: { type: 'checkbox' },
-    showIndexColumn: false,
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     actionColumn: {
-      width: ACTION_WIDTH,
+      width: 120,
       title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
     },
   });
 

@@ -26,7 +26,6 @@
     columns: genTableColumns,
     striped: true,
     bordered: true,
-    showIndexColumn: false,
     canResize: false,
     immediate: false,
   });

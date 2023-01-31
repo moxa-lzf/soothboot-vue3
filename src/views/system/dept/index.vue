@@ -22,7 +22,6 @@
 <script lang="ts" setup>
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
-  import { ACTION_WIDTH } from '/@/components/Table/src/const';
   import { PermEnum } from '/@/enums/permEnum';
   import { useModal } from '/@/components/Modal';
   import DeptModal from './DeptModal.vue';
@@ -45,13 +44,10 @@
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
-    showIndexColumn: false,
     canResize: false,
     actionColumn: {
-      width: ACTION_WIDTH,
+      width: 120,
       title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
       fixed: undefined,
     },
   });
