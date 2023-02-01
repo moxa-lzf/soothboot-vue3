@@ -25,7 +25,7 @@
 </template>
 <script lang="ts" setup>
   import { CodeEditor } from '/@/components/CodeEditor';
-  import { ref, computed, unref, nextTick } from 'vue';
+  import { ref, computed, unref } from 'vue';
   import { Button } from 'ant-design-vue';
   import { QuestionCircleOutlined } from '@ant-design/icons-vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
@@ -50,13 +50,10 @@
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       //重置表单
-      const templateData = await templateApi.get({ id: data.record.id });
       rowId.value = data.record.id;
-      nextTick(async () => {
-        await setFieldsValue(templateData);
-      });
+      await setFieldsValue(data.record);
     }
-  }, true);
+  });
   //设置标题
   const getTitle = computed(() => (!unref(isUpdate) ? '新增模板' : '编辑模板'));
   //表单提交事件

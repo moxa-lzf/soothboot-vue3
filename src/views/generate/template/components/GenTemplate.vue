@@ -88,9 +88,9 @@
   /**
    * 编辑事件
    */
-  function handleEdit(record) {
+  async function handleEdit(record) {
     openModal(true, {
-      record,
+      record: await templateApi.get({ id: record.id }),
       isUpdate: true,
     });
   }

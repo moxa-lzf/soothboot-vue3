@@ -15,8 +15,8 @@
         复制
       </Button>
     </div>
-    <Tabs v-for="(item, index) in codeList" :key="index">
-      <TabPane :tab="item.fileName">
+    <Tabs v-model:activeKey="activeKey">
+      <TabPane v-for="(item, index) in codeList" :key="index" :tab="item.fileName">
         <CodeEditor v-model:value="item.content" :readonly="true" />
       </TabPane>
     </Tabs>
@@ -35,6 +35,7 @@
   const { clipboardRef, copiedRef } = useCopyToClipboard();
   const { createMessage } = useMessage();
   const codeList = ref([]);
+  const activeKey = ref(0);
   //表单赋值
   const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
     codeList.value = data;
@@ -50,11 +51,17 @@
     });
   }
   function handleCopy() {
-    clipboardRef.value = 'hello world';
-    if (unref(copiedRef)) {
-      createMessage.success('复制成功');
+    const copyList = codeList.value;
+    const index = parseInt(activeKey.value);
+    if (copyList.length > index) {
+      clipboardRef.value = codeList.value[index]['content'];
+      if (unref(copiedRef)) {
+        createMessage.success('复制成功');
+      } else {
+        createMessage.error('复制失败');
+      }
     } else {
-      createMessage.error('复制失败');
+      createMessage.error('未选择赋值内容');
     }
   }
 </script>
