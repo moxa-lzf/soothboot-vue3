@@ -19,7 +19,7 @@ export function initAffixTabs(): string[] {
     const tabs: RouteLocationNormalized[] = [];
     routes &&
       routes.forEach((route) => {
-        if (route.meta && route.meta.affix) {
+        if (route.meta && route.meta.fixedTab) {
           tabs.push(toRaw(route));
         }
       });

@@ -59,7 +59,7 @@ const permission: AppRouteModule = {
       component: () => import('/@/views/demo/level/Menu2.vue'),
       meta: {
         title: 'Menu2',
-        // ignoreKeepAlive: true,
+        // keepAlive: true,
       },
     },
   ],

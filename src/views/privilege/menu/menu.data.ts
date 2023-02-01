@@ -16,25 +16,25 @@ export const columns: BasicColumn[] = [
   {
     title: '菜单名称',
     dataIndex: 'name',
-    align: 'left',
     customRender: ({ record }) => {
       return h('div', {}, [h(Icon, { icon: record.icon }), record.name]);
     },
   },
   {
+    title: '组件名称',
+    dataIndex: 'componentName',
+  },
+  {
     title: '组件',
     dataIndex: 'component',
-    align: 'left',
   },
   {
     title: '路径',
     dataIndex: 'url',
-    align: 'left',
   },
   {
     title: '按钮',
     dataIndex: 'buttonTypeList',
-    align: 'left',
     customRender: (opt) => render.renderArray(opt),
   },
   {
@@ -102,6 +102,21 @@ export const formSchema: FormSchema[] = [
       getPopupContainer: (node) => node.parentNode,
     },
     ifShow: ({ values }) => !isDir(values.menuType),
+  },
+  {
+    field: 'componentName',
+    label: '组件名称',
+    component: 'Input',
+    componentProps: {
+      placeholder: '请输入组件名称',
+    },
+    helpMessage: [
+      '此处名称应和vue组件的name属性保持一致。',
+      '组件名称不能重复，主要用于路由缓存功能。',
+      '如果组件名称和vue组件的name属性不一致，则会导致路由缓存失效。',
+    ],
+    defaultValue: '',
+    required: true,
   },
   {
     field: 'url',
@@ -178,7 +193,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'alwaysShow',
+    field: 'fixedTab',
     label: '聚合路由',
     component: 'Switch',
     defaultValue: false,

@@ -18,7 +18,7 @@
     <UserModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="system-user" setup>
   import { reactive } from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';

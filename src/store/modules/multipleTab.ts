@@ -68,7 +68,7 @@ export const useMultipleTabStore = defineStore({
       for (const tab of this.tabList) {
         const item = getRawRoute(tab);
         // Ignore the cache
-        const needCache = !item.meta?.ignoreKeepAlive;
+        const needCache = item.meta?.keepAlive;
         if (!needCache) {
           continue;
         }
@@ -173,8 +173,8 @@ export const useMultipleTabStore = defineStore({
 
     async closeTab(tab: RouteLocationNormalized, router: Router) {
       const close = (route: RouteLocationNormalized) => {
-        const { fullPath, meta: { affix } = {} } = route;
-        if (affix) {
+        const { fullPath, meta: { fixedTab } = {} } = route;
+        if (fixedTab) {
           return;
         }
         const index = this.tabList.findIndex((item) => item.fullPath === fullPath);
@@ -261,8 +261,8 @@ export const useMultipleTabStore = defineStore({
         const leftTabs = this.tabList.slice(0, index);
         const pathList: string[] = [];
         for (const item of leftTabs) {
-          const affix = item?.meta?.affix ?? false;
-          if (!affix) {
+          const fixedTab = item?.meta?.fixedTab ?? false;
+          if (!fixedTab) {
             pathList.push(item.fullPath);
           }
         }
@@ -281,8 +281,8 @@ export const useMultipleTabStore = defineStore({
 
         const pathList: string[] = [];
         for (const item of rightTabs) {
-          const affix = item?.meta?.affix ?? false;
-          if (!affix) {
+          const fixedTab = item?.meta?.fixedTab ?? false;
+          if (!fixedTab) {
             pathList.push(item.fullPath);
           }
         }
@@ -293,7 +293,7 @@ export const useMultipleTabStore = defineStore({
     },
 
     async closeAllTab(router: Router) {
-      this.tabList = this.tabList.filter((item) => item?.meta?.affix ?? false);
+      this.tabList = this.tabList.filter((item) => item?.meta?.fixedTab ?? false);
       this.clearCacheTabs();
       this.goToPage(router);
     },
@@ -312,8 +312,8 @@ export const useMultipleTabStore = defineStore({
           if (!closeItem) {
             continue;
           }
-          const affix = closeItem?.meta?.affix ?? false;
-          if (!affix) {
+          const fixedTab = closeItem?.meta?.fixedTab ?? false;
+          if (!fixedTab) {
             pathList.push(closeItem.fullPath);
           }
         }

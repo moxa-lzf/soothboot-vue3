@@ -16,9 +16,9 @@ declare module 'vue-router' {
     // role info
     roles?: RoleEnum[];
     // Whether not to cache
-    ignoreKeepAlive?: boolean;
+    keepAlive?: boolean;
     // Is it fixed on tab
-    affix?: boolean;
+    fixedTab?: boolean;
     // icon on tab
     icon?: string;
     frameSrc?: string;

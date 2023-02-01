@@ -5,7 +5,7 @@
   </PageWrapper>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" name="basic-dict" setup>
   import { ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import DictTable from './components/DictTable.vue';

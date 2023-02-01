@@ -11,7 +11,7 @@
   </Row>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" name="generate-template" setup>
   import { ref } from 'vue';
   import { Row, Col, Card }from 'ant-design-vue';
   import TemplateGroupTree from './components/TemplateGroupTree.vue';

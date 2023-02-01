@@ -19,7 +19,7 @@
     <DeptModal @register="registerModal" @success="handleSuccess" />
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="system-dept" setup>
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { PermEnum } from '/@/enums/permEnum';

@@ -286,7 +286,7 @@ const feat: AppRouteModule = {
       component: getParentLayout('TestParam'),
       meta: {
         title: t('routes.demo.feat.menu'),
-        ignoreKeepAlive: true,
+        keepAlive: true,
       },
       children: [
         {
@@ -295,7 +295,7 @@ const feat: AppRouteModule = {
           component: () => import('/@/views/demo/feat/menu-params/index.vue'),
           meta: {
             title: t('routes.demo.feat.menu1'),
-            ignoreKeepAlive: true,
+            keepAlive: true,
           },
         },
         {
@@ -304,7 +304,7 @@ const feat: AppRouteModule = {
           component: () => import('/@/views/demo/feat/menu-params/index.vue'),
           meta: {
             title: t('routes.demo.feat.menu2'),
-            ignoreKeepAlive: true,
+            keepAlive: true,
           },
         },
       ],

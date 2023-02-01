@@ -15,7 +15,7 @@
   </BasicTable>
   <DataSourceModal @register="registerModal" @success="reload" />
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="generate-datasource" setup>
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import { datasourceApi } from './datasource.api';

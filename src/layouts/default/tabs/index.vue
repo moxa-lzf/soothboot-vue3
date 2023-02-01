@@ -11,7 +11,7 @@
       @edit="handleEdit"
     >
       <template v-for="item in getTabsState" :key="item.query ? item.fullPath : item.path">
-        <TabPane :closable="!(item && item.meta && item.meta.affix)">
+        <TabPane :closable="!(item && item.meta && item.meta.fixedTab)">
           <template #tab>
             <TabContent :tabItem="item" />
           </template>

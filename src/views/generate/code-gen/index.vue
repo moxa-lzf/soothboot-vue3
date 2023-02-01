@@ -18,7 +18,7 @@
   <GenCodePreviewModal @register="registerPreviewModal" />
 </template>
 
-<script lang="ts" name="system-dict" setup>
+<script lang="ts" name="generate-code-gen" setup>
   //ts语法
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';

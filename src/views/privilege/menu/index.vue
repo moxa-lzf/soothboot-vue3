@@ -28,7 +28,7 @@
     />
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="privilege-menu" setup>
   import { ref } from 'vue';
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';

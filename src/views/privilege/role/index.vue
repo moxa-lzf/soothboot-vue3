@@ -4,7 +4,7 @@
     <RoleTable ref="roleTableRef" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo" />
   </PageWrapper>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="privilege-role" setup>
   import { ref, unref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import RoleTable from './components/RoleTable.vue';

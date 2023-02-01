@@ -15,7 +15,7 @@
   <FieldTypeModal @register="registerModal" @success="handleSuccess" />
 </template>
 
-<script lang="ts" name="system-dict" setup>
+<script lang="ts" name="generate-field-type" setup>
   //ts语法
   import { ref, computed, unref } from 'vue';
   import { Button } from 'ant-design-vue';

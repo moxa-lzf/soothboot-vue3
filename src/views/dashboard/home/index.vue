@@ -9,7 +9,7 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="dashboard-home" setup>
   import { ref } from 'vue';
   import GrowCard from './components/GrowCard.vue';
   import SiteAnalysis from './components/SiteAnalysis.vue';

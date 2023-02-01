@@ -11,7 +11,7 @@
     </template>
   </BasicTable>
 </template>
-<script lang="ts" setup>
+<script lang="ts" name="basic-log" setup>
   import { h, ref, unref } from 'vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { DescItem, Description } from '/@/components/Description/index';

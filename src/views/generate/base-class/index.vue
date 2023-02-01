@@ -16,7 +16,7 @@
   <FieldTypeModal @register="registerModal" @success="handleSuccess" />
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" name="generate-base-class" setup>
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';

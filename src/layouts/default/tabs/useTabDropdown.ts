@@ -60,7 +60,7 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
         icon: 'clarity:close-line',
         event: MenuEventEnum.CLOSE_CURRENT,
         text: t('layout.multipleTab.close'),
-        disabled: !!meta?.affix || disabled,
+        disabled: !!meta?.fixedTab || disabled,
         divider: true,
       },
       {

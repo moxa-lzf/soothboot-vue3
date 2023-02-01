@@ -82,7 +82,7 @@ export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModul
         route.path = '';
         const meta = route.meta || {};
         meta.single = true;
-        meta.affix = false;
+        meta.fixedTab = false;
         route.meta = meta;
       }
     } else {
