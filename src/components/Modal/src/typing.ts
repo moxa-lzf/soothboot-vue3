@@ -209,3 +209,7 @@ export interface ModalWrapperProps {
   fullScreen: boolean;
   useWrapper: boolean;
 }
+
+export interface ModalInnerRequestType {
+  atOnce?: boolean;
+}

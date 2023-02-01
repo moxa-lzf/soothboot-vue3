@@ -82,12 +82,10 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'content',
-    label: '模板',
+    label: '',
+    labelWidth: 0,
     component: 'Input',
     required: true,
     slot: 'content',
-    colProps: {
-      span: 24,
-    },
   },
 ];

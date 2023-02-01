@@ -122,10 +122,12 @@
     return [
       {
         label: '生成',
+        icon: 'ant-design:build-outlined',
         onClick: handleGenerate.bind(null, record),
       },
       {
         label: '同步',
+        icon: 'ant-design:cloud-sync-outlined',
         onClick: handleSync.bind(null, record),
       },
     ];

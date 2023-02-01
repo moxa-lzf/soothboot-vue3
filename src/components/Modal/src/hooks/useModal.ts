@@ -100,7 +100,7 @@ export function useModal(): UseModalReturnType {
   return [register, methods];
 }
 
-export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
+export const useModalInner = (callbackFn?: Fn,atOnce?:boolean): UseModalInnerReturnType => {
   const modalInstanceRef = ref<Nullable<ModalMethods>>(null);
   const currentInstance = getCurrentInstance();
   const uidRef = ref<string>('');
@@ -127,9 +127,13 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
     const data = dataTransfer[unref(uidRef)];
     if (!data) return;
     if (!callbackFn || !isFunction(callbackFn)) return;
-    nextTick(() => {
+    if (atOnce) {
       callbackFn(data);
-    });
+    } else {
+      nextTick(() => {
+        callbackFn(data);
+      });
+    }
   });
   const changeLoading = (loading = true) => {
     getInstance()?.setModalProps({ loading });

@@ -7,24 +7,36 @@
     okText="下载"
     @ok="handleSubmit"
   >
+    <div class="absolute top-20 right-10 z-1">
+      <Button type="text" @click="handleCopy">
+        <template #icon>
+          <CopyOutlined />
+        </template>
+        复制
+      </Button>
+    </div>
     <Tabs v-for="(item, index) in codeList" :key="index">
       <TabPane :tab="item.fileName">
-        <CodeEditor v-model:value="item.content" />
+        <CodeEditor v-model:value="item.content" :readonly="true" />
       </TabPane>
     </Tabs>
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { CodeEditor } from '/@/components/CodeEditor';
-  import { ref } from 'vue';
-  import { Tabs, TabPane } from 'ant-design-vue';
+  import { ref, unref } from 'vue';
+  import { Tabs, TabPane, Button } from 'ant-design-vue';
+  import { CopyOutlined } from '@ant-design/icons-vue';
+  import { useCopyToClipboard } from '/@/hooks/web/useCopyToClipboard';
   import { BasicModal, useModalInner } from '/@/components/Modal';
+  import { useMessage } from '/@/hooks/web/useMessage';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
+  const { clipboardRef, copiedRef } = useCopyToClipboard();
+  const { createMessage } = useMessage();
   const codeList = ref([]);
   //表单赋值
   const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-    debugger
     codeList.value = data;
   });
   //表单提交事件
@@ -36,5 +48,13 @@
       //刷新列表
       emit('success');
     });
+  }
+  function handleCopy() {
+    clipboardRef.value = 'hello world';
+    if (unref(copiedRef)) {
+      createMessage.success('复制成功');
+    } else {
+      createMessage.error('复制失败');
+    }
   }
 </script>

@@ -25,7 +25,7 @@
       },
     },
     readonly: { type: Boolean },
-    autoFormat: { type: Boolean, default: true },
+    autoFormat: { type: Boolean, default: false },
   });
 
   const emit = defineEmits(['change', 'update:value', 'format-error']);

@@ -3,7 +3,6 @@
     v-bind="$attrs"
     @register="registerModal"
     defaultFullscreen
-    :canFullscreen="false"
     title="数据字段列表"
     @ok="handleSubmit"
   >

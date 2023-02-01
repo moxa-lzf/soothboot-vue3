@@ -2,7 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { ApiSelect } from '/@/components/Form';
 import { listAttrType } from '/@/views/generate/field-type/fieldType.api';
-import { groupList } from '/@/views/generate/template/gen.template.api';
+import { groupList } from '/@/views/generate/template/gen.templateGroup.api';
 import { baseClassApi } from '/@/views/generate/base-class/baseClass.api';
 import { Checkbox, Input } from 'ant-design-vue';
 import { h } from 'vue';

@@ -1,5 +1,5 @@
 import { BaseApi } from '/@/api/base/baseApi';
-import { defHttp } from "/@/utils/http/axios";
+import { defHttp } from '/@/utils/http/axios';
 class TemplateApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
@@ -8,7 +8,7 @@ class TemplateApi extends BaseApi {
 export const templateApi = new TemplateApi('/generate/template').api;
 
 enum Api {
-  groupList = "/generate/templateGroup/groupList",
+  help = '/generate/template/help',
 }
 
-export const groupList = (params) => defHttp.get({ url: Api.groupList, params });
+export const help = () => defHttp.get({ url: Api.help });

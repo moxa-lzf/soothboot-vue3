@@ -97,10 +97,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
 
-  const USER_NAME = 'username';
-  const PASSWORD = 'password';
-  const REMEMBER_ME = 'rememberMe';
-  const EXPIRES = 7;
+  const LOGIN_INFO = 'loginInfo';
   const ACol = Col;
   const ARow = Row;
   const FormItem = Form.Item;
@@ -120,9 +117,15 @@
     inputCode: '',
   });
   onMounted(() => {
-    formData.account = Cookies.get(USER_NAME) || '';
-    formData.password = Cookies.get(PASSWORD) || '';
-    rememberMe.value = Cookies.get(REMEMBER_ME) || false;
+    const loginInfo = Cookies.get(LOGIN_INFO);
+    if (loginInfo) {
+      try {
+        const loginInfoObject = JSON.parse(loginInfo);
+        formData.account = loginInfoObject.account;
+        formData.password = loginInfoObject.password;
+        rememberMe.value = !!loginInfoObject.rememberMe;
+      } catch (e) {}
+    }
   });
   const randCodeData = reactive({
     randCodeImage: '',
@@ -147,13 +150,13 @@
         checkKey: randCodeData.checkKey,
       });
       if (rememberMe.value) {
-        Cookies.set(USER_NAME, data.account, { expires: EXPIRES });
-        Cookies.set(PASSWORD, data.password, { expires: EXPIRES });
-        Cookies.set(REMEMBER_ME, true, { expires: EXPIRES });
+        Cookies.set(
+          LOGIN_INFO,
+          JSON.stringify({ account: data.account, password: data.password, rememberMe: true }),
+          { expires: 7 },
+        );
       } else {
-        Cookies.remove(USER_NAME);
-        Cookies.remove(PASSWORD);
-        Cookies.remove(REMEMBER_ME);
+        Cookies.remove(LOGIN_INFO);
       }
     } catch (error) {
       handleChangeCheckCode();
