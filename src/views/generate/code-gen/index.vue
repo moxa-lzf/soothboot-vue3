@@ -3,7 +3,7 @@
   <BasicTable @register="registerTable">
     <!--插槽:table标题-->
     <template #toolbar>
-      <Button type="primary" preIcon="ant-design:plus-outlined" @click="handleImport">
+      <Button v-auth="PermEnum.IMPORT" type="primary" preIcon="ant-design:plus-outlined" @click="handleImport">
         数据库表导入
       </Button>
     </template>
@@ -23,6 +23,7 @@
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
+  import { PermEnum } from '/@/enums/permEnum';
   import GenTableModal from './components/GenTableFieldModal.vue';
   import GenTableImportModal from './components/GenTableImportModal.vue';
   import GenCodeConfirmModal from './components/GenCodeConfirmModal.vue';
@@ -101,12 +102,14 @@
       {
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
+        auth: PermEnum.EDIT,
         onClick: handleEdit.bind(null, record),
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),
@@ -123,11 +126,13 @@
       {
         label: '生成',
         icon: 'ant-design:build-outlined',
+        auth: PermEnum.GENERATE,
         onClick: handleGenerate.bind(null, record),
       },
       {
         label: '同步',
         icon: 'ant-design:cloud-sync-outlined',
+        auth: PermEnum.SYNC,
         onClick: handleSync.bind(null, record),
       },
     ];

@@ -3,6 +3,7 @@
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button
+          v-auth="PermEnum.ADD"
           type="primary"
           preIcon="ant-design:plus-outlined"
           @click="handleAdd"
@@ -21,6 +22,7 @@
   import { watch } from 'vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
+  import { PermEnum } from '/@/enums/permEnum';
   import { columns, searchFormSchema } from '../gen.template.data';
   import { templateApi } from '../gen.template.api';
   import GenTemplateModal from './GenTemplateModal.vue';
@@ -62,12 +64,14 @@
       {
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
+        auth: PermEnum.EDIT,
         onClick: handleEdit.bind(null, record),
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),

@@ -162,21 +162,25 @@
       {
         icon: 'ant-design:menu-outlined',
         label: '菜单权限',
+        auth: PermEnum.MENU_PERMISSION,
         onClick: handleMenuPerssion.bind(null, record),
       },
       {
         icon: 'ant-design:menu-fold-outlined',
         label: '按钮权限',
+        auth: PermEnum.BUTTON_PERMISSION,
         onClick: handleButtonPerssion.bind(null, record),
       },
       {
         icon: 'ant-design:menu-unfold-outlined',
         label: '数据权限',
+        auth: PermEnum.DATA_PERMISSION,
         onClick: handleDataPerssion.bind(null, record),
       },
       {
         icon: 'ant-design:user-add-outlined',
         label: '角色用户',
+        auth: PermEnum.ROLE_USER,
         onClick: handleUser.bind(null, record),
       },
     ];

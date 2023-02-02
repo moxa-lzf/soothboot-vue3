@@ -17,10 +17,10 @@
 
 <script lang="ts" name="generate-field-type" setup>
   //ts语法
-  import { ref, computed, unref } from 'vue';
   import { Button } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
+  import { PermEnum } from '/@/enums/permEnum';
   import FieldTypeModal from './components/FieldTypeModal.vue';
   import { columns, searchFormSchema } from './fieldType.data';
   import { fieldTypeApi, initTypeField } from './fieldType.api';
@@ -77,6 +77,7 @@
       {
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
+        auth: PermEnum.EDIT,
         onClick: handleEdit.bind(null, record),
       },
     ];

@@ -2,7 +2,9 @@
   <PageWrapper dense contentFullHeight fixedHeight>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button v-if="props.dict" type="primary" @click="handleCreate"> 新增</a-button>
+        <a-button v-if="props.dict" v-auth="PermEnum.ADD" type="primary" @click="handleCreate">
+          新增</a-button
+        >
       </template>
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" />
@@ -12,10 +14,11 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { ref, unref, watch, watchEffect } from 'vue';
+  import { watch } from 'vue';
   import { BasicTable, useTable, TableAction, ActionItem } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { useModal } from '/@/components/Modal';
+  import { PermEnum } from '/@/enums/permEnum';
   import DictItemModal from './DictItemModal.vue';
   import { dictItemColumns } from '../dict.data';
   import { dictItemApi } from '../dict-item.api';
@@ -93,12 +96,14 @@
       {
         tooltip: '修改',
         icon: 'clarity:note-edit-line',
+        auth: PermEnum.EDIT,
         onClick: handleEdit.bind(null, record),
       },
       {
         tooltip: '删除',
         icon: 'ant-design:delete-outlined',
         color: 'error',
+        auth: PermEnum.REMOVE,
         popConfirm: {
           title: '是否确认删除',
           confirm: handleDelete.bind(null, record),

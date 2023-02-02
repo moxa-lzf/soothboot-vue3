@@ -147,11 +147,13 @@
       {
         icon: 'ant-design:vertical-align-bottom-outlined',
         label: '添加下级',
+        auth: PermEnum.ADD_SUB,
         onClick: handleAddSub.bind(null, record),
       },
       {
         icon: 'ant-design:setting-outlined',
         label: '按钮配置',
+        auth: PermEnum.BUTTON_SETTING,
         onClick: handleButton.bind(null, record),
       },
     ];
