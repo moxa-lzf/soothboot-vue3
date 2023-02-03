@@ -253,7 +253,6 @@
       watchEffect(() => {
         if (unref(visible) === false) {
           resetFields();
-          clearValidate();
         }
       });
       async function setProps(formProps: Partial<FormProps>): Promise<void> {

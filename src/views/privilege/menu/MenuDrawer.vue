@@ -21,16 +21,14 @@
   const attrs = useAttrs();
   const isUpdate = ref(true);
   const menuType = ref(0);
-  const [registerForm, { setProps, resetFields, setFieldsValue, updateSchema, validate }] = useForm(
-    {
-      baseColProps: { span: 24 },
-      labelWidth: 100,
-      schemas: formSchema,
-      showActionButtonGroup: false,
-    },
-  );
+  const [registerForm, { setProps, setFieldsValue, updateSchema, validate }] = useForm({
+    baseColProps: { span: 24 },
+    labelWidth: 100,
+    schemas: formSchema,
+    showActionButtonGroup: false,
+  });
 
-  const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {fixedTab
+  const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     setDrawerProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
     menuType.value = data?.record?.menuType;
