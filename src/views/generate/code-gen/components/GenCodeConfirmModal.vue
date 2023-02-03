@@ -21,12 +21,12 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { downloadByData } from '/@/utils/file/download';
   import GenCodePreviewModal from './GenCodePreviewModal.vue';
-  import { formConfirmSchema } from '../genTable.data';
-  import { generate, preview } from '../genTable.api';
+  import { formConfirmSchema } from '../genCode.data';
+  import { generate, preview } from '../genCode.api';
   import { camelCase } from 'lodash-es';
   const [registerPreviewModal, { openModal: openPreviewModal }] = useModal();
   //表单配置
-  const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+  const [registerForm, { setFieldsValue, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: formConfirmSchema,
@@ -59,7 +59,6 @@
     openOKLoading(async () => {
       //提交表单
       const data = await generate(values);
-      console.log(data);
       downloadByData(data, 'code.zip');
       //关闭弹窗
       closeModal();
@@ -70,7 +69,7 @@
     openOKLoading(async () => {
       //提交表单
       const result = await preview(values);
-      openPreviewModal(true, result);
+      openPreviewModal(true, { result: result, values: values });
       closeModal();
     });
   }

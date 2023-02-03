@@ -11,10 +11,10 @@
 </template>
 <script lang="ts" setup>
   import { BasicModal } from '/@/components/Modal';
-  import { genTableColumns } from '../genTable.data';
+  import { genTableColumns } from '../genCode.data';
   import { BasicTable, useTable } from '/@/components/Table/index';
   import { useModalInner } from '/@/components/Modal';
-  import { getTableFieldList } from '../genTable.api';
+  import { getTableFieldList } from '../genCode.api';
 
   //表单赋值
   const [registerModal, { closeModal }] = useModalInner(async (data) => {

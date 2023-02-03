@@ -17,26 +17,20 @@
         />
       </FormItem>
     </Form>
-    <BasicTable
-      ref="BasicTableRef"
-      @register="registerTable"
-      :rowSelection="rowSelection"
-    />
+    <BasicTable ref="BasicTableRef" @register="registerTable" :rowSelection="rowSelection" />
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { ref, unref } from 'vue';
-import {Form,FormItem}from 'ant-design-vue';
+  import {Form,FormItem}from 'ant-design-vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { BasicModal } from '/@/components/Modal';
-  import { useDesign } from '/@/hooks/web/useDesign';
-  import { genTableImportColumns } from '../genTable.data';
-  import { getTableList, tableImport } from '../genTable.api';
+  import { genTableImportColumns } from '../genCode.data';
+  import { getTableList, tableImport } from '../genCode.api';
   import { listLabel } from '/@/views/generate/datasource/datasource.api';
   import ApiSelect from '/@/components/Form/src/components/ApiSelect.vue';
   import { useModalInner } from '/@/components/Modal';
 
-  const { prefixCls } = useDesign('row-invalid');
   // 选择key
   const checkedKeys = ref<any[]>([]);
 
@@ -80,7 +74,7 @@ import {Form,FormItem}from 'ant-design-vue';
   /**
    * 选择事件
    */
-  function onSelectChange(selectedRowKeys: (string | number)[], selectedRows) {
+  function onSelectChange(selectedRowKeys: (string | number)[]) {
     checkedKeys.value = selectedRowKeys;
   }
   async function onApiChange(value) {
@@ -92,8 +86,5 @@ import {Form,FormItem}from 'ant-design-vue';
     closeModal();
     emit('success');
   }
-
 </script>
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

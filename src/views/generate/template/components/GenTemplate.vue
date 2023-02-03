@@ -14,6 +14,9 @@
       <template #action="{ record }">
         <TableAction :actions="getTableAction(record)" />
       </template>
+      <template #selected>
+        <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
+      </template>
     </BasicTable>
     <GenTemplateModal @register="registerModal" @success="reload" />
   </div>
@@ -39,7 +42,7 @@
   const [registerModal, { openModal }] = useModal();
 
   // 列表页面公共参数、方法
-  const [registerTable, { reload }] = useTable({
+  const [registerTable, { getSelectRowKeys, reload }] = useTable({
     title: '任务列表',
     api: templateApi.page,
     columns: columns,
@@ -105,5 +108,9 @@
   async function handleDelete(record) {
     await templateApi.remove({ id: record.id });
     reload();
+  }
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await templateApi.removeBatch(selectRowKeys, reload);
   }
 </script>

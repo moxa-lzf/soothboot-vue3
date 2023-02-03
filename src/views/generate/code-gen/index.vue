@@ -3,9 +3,17 @@
   <BasicTable @register="registerTable">
     <!--插槽:table标题-->
     <template #toolbar>
-      <Button v-auth="PermEnum.IMPORT" type="primary" preIcon="ant-design:plus-outlined" @click="handleImport">
+      <Button
+        v-auth="PermEnum.IMPORT"
+        type="primary"
+        preIcon="ant-design:plus-outlined"
+        @click="handleImport"
+      >
         数据库表导入
       </Button>
+    </template>
+    <template #selected>
+      <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
     </template>
     <!--操作栏-->
     <template #action="{ record }">
@@ -28,8 +36,8 @@
   import GenTableImportModal from './components/GenTableImportModal.vue';
   import GenCodeConfirmModal from './components/GenCodeConfirmModal.vue';
   import GenCodePreviewModal from './components/GenCodePreviewModal.vue';
-  import { columns, searchFormSchema } from './genTable.data';
-  import { genCodeApi } from './genTable.api';
+  import { columns, searchFormSchema } from './genCode.data';
+  import { genCodeApi } from './genCode.api';
 
   //字典model
   const [registerImportModal, { openModal: openImportModal }] = useModal();
@@ -39,7 +47,7 @@
   //字典配置drawer
   import { ActionItem } from '/@/components/Table';
   // 列表页面公共参数、方法
-  const [registerTable, { reload }] = useTable({
+  const [registerTable, { getSelectRowKeys, reload }] = useTable({
     title: '代码生成',
     api: genCodeApi.page,
     columns: columns,
@@ -50,7 +58,7 @@
     showTableSetting: true,
     bordered: true,
     actionColumn: {
-      width: 120,
+      width: 150,
       title: '操作',
     },
   });
@@ -78,7 +86,10 @@
       record,
     });
   }
-
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await genCodeApi.removeBatch(selectRowKeys, reload);
+  }
   /**
    * 删除事件
    */
@@ -121,7 +132,7 @@
   /**
    * 下拉操作栏
    */
-  function getDropDownAction(record): ActionItem[]|null{
+  function getDropDownAction(record): ActionItem[] | null {
     return [
       {
         label: '生成',
@@ -129,12 +140,12 @@
         auth: PermEnum.GENERATE,
         onClick: handleGenerate.bind(null, record),
       },
-      {
-        label: '同步',
-        icon: 'ant-design:cloud-sync-outlined',
-        auth: PermEnum.SYNC,
-        onClick: handleSync.bind(null, record),
-      },
+      // {
+      //   label: '同步',
+      //   icon: 'ant-design:cloud-sync-outlined',
+      //   auth: PermEnum.SYNC,
+      //   onClick: handleSync.bind(null, record),
+      // },
     ];
   }
 </script>

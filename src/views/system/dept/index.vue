@@ -32,12 +32,12 @@
     title: '部门列表',
     api: listTree,
     columns,
+    rowKey: 'deptId',
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
     },
     expandRowByClick: false,
-    rowSelection: { type: 'checkbox' },
     isTreeTable: true,
     pagination: false,
     striped: false,

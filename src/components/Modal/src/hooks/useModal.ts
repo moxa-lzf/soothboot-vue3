@@ -163,8 +163,17 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
       getVisible: computed((): boolean => {
         return visibleData[~~unref(uidRef)];
       }),
-      closeModal: () => {
-        getInstance()?.setModalProps({ visible: false });
+      closeModal: (time?: number) => {
+        if (time === undefined) {
+          time = 50;
+        }
+        if (time <= 0) {
+          getInstance()?.setModalProps({ visible: false });
+        } else{
+          setTimeout(() => {
+            getInstance()?.setModalProps({ visible: false });
+          }, time);
+        }
       },
 
       setModalProps: (props: Partial<ModalProps>) => {

@@ -20,7 +20,7 @@ export interface ReturnMethods extends ModalMethods {
 export type UseModalReturnType = [RegisterFn, ReturnMethods];
 
 export interface ReturnInnerMethods extends ModalMethods {
-  closeModal: () => void;
+  closeModal: (time?: number) => void;
   changeLoading: (loading: boolean) => void;
   changeOkLoading: (loading: boolean) => void;
   openLoading: (handleFunction: any) => void;

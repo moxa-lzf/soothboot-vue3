@@ -35,7 +35,7 @@
 
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
-  const [registerTable, { reload, updateTableDataRecord, getSelectRowKeys }] = useTable({
+  const [registerTable, { reload, getSelectRowKeys }] = useTable({
     title: '用户列表',
     api: userApi.page,
     columns,
@@ -43,7 +43,6 @@
       labelWidth: 80,
       schemas: searchFormSchema,
     },
-    rowSelection: { type: 'checkbox' },
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
@@ -80,12 +79,8 @@
     const selectRowKeys = getSelectRowKeys();
     await userApi.removeBatch(selectRowKeys, reload);
   }
-  function handleSuccess({ isUpdate, values }) {
-    if (isUpdate) {
-      updateTableDataRecord(values.id, values);
-    } else {
-      reload();
-    }
+  function handleSuccess() {
+    reload();
   }
 
   function handleSelect(deptIds = []) {

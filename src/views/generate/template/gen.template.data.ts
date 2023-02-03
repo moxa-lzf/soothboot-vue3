@@ -53,9 +53,6 @@ export const formSchema: FormSchema[] = [
     label: '模板名称',
     component: 'Input',
     required: true,
-    colProps: {
-      span: 8,
-    },
   },
   {
     field: 'groupId',
@@ -67,25 +64,11 @@ export const formSchema: FormSchema[] = [
       valueField: 'id',
     },
     required: true,
-    colProps: {
-      span: 8,
-    },
   },
   {
     field: 'fileName',
     label: '文件名称',
     component: 'Input',
     required: true,
-    colProps: {
-      span: 8,
-    },
-  },
-  {
-    field: 'content',
-    label: '',
-    labelWidth: 0,
-    component: 'Input',
-    required: true,
-    slot: 'content',
   },
 ];

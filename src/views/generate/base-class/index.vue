@@ -16,6 +16,9 @@
     <template #action="{ record }">
       <TableAction :actions="getTableAction(record)" />
     </template>
+    <template #selected>
+      <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
+    </template>
   </BasicTable>
   <!--字典弹窗-->
   <FieldTypeModal @register="registerModal" @success="handleSuccess" />
@@ -32,7 +35,7 @@
 
   const [registerModal, { openModal }] = useModal();
   // 列表页面公共参数、方法
-  const [registerTable, { reload, updateTableDataRecord }] = useTable({
+  const [registerTable, { getSelectRowKeys, reload }] = useTable({
     title: '基类管理',
     api: baseClassApi.page,
     columns: columns,
@@ -71,15 +74,15 @@
     await baseClassApi.remove({ id: record.id });
     reload();
   }
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await baseClassApi.removeBatch(selectRowKeys, reload);
+  }
   /**
    * 成功回调
    */
-  function handleSuccess({ isUpdate, values }) {
-    if (isUpdate) {
-      updateTableDataRecord(values.id, values);
-    } else {
-      reload();
-    }
+  function handleSuccess() {
+    reload();
   }
   /**
    * 操作栏

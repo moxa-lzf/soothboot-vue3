@@ -17,6 +17,9 @@
           :dropDownActions="getDropDownAction(record)"
         />
       </template>
+      <template #selected>
+        <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
+      </template>
     </BasicTable>
     <!--角色用户表格-->
     <UserRoleDrawer @register="roleUserDrawer" />
@@ -51,11 +54,10 @@
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   // 列表页面公共参数、方法
-  const [registerTable, { reload }] = useTable({
+  const [registerTable, { getSelectRowKeys, reload }] = useTable({
     title: '角色列表',
     api: roleApi.page,
     columns: columns,
-    rowKey: 'id',
     formConfig: {
       labelWidth: 80,
       schemas: searchFormSchema,
@@ -96,7 +98,10 @@
     await roleApi.remove({ id: record.id });
     reload();
   }
-
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await roleApi.removeBatch(selectRowKeys, reload);
+  }
   /**
    * 菜单授权弹窗
    */

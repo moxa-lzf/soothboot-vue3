@@ -19,6 +19,9 @@
           :dropDownActions="getDropDownAction(record)"
         />
       </template>
+      <template #selected>
+        <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
+      </template>
     </BasicTable>
     <MenuDrawer @register="registerMenuDrawer" @success="handleSuccess" :showFooter="showFooter" />
     <ButtonDrawer
@@ -42,7 +45,7 @@
   const [registerMenuDrawer, { openDrawer: openMenuDrawer }] = useDrawer();
   const [registerButtonDrawer, { openDrawer: openButtonDrawer }] = useDrawer();
   // 列表页面公共参数、方法
-  const [registerTable, { reload, expandAll, collapseAll }] = useTable({
+  const [registerTable, { getSelectRowKeys, reload, expandAll, collapseAll }] = useTable({
     title: '菜单列表',
     api: listMenuTree,
     columns: columns,
@@ -107,7 +110,10 @@
     await menuApi.remove({ id: record.id });
     reload();
   }
-
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await menuApi.removeBatch(selectRowKeys, reload);
+  }
   /**
    * 成功回调
    */

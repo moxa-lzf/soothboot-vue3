@@ -30,20 +30,26 @@
   import { useCopyToClipboard } from '/@/hooks/web/useCopyToClipboard';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { downloadByData } from '/@/utils/file/download';
+  import { generate } from '../genCode.api';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const { clipboardRef, copiedRef } = useCopyToClipboard();
   const { createMessage } = useMessage();
   const codeList = ref([]);
   const activeKey = ref(0);
+  const values = ref({});
   //表单赋值
   const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-    codeList.value = data;
+    codeList.value = data.result;
+    values.value = data.values;
   });
   //表单提交事件
   async function handleSubmit() {
     openOKLoading(async () => {
       //提交表单
+      const data = await generate(values.value);
+      downloadByData(data, 'code.zip');
       //关闭弹窗
       closeModal();
       //刷新列表

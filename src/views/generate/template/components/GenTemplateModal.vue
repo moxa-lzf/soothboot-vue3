@@ -7,7 +7,11 @@
     width="100%"
     @ok="handleSubmit"
   >
-    <div class="absolute top-15 right-10 z-1">
+    <div class="h-full flex">
+      <BasicForm class="w-1/5 xl:w-1/5" @register="registerForm" />
+      <CodeEditor class="h-full w-4/5 xl:w-4/5" v-model:value="content" />
+    </div>
+    <div class="absolute top-5 right-5 z-1">
       <Button type="text" @click="handleHelp">
         <template #icon>
           <QuestionCircleOutlined />
@@ -15,11 +19,6 @@
         帮助
       </Button>
     </div>
-    <BasicForm @register="registerForm">
-      <template #content="{ model, field }">
-        <CodeEditor v-model:value="model[field]" />
-      </template>
-    </BasicForm>
   </BasicModal>
   <GenTemplateHelpDrawer @register="registerHelpDrawer" />
 </template>
@@ -38,10 +37,12 @@
   const emit = defineEmits(['register', 'success']);
   const isUpdate = ref(true);
   const rowId = ref('');
+  const content = ref('');
   const [registerHelpDrawer, { openDrawer: openHelpDrawer }] = useDrawer();
   //表单配置
   const [registerForm, { setFieldsValue, validate }] = useForm({
     labelWidth: 100,
+    baseColProps: { span: 24 },
     schemas: formSchema,
     showActionButtonGroup: false,
   });
@@ -52,12 +53,14 @@
       rowId.value = data.record.id;
       await setFieldsValue(data.record);
     }
+    content.value = data.record?.content;
   });
   //设置标题
   const getTitle = computed(() => (!unref(isUpdate) ? '新增模板' : '编辑模板'));
   //表单提交事件
   async function handleSubmit() {
     let values = await validate();
+    values.content = unref(content);
     openOKLoading(async () => {
       //提交表单
       await templateApi.saveOrEdit(values, isUpdate.value);
