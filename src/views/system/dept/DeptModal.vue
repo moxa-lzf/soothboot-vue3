@@ -26,7 +26,7 @@
       });
 
       const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-        resetFields();
+        await resetFields();
         isUpdate.value = !!data?.isUpdate;
         let treeData = await listTree({});
         if (unref(isUpdate)) {

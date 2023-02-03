@@ -16,6 +16,7 @@ import { RoleEnum } from '/@/enums/roleEnum';
 import { intersection } from 'lodash-es';
 import { isArray } from '/@/utils/is';
 import { useMultipleTabStore } from '/@/store/modules/multipleTab';
+import { PermEnum } from '/@/enums/permEnum';
 
 // User permissions related operations
 export function usePermission() {
@@ -57,7 +58,7 @@ export function usePermission() {
   /**
    * Determine whether there is permission
    */
-  function hasPermission(value?: RoleEnum | RoleEnum[] | string | string[], def = true): boolean {
+  function hasPermission(value?: PermEnum | RoleEnum | RoleEnum[], def = true): boolean {
     // Visible by default
     if (!value) {
       return def;

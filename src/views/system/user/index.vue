@@ -19,7 +19,7 @@
   </PageWrapper>
 </template>
 <script lang="ts" name="system-user" setup>
-  import { reactive } from 'vue';
+  import { reactive, unref } from 'vue';
   import { ActionItem, BasicTable, TableAction, useTable } from '/@/components/Table';
   import { PageWrapper } from '/@/components/Page';
   import { DeptTree } from '/@/sooth/Dept';
@@ -30,6 +30,8 @@
 
   import { columns, searchFormSchema } from './user.data';
   import { userApi } from './user.api';
+  import { getRoleByUserId } from '/@/views/privilege/role/userRole.api';
+  import { getDeptByUserId } from '/@/views/system/dept/userDept.api';
 
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
@@ -57,9 +59,15 @@
     });
   }
 
-  function handleEdit(record: Recordable) {
+  async function handleEdit(record: Recordable) {
+    const roleList = await getRoleByUserId({ userId: unref(record.id) });
+    const deptList = await getDeptByUserId({ userId: unref(record.id) });
     openModal(true, {
-      record,
+      record: {
+        ...record,
+        roleIdList: roleList.map((role) => role.roleId),
+        deptIdList: deptList.map((dept) => dept.deptId),
+      },
       isUpdate: true,
     });
   }

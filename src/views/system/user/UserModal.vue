@@ -1,7 +1,7 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
     <BasicForm @register="registerForm">
-       <template #dept="{ model, field }">
+      <template #dept="{ model, field }">
         <DeptTreeSelect v-model:value="model[field]" :multiple="true" />
       </template>
     </BasicForm>
@@ -14,8 +14,6 @@
   import { DeptTreeSelect } from '/@/sooth/Dept';
   import { formSchema } from './user.data';
   import { saveUser, editUser } from './user.api';
-  import { getRoleByUserId } from '/@/views/privilege/role/userRole.api';
-  import { getDeptByUserId } from '/@/views/system/dept/userDept.api';
   export default defineComponent({
     name: 'UserModal',
     components: { BasicModal, BasicForm, DeptTreeSelect },
@@ -32,17 +30,12 @@
       });
 
       const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-        resetFields();
+        await resetFields();
         isUpdate.value = !!data?.isUpdate;
-
         if (unref(isUpdate)) {
           rowId.value = data.record.id;
-          const roleList = await getRoleByUserId({ userId: unref(rowId) });
-          const deptList = await getDeptByUserId({ userId: unref(rowId) });
           setFieldsValue({
             ...data.record,
-            roleIdList: roleList.map((role) => role.roleId),
-            deptIdList: deptList.map((dept) => dept.deptId),
           });
         }
       });
