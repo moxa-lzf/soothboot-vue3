@@ -35,8 +35,7 @@
   const title = ref('');
   //表单赋值
   const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-    //重置表单
-    await resetFields();
+
     title.value = '代码生成【' + data.record.tableName + '】';
     let _Index = data.record.tableName.indexOf('_');
     let moduleName;

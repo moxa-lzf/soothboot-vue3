@@ -28,8 +28,7 @@
   });
   //表单赋值
   const [registerModal, { closeModal, openOKLoading }] = useModalInner(async (data) => {
-    //重置表单
-    await resetFields();
+
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
       //表单赋值

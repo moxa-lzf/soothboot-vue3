@@ -30,8 +30,7 @@
     },
   );
 
-  const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
-    await resetFields();
+  const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {fixedTab
     setDrawerProps({ confirmLoading: false });
     isUpdate.value = !!data?.isUpdate;
     menuType.value = data?.record?.menuType;

@@ -49,7 +49,6 @@
   const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
     isUpdate.value = !!data?.isUpdate;
     if (unref(isUpdate)) {
-      //重置表单
       rowId.value = data.record.id;
       await setFieldsValue(data.record);
     }

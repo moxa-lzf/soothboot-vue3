@@ -61,6 +61,7 @@
     toRef,
     getCurrentInstance,
     nextTick,
+    provide,
   } from 'vue';
   import Modal from './components/Modal';
   import ModalWrapper from './components/ModalWrapper.vue';
@@ -85,7 +86,7 @@
       const propsRef = ref<Partial<ModalProps> | null>(null);
       const modalWrapperRef = ref<any>(null);
       const { prefixCls } = useDesign('basic-modal');
-
+      provide('visible', visibleRef);
       // modal   Bottom and top height
       const extHeightRef = ref(0);
       const modalMethods: ModalMethods = {

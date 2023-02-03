@@ -153,7 +153,7 @@
         Cookies.set(
           LOGIN_INFO,
           JSON.stringify({ account: data.account, password: data.password, rememberMe: true }),
-          { expires: 7 },
+          { expires: 1 },
         );
       } else {
         Cookies.remove(LOGIN_INFO);

@@ -30,9 +30,7 @@
       });
 
       const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-        resetFields();
         isUpdate.value = !!data?.isUpdate;
-
         if (unref(isUpdate)) {
           rowId.value = data.record.id;
           setFieldsValue({

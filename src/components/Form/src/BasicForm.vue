@@ -42,7 +42,18 @@
   import type { AdvanceState } from './types/hooks';
   import type { Ref } from 'vue';
 
-  import { defineComponent, reactive, ref, computed, unref, onMounted, watch, nextTick } from 'vue';
+  import {
+    defineComponent,
+    reactive,
+    ref,
+    computed,
+    unref,
+    onMounted,
+    watch,
+    watchEffect,
+    nextTick,
+    inject,
+  } from 'vue';
   import { Form, Row } from 'ant-design-vue';
   import FormItem from './components/FormItem.vue';
   import FormAction from './components/FormAction.vue';
@@ -238,7 +249,13 @@
         }, 300),
         { deep: true },
       );
-
+      const visible = inject('visible', ref(undefined));
+      watchEffect(() => {
+        if (unref(visible) === false) {
+          resetFields();
+          clearValidate();
+        }
+      });
       async function setProps(formProps: Partial<FormProps>): Promise<void> {
         propsRef.value = deepMerge(unref(propsRef) || {}, formProps);
       }

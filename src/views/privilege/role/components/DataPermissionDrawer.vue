@@ -55,7 +55,6 @@
     showActionButtonGroup: false,
   });
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
-    resetFields();
     setDrawerProps({ confirmLoading: false, loading: true });
     treeData.value = await listTree({});
     setFieldsValue({

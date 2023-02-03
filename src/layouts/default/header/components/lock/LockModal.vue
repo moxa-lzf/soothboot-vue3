@@ -71,7 +71,6 @@
           isLock: true,
           pwd: password,
         });
-        await resetFields();
       }
 
       const avatar = computed(() => {

@@ -18,7 +18,7 @@
     setup(_, { emit }) {
       const isUpdate = ref(true);
 
-      const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
+      const [registerForm, { setFieldsValue, updateSchema, validate }] = useForm({
         labelWidth: 80,
         baseColProps: { span: 24 },
         schemas: formSchema,
@@ -26,7 +26,6 @@
       });
 
       const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-        await resetFields();
         isUpdate.value = !!data?.isUpdate;
         let treeData = await listTree({});
         if (unref(isUpdate)) {

@@ -31,6 +31,7 @@
   </Drawer>
 </template>
 <script lang="ts">
+  import { provide } from 'vue';
   import type { DrawerInstance, DrawerProps } from './typing';
   import type { CSSProperties } from 'vue';
   import {
@@ -75,6 +76,8 @@
       const instance = getCurrentInstance();
 
       instance && emit('register', drawerInstance, instance.uid);
+
+      provide('visible', visibleRef);
 
       const getMergeProps = computed((): DrawerProps => {
         return deepMerge(toRaw(props), unref(propsRef));
