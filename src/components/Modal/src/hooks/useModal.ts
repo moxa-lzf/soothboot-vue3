@@ -165,11 +165,11 @@ export const useModalInner = (callbackFn?: Fn): UseModalInnerReturnType => {
       }),
       closeModal: (time?: number) => {
         if (time === undefined) {
-          time = 50;
+          time = 200;
         }
         if (time <= 0) {
           getInstance()?.setModalProps({ visible: false });
-        } else{
+        } else {
           setTimeout(() => {
             getInstance()?.setModalProps({ visible: false });
           }, time);

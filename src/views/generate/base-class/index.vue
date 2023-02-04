@@ -7,7 +7,7 @@
         v-auth="PermEnum.ADD"
         type="primary"
         preIcon="ant-design:plus-outlined"
-        @click="handleCreate"
+        @click="handleAdd"
       >
         新增
       </Button>
@@ -53,7 +53,7 @@
   /**
    * 新增事件
    */
-  function handleCreate() {
+  function handleAdd() {
     openModal(true, {
       isUpdate: false,
     });

@@ -9,11 +9,15 @@
         :schema="getSchema(record)"
       />
     </template>
+    <template #selected>
+      <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
+    </template>
   </BasicTable>
 </template>
 <script lang="ts" name="basic-log" setup>
   import { h, ref, unref } from 'vue';
   import { BasicTable, useTable } from '/@/components/Table';
+  import { PermEnum } from '/@/enums/permEnum';
   import { DescItem, Description } from '/@/components/Description/index';
   import { CodeEditor } from '/@/components/CodeEditor';
   import { logApi } from './log.api';
@@ -21,7 +25,7 @@
   const logData = ref({});
 
   // 列表页面公共参数、方法
-  const [registerTable] = useTable({
+  const [registerTable, { getSelectRowKeys, reload }] = useTable({
     title: '日志列表',
     api: logApi.page,
     columns,
@@ -51,6 +55,10 @@
       });
     }
     return unref(logData)[id];
+  }
+  async function handleRemoveBatch() {
+    const selectRowKeys = getSelectRowKeys();
+    await logApi.removeBatch(selectRowKeys, reload);
   }
   function getSchema(record) {
     const schema: DescItem[] = [

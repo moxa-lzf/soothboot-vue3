@@ -6,7 +6,7 @@
           v-auth="PermEnum.ADD"
           type="primary"
           preIcon="ant-design:plus-outlined"
-          @click="handleCreate"
+          @click="handleAdd"
         >
           新增菜单
         </Button>
@@ -70,7 +70,7 @@
   /**
    * 新增
    */
-  function handleCreate() {
+  function handleAdd() {
     showFooter.value = true;
     openMenuDrawer(true, {
       isUpdate: false,

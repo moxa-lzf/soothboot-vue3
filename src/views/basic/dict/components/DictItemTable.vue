@@ -2,7 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <a-button v-if="props.dict" v-auth="PermEnum.ADD" type="primary" @click="handleCreate">
+        <a-button v-if="props.dict" v-auth="PermEnum.ADD" type="primary" @click="handleAdd">
           新增</a-button
         >
       </template>
@@ -64,7 +64,7 @@
   /**
    * 新增
    */
-  function handleCreate() {
+  function handleAdd() {
     openModal(true, {
       isUpdate: false,
     });

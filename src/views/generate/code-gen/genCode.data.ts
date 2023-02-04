@@ -138,7 +138,7 @@ export const genTableColumns: BasicColumn[] = [
   },
   {
     title: '字段类型',
-    dataIndex: 'typeName',
+    dataIndex: 'columnType',
   },
   {
     title: '字段备注',

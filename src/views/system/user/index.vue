@@ -3,7 +3,7 @@
     <DeptTree class="w-1/4 xl:w-1/5" @selectAll="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button v-auth="PermEnum.ADD" type="primary" @click="handleCreate">新增</a-button>
+        <a-button v-auth="PermEnum.ADD" type="primary" @click="handleAdd">新增</a-button>
       </template>
       <template #selected>
         <a @click="handleRemoveBatch" v-auth="PermEnum.REMOVE_BATCH">删除</a>
@@ -52,7 +52,7 @@
     },
   });
 
-  function handleCreate() {
+  function handleAdd() {
     openModal(true, {
       isUpdate: false,
     });

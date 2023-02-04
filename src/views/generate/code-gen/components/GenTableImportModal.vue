@@ -22,7 +22,7 @@
 </template>
 <script lang="ts" setup>
   import { ref, unref } from 'vue';
-  import {Form,FormItem}from 'ant-design-vue';
+  import { Form, FormItem } from 'ant-design-vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { BasicModal } from '/@/components/Modal';
   import { genTableImportColumns } from '../genCode.data';
@@ -40,7 +40,7 @@
 
   const emit = defineEmits(['success']);
   //表单赋值
-  const [registerModal, { closeModal }] = useModalInner(async (data) => {});
+  const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {});
 
   const [registerTable] = useTable({
     api: getTableList,
@@ -81,10 +81,12 @@
     searchInfo.value.id = value;
     BasicTableRef.value.reload();
   }
-  async function handleSubmit() {
-    await tableImport(searchInfo.value.id, unref(checkedKeys));
-    closeModal();
-    emit('success');
+  function handleSubmit() {
+    openOKLoading(async () => {
+      await tableImport(searchInfo.value.id, unref(checkedKeys));
+      closeModal();
+      emit('success');
+    });
   }
 </script>
 <style scoped lang="less"></style>

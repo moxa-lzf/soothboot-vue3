@@ -2,7 +2,7 @@
   <div>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <Button v-auth="PermEnum.ADD" type="primary" @click="handleCreate"> 新增部门</Button>
+        <Button v-auth="PermEnum.ADD" type="primary" @click="handleAdd"> 新增部门</Button>
         <Button type="primary" preIcon="ic:round-expand" @click="expandAll">展开全部</Button>
         <Button type="primary" preIcon="ic:round-compress" @click="collapseAll">折叠全部 </Button>
       </template>
@@ -52,7 +52,7 @@
     },
   });
 
-  function handleCreate() {
+  function handleAdd() {
     openModal(true, {
       isUpdate: false,
     });
