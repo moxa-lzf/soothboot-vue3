@@ -32,14 +32,14 @@ export class BaseApi {
       removeBatch: `${requestUrl}/removeBatch`,
     };
     /**
-    * @param params
+     * @param params
     */
     const get = (params) => {
       return defHttp.get({ url: Api.get, params });
     };
     /**
-    * @param params
-    */
+     * @param params
+     */
     const getOne = (params) => {
       return defHttp.get({ url: Api.getOne, params });
     };

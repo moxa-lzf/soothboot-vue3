@@ -23,4 +23,5 @@ export const getTableFieldList = (params) => defHttp.get({ url: Api.getTableFiel
 
 export const preview = (params) => defHttp.get({ url: Api.preview, params });
 
-export const generate = (params) => defHttp.post({ url: Api.generate, params,responseType: 'blob' },{isTransformResponse:false});
+export const generate = (params) =>
+  defHttp.post({ url: Api.generate, params, responseType: 'blob' }, { isTransformResponse: false });

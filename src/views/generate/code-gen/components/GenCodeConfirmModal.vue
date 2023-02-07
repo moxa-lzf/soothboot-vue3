@@ -24,6 +24,7 @@
   import { formConfirmSchema } from '../genCode.data';
   import { generate, preview } from '../genCode.api';
   import { camelCase } from 'lodash-es';
+  import { error } from '/@/utils/http/axios/helper'
   const [registerPreviewModal, { openModal: openPreviewModal }] = useModal();
   //表单配置
   const [registerForm, { setFieldsValue, validate }] = useForm({
@@ -35,7 +36,6 @@
   const title = ref('');
   //表单赋值
   const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {
-
     title.value = '代码生成【' + data.record.tableName + '】';
     let _Index = data.record.tableName.indexOf('_');
     let moduleName;
@@ -59,9 +59,19 @@
     openOKLoading(async () => {
       //提交表单
       const data = await generate(values);
-      downloadByData(data, 'code.zip');
-      //关闭弹窗
-      closeModal();
+      console.log(data);
+      if (data.type === 'application/octet-stream') {
+        downloadByData(data, 'code.zip');
+        //关闭弹窗
+        closeModal();
+      } else {
+        const reader = new FileReader();
+        reader.readAsText(data, 'UTF-8');
+        reader.onload = function () {
+          const result = reader.result;
+          error(result as string);
+        };
+      }
     });
   }
   async function handlePreview() {
