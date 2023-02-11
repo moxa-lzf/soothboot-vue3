@@ -74,7 +74,7 @@ export function usePermission() {
     }
 
     if (PermissionModeEnum.BACK === permMode) {
-      const allCodeList = permissionStore.getPermCodeList as string[];
+      const allCodeList = userStore.getUserInfo?.permCodes || [];
       const hash = window.location.hash;
       if (hash) {
         const index = hash.indexOf('#');

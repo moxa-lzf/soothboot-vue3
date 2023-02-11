@@ -31,7 +31,7 @@ export const basicProps = {
   showDetailBack: { type: Boolean, default: true },
   visible: { type: Boolean },
   loading: { type: Boolean },
-  maskClosable: { type: Boolean, default: true },
+  maskClosable: { type: Boolean, default: false },
   getContainer: {
     type: [Object, String] as PropType<any>,
   },

@@ -1,5 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
+import {render} from "/@/utils/common/renderUtils";
 export const columns: BasicColumn[] = [
   {
     title: '字典名称',
@@ -63,6 +64,7 @@ export const dictItemColumns: BasicColumn[] = [
   {
     title: '名称',
     dataIndex: 'name',
+    customRender: ({ record, value }) => render.renderTag(value, record.tag),
   },
   {
     title: '数据值',
@@ -102,6 +104,11 @@ export const itemFormSchema: FormSchema[] = [
     dynamicDisabled: ({ values }) => {
       return !!values.id;
     },
+  },
+  {
+    label: '颜色标签',
+    field: 'tag',
+    component: 'Input',
   },
   {
     label: '描述',

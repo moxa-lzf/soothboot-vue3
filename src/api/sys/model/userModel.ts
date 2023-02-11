@@ -1,6 +1,8 @@
 /**
  * @description: Login interface parameters
  */
+import { UserInfo } from '/#/store';
+
 export interface LoginParams {
   username: string;
   password: string;
@@ -17,7 +19,6 @@ export interface RoleInfo {
  * @description: Login interface return value
  */
 export interface LoginResultModel {
-  userId: string | number;
   token: string;
-  role: RoleInfo;
+  userInfo: UserInfo;
 }

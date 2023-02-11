@@ -28,6 +28,8 @@
     <MenuPermissionDrawer @register="menuPermissionDrawer" />
     <!--按钮授权抽屉-->
     <ButtonPermissionDrawer @register="buttonPermissionDrawer" />
+    <!--接口授权抽屉-->
+    <InterfacePermissionDrawer @register="interfacePermissionDrawer" />
     <!--数据授权抽屉-->
     <DataPermissionDrawer @register="dataPermissionDrawer" />
   </PageWrapper>
@@ -42,6 +44,7 @@
   import RoleModal from './RoleModal.vue';
   import MenuPermissionDrawer from './MenuPermissionDrawer.vue';
   import ButtonPermissionDrawer from './ButtonPermissionDrawer.vue';
+  import InterfacePermissionDrawer from './InterfacePermissionDrawer.vue';
   import DataPermissionDrawer from './DataPermissionDrawer.vue';
   import UserRoleDrawer from './UserRoleDrawer.vue';
   import { columns, searchFormSchema } from '../role.data';
@@ -50,6 +53,7 @@
   const [roleUserDrawer, { openDrawer: openRoleUserDrawer }] = useDrawer();
   const [menuPermissionDrawer, { openDrawer: openMenuPermissionDrawer }] = useDrawer();
   const [buttonPermissionDrawer, { openDrawer: openButtonPermissionDrawer }] = useDrawer();
+  const [interfacePermissionDrawer, { openDrawer: openInterfacePermissionDrawer }] = useDrawer();
   const [dataPermissionDrawer, { openDrawer: openDataPermissionDrawer }] = useDrawer();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
@@ -105,19 +109,22 @@
   /**
    * 菜单授权弹窗
    */
-  function handleMenuPerssion(record) {
+  function handleMenuPermission(record) {
     openMenuPermissionDrawer(true, { roleId: record.id });
   }
   /**
    * 按钮授权弹窗
    */
-  function handleButtonPerssion(record) {
+  function handleButtonPermission(record) {
     openButtonPermissionDrawer(true, { roleId: record.id });
+  }
+  function handleInterfacePermission(record) {
+    openInterfacePermissionDrawer(true, { roleId: record.id });
   }
   /**
    * 数据授权弹窗
    */
-  function handleDataPerssion(record) {
+  function handleDataPermission(record) {
     openDataPermissionDrawer(true, {
       record: { roleId: record.id, roleCode: record.roleCode, roleName: record.roleName },
     });
@@ -168,23 +175,28 @@
         icon: 'ant-design:menu-outlined',
         label: '菜单权限',
         auth: PermEnum.MENU_PERMISSION,
-        onClick: handleMenuPerssion.bind(null, record),
+        onClick: handleMenuPermission.bind(null, record),
       },
       {
         icon: 'ant-design:menu-fold-outlined',
         label: '按钮权限',
         auth: PermEnum.BUTTON_PERMISSION,
-        onClick: handleButtonPerssion.bind(null, record),
+        onClick: handleButtonPermission.bind(null, record),
+      },
+      {
+        icon: 'ant-design:menu-fold-outlined',
+        label: '接口权限',
+        onClick: handleInterfacePermission.bind(null, record),
       },
       {
         icon: 'ant-design:menu-unfold-outlined',
         label: '数据权限',
         auth: PermEnum.DATA_PERMISSION,
-        onClick: handleDataPerssion.bind(null, record),
+        onClick: handleDataPermission.bind(null, record),
       },
       {
         icon: 'ant-design:user-add-outlined',
-        label: '角色用户',
+        label: '授权用户',
         auth: PermEnum.ROLE_USER,
         onClick: handleUser.bind(null, record),
       },

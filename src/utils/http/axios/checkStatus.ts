@@ -25,7 +25,7 @@ export function checkStatus(status: number, msg: string): void {
       }
       break;
     case 403:
-      errMessage = '用户得到授权，但是访问是被禁止的!';
+      errMessage = msg || '用户得到授权，但是访问是被禁止的!';
       break;
     // 404请求不存在
     case 404:

@@ -1,8 +1,9 @@
-import { h } from 'vue';
+import { h, ref, unref } from 'vue';
 import { Avatar, Tag } from 'ant-design-vue';
+import { useDictStoreWithOut } from '/@/store/modules/dict';
 import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
+import { dictItemCode } from '/@/sooth/Dict/dict.api';
 import Icon from '/@/components/Icon';
-
 const render = {
   /**
    * 渲染列表头像
@@ -37,8 +38,39 @@ const render = {
     }
     return h(
       'span',
-      value.map((v) => h('span', { class: 'mr-4' }, h(Tag, { color: 'blue' }, v))),
+      value.map((v) => h('span', { class: 'mr-4 leading-8' }, h(Tag, { color: 'blue' }, v))),
     );
+  },
+  renderDict: (code, itemValue, value) => {
+    if (!value) {
+      return '';
+    }
+    const dictStore = useDictStoreWithOut();
+    const dictItem = dictStore.getDictItem;
+    const tag = ref('default');
+    let dictItemArray = dictItem[code];
+    if (!dictItemArray) {
+      dictItemCode(code).then((res) => {
+        dictItemArray = res;
+        dictStore.setDictItem(code, dictItemArray);
+        chooseTag();
+      });
+    } else {
+      chooseTag();
+    }
+    function chooseTag() {
+      for (const item of dictItemArray) {
+        if (item.value == itemValue) {
+          tag.value = item.tag;
+          break;
+        }
+      }
+    }
+    return h('span', h('span', {}, h(Tag, { color: unref(tag) }, value)));
+  },
+
+  renderTag(value, tag) {
+    return h('span', h('span', {}, h(Tag, { color: tag }, value)));
   },
 };
 export { render };

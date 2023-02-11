@@ -6,7 +6,6 @@ enum Api {
   Login = '/sys/login',
   Logout = '/sys/logout',
   GetUserInfo = '/sys/user/getUserInfo',
-  GetPermCode = '/sys/buttonPermission/getPermCode',
   getInputCode = '/sys/randomImage',
 }
 
@@ -25,9 +24,6 @@ export function loginApi(params: LoginParams) {
  */
 export function getUserInfo(): Promise<UserInfo> {
   return defHttp.get<UserInfo>({ url: Api.GetUserInfo });
-}
-export function getPermCode() {
-  return defHttp.get({ url: Api.GetPermCode });
 }
 
 export function doLogout() {

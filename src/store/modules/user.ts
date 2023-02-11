@@ -24,7 +24,7 @@ interface UserState {
 }
 
 export const useUserStore = defineStore({
-  id: 'app-user',
+  id: 'user',
   state: (): UserState => ({
     // user info
     userInfo: null,
@@ -87,15 +87,18 @@ export const useUserStore = defineStore({
     ): Promise<UserInfo | null> {
       const { goHome = true, ...loginParams } = params;
       const data = await loginApi(loginParams);
-      const { token } = data;
+      const { token, userInfo } = data;
       // save token
       this.setToken(token);
-      return this.afterLoginAction(goHome);
+      return this.afterLoginAction(goHome, userInfo);
     },
-    async afterLoginAction(goHome?: boolean): Promise<UserInfo | null> {
+    async afterLoginAction(goHome?: boolean, userInfo?: UserInfo): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       // get user info
-      const userInfo = await this.getUserInfoAction();
+      if (!userInfo) {
+        userInfo = await this.getUserInfoAction();
+      }
+      this.setUserInfo(userInfo);
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
         this.setSessionTimeout(false);
@@ -113,12 +116,9 @@ export const useUserStore = defineStore({
       }
       return userInfo;
     },
-    async getUserInfoAction(): Promise<UserInfo | null> {
-      if (!this.getToken) return null;
+    async getUserInfoAction(): Promise<UserInfo> {
+      if (!this.getToken) throw new Error('获取用户信息失败');
       const userInfo = await getUserInfo();
-      if (userInfo) {
-        this.setUserInfo(userInfo);
-      }
       return userInfo;
     },
     /**

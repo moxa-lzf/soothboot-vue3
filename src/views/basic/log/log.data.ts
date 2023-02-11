@@ -1,5 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
-
+import { render } from '/@/utils/common/renderUtils';
 export const columns: BasicColumn[] = [
   {
     title: '业务模块',
@@ -32,6 +32,7 @@ export const columns: BasicColumn[] = [
   {
     title: '状态',
     dataIndex: ['dict', 'status'],
+    customRender: ({ record, value }) => render.renderDict('success_status', record.status, value),
   },
 ];
 
