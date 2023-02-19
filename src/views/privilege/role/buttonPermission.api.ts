@@ -5,7 +5,7 @@ class ButtonPermissionApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const buttonPermissionApi = new ButtonPermissionApi('/sys/buttonPermission').api;
+export const buttonPermissionApi = new ButtonPermissionApi('/sys/buttonPermission');
 
 enum Api {
   saveButtonPermission = '/sys/buttonPermission/saveButtonPermission',

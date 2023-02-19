@@ -4,4 +4,4 @@ class DictApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const dictApi = new DictApi('/sys/dict').api;
+export const dictApi = new DictApi('/sys/dict');

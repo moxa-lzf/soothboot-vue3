@@ -5,4 +5,4 @@ class DictItemApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const dictItemApi = new DictItemApi('/sys/dictItem').api;
+export const dictItemApi = new DictItemApi('/sys/dictItem');

@@ -4,4 +4,4 @@ class BaseClassApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const baseClassApi = new BaseClassApi('/generate/baseClass').api;
+export const baseClassApi = new BaseClassApi('/generate/baseClass');

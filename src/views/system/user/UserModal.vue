@@ -13,7 +13,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { DeptTreeSelect } from '/@/sooth/Dept';
   import { formSchema } from './user.data';
-  import { saveUser, editUser } from './user.api';
+  import { userApi } from './user.api';
   export default defineComponent({
     name: 'UserModal',
     components: { BasicModal, BasicForm, DeptTreeSelect },
@@ -22,7 +22,7 @@
       const isUpdate = ref(true);
       const rowId = ref('');
 
-      const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
+      const [registerForm, { setFieldsValue, validate }] = useForm({
         labelWidth: 80,
         baseColProps: { span: 24 },
         schemas: formSchema,
@@ -45,9 +45,9 @@
         const values = await validate();
         openOKLoading(async () => {
           if (unref(isUpdate)) {
-            await editUser(values);
+            await userApi.editUser(values);
           } else {
-            await saveUser(values);
+            await userApi.saveUser(values);
           }
           closeModal();
           emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

@@ -7,7 +7,7 @@ class DeptApi extends BaseApi {
   }
 }
 
-export const deptApi = new DeptApi('/sys/dept').api;
+export const deptApi = new DeptApi('/sys/dept');
 
 enum Api {
   listTree = '/sys/dept/listTree',

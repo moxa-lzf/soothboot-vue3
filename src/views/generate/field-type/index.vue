@@ -23,7 +23,7 @@
   import { PermEnum } from '/@/enums/permEnum';
   import FieldTypeModal from './components/FieldTypeModal.vue';
   import { columns, searchFormSchema } from './fieldType.data';
-  import { fieldTypeApi, initTypeField } from './fieldType.api';
+  import { fieldTypeApi } from './fieldType.api';
 
   const [registerModal, { openModal }] = useModal();
   // 列表页面公共参数、方法
@@ -45,7 +45,7 @@
   });
 
   async function handleInitFieldType() {
-    await initTypeField();
+    await fieldTypeApi.initTypeField();
     reload();
   }
 

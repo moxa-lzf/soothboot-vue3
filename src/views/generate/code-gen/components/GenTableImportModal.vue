@@ -26,8 +26,8 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import { BasicModal } from '/@/components/Modal';
   import { genTableImportColumns } from '../genCode.data';
-  import { getTableList, tableImport } from '../genCode.api';
-  import { listLabel } from '/@/views/generate/datasource/datasource.api';
+  import { genCodeApi } from '../genCode.api';
+  import { datasourceApi } from '/@/views/generate/datasource/datasource.api';
   import ApiSelect from '/@/components/Form/src/components/ApiSelect.vue';
   import { useModalInner } from '/@/components/Modal';
 
@@ -40,10 +40,10 @@
 
   const emit = defineEmits(['success']);
   //表单赋值
-  const [registerModal, { openOKLoading, closeModal }] = useModalInner(async (data) => {});
+  const [registerModal, { openOKLoading, closeModal }] = useModalInner();
 
   const [registerTable] = useTable({
-    api: getTableList,
+    api: genCodeApi.getTableList,
     columns: genTableImportColumns,
     formConfig: {
       labelAlign: 'right',
@@ -66,7 +66,7 @@
     onChange: onSelectChange,
   };
   const { api, labelField, valueField } = {
-    api: listLabel,
+    api: datasourceApi.listLabel,
     labelField: 'name',
     valueField: 'id',
   };
@@ -83,7 +83,7 @@
   }
   function handleSubmit() {
     openOKLoading(async () => {
-      await tableImport(searchInfo.value.id, unref(checkedKeys));
+      await genCodeApi.tableImport(searchInfo.value.id, unref(checkedKeys));
       closeModal();
       emit('success');
     });

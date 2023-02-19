@@ -7,7 +7,7 @@ class UserRoleApi extends BaseApi {
   }
 }
 
-export const userRoleApi = new UserRoleApi('/sys/userRole').api;
+export const userRoleApi = new UserRoleApi('/sys/userRole');
 
 enum Api {
   saveUserRole = '/sys/userRole/saveUserRole',
@@ -20,8 +20,8 @@ export const saveUserRole = (params) => {
 };
 
 export const getUserByRoleId = (params) => {
-  if(!params.roleId){
-return [];
+  if (!params.roleId) {
+    return [];
   }
   return defHttp.get({ url: Api.getUserByRoleId, params });
 };

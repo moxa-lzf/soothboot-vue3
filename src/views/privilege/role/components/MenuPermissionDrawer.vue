@@ -36,7 +36,7 @@
   import { BasicTree, TreeItem } from '/@/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
   import { queryRolePermission, saveRolePermission } from '../role.api';
-  import { listMenuTree } from '/@/views/privilege/menu/menu.api';
+  import { menuApi } from '/@/views/privilege/menu/menu.api';
   const treeRef = ref(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
@@ -47,7 +47,7 @@
     setDrawerProps({ confirmLoading: false, loading: true });
     roleId.value = data.roleId;
     //初始化数据
-    const roleResult = await listMenuTree({});
+    const roleResult = await menuApi.listMenuTree({});
     treeData.value = roleResult;
     //初始化角色菜单数据
     const permResult = await queryRolePermission({ roleId: unref(roleId) });

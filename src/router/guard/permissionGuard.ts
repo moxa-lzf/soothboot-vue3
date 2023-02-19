@@ -8,6 +8,7 @@ import { useUserStoreWithOut } from '/@/store/modules/user';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 
 import { RootRoute } from '/@/router/routes';
+import {UserInfo} from "/#/store";
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
 
@@ -35,13 +36,10 @@ export function createPermissionGuard(router: Router) {
     if (whitePathList.includes(to.path as PageEnum)) {
       if (to.path === LOGIN_PATH && token) {
         const isSessionTimeout = userStore.getSessionTimeout;
-        try {
-          await userStore.afterLoginAction();
-          if (!isSessionTimeout) {
-            next((to.query?.redirect as string) || '/');
-            return;
-          }
-        } catch {}
+        if (!isSessionTimeout) {
+          next((to.query?.redirect as string) || '/');
+          return;
+        }
       }
       next();
       return;
@@ -79,11 +77,11 @@ export function createPermissionGuard(router: Router) {
       next(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
       return;
     }
-
     // get userinfo while last fetch time is empty
     if (userStore.getLastUpdateTime === 0) {
       try {
-        await userStore.getUserInfoAction();
+        const userInfo: UserInfo = await userStore.getUserInfoAction();
+        userStore.setUserInfo(userInfo);
       } catch (err) {
         next();
         return;

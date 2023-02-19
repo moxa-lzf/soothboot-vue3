@@ -29,7 +29,6 @@
     title: '日志列表',
     api: logApi.page,
     columns,
-    isTreeTable: true,
     useSearchForm: true,
     showTableSetting: true,
     expandRowByClick: false,

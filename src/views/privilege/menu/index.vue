@@ -40,14 +40,14 @@
   import MenuDrawer from './MenuDrawer.vue';
   import ButtonDrawer from './ButtonDrawer.vue';
   import { columns, searchFormSchema } from './menu.data';
-  import { menuApi, listMenuTree } from './menu.api';
+  import { menuApi } from './menu.api';
   const showFooter = ref(true);
   const [registerMenuDrawer, { openDrawer: openMenuDrawer }] = useDrawer();
   const [registerButtonDrawer, { openDrawer: openButtonDrawer }] = useDrawer();
   // 列表页面公共参数、方法
   const [registerTable, { getSelectRowKeys, reload, expandAll, collapseAll }] = useTable({
     title: '菜单列表',
-    api: listMenuTree,
+    api: menuApi.listMenuTree,
     columns: columns,
     formConfig: {
       schemas: searchFormSchema,

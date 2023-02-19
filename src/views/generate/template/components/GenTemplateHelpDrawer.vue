@@ -15,12 +15,12 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
-  import { help } from '../gen.template.api';
+  import { templateApi } from '../gen.template.api';
   import { PageWrapper } from '/@/components/Page';
   const helpData = ref([]);
   //树的信息
   const [registerDrawer] = useDrawerInner(async () => {
-    helpData.value = await help();
+    helpData.value = await templateApi.help();
   });
 </script>
 

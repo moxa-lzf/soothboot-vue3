@@ -36,14 +36,14 @@
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
   import { dictItemCode } from '/@/sooth/Dict/dict.api';
-  import { saveButton, buttonApi } from './button.api';
+  import { buttonApi } from './button.api';
   import { DictEnum } from '/@/enums/dictEnum';
   const treeRef = ref<Nullable<TreeActionType>>(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
   const menuId = ref('');
   const loading = ref(false);
-  const emit=defineEmits(['success']);
+  const emit = defineEmits(['success']);
   const [registerDrawer, { setDrawerProps, closeDrawer }] = useDrawerInner(async (data) => {
     setDrawerProps({ confirmLoading: false, loading: true });
     menuId.value = data.menuId;
@@ -73,7 +73,7 @@
     }
     loading.value = true;
     try {
-      await saveButton(unref(menuId), checkedKeys);
+      await buttonApi.saveButton(unref(menuId), checkedKeys);
     } finally {
       loading.value = false;
     }

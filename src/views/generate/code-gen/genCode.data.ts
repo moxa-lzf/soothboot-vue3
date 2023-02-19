@@ -1,8 +1,8 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { ApiSelect } from '/@/components/Form';
-import { listAttrType } from '/@/views/generate/field-type/fieldType.api';
-import { groupList } from '/@/views/generate/template/gen.templateGroup.api';
+import { fieldTypeApi } from '/@/views/generate/field-type/fieldType.api';
+import { templateGroupApi } from '/@/views/generate/template/gen.templateGroup.api';
 import { baseClassApi } from '/@/views/generate/base-class/baseClass.api';
 import { Checkbox, Input } from 'ant-design-vue';
 import { h } from 'vue';
@@ -104,7 +104,7 @@ export const formConfirmSchema: FormSchema[] = [
     required: true,
     component: 'ApiSelect',
     componentProps: {
-      api: groupList,
+      api: templateGroupApi.groupList,
       mode: 'multiple',
     },
   },
@@ -159,7 +159,7 @@ export const genTableColumns: BasicColumn[] = [
     dataIndex: 'attrType',
     customRender: (opt) => {
       return h(ApiSelect, {
-        api: listAttrType,
+        api: fieldTypeApi.listAttrType,
         class: 'w-full',
         value: opt.record.attrType,
         labelField: 'attrType',

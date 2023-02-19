@@ -22,7 +22,7 @@
   import { downloadByData } from '/@/utils/file/download';
   import GenCodePreviewModal from './GenCodePreviewModal.vue';
   import { formConfirmSchema } from '../genCode.data';
-  import { generate, preview } from '../genCode.api';
+  import { genCodeApi } from '../genCode.api';
   import { camelCase } from 'lodash-es';
   import { error } from '/@/utils/http/axios/helper'
   const [registerPreviewModal, { openModal: openPreviewModal }] = useModal();
@@ -58,7 +58,7 @@
     let values = await validate();
     openOKLoading(async () => {
       //提交表单
-      const data = await generate(values);
+      const data = await genCodeApi.generate(values);
       console.log(data);
       if (data.type === 'application/octet-stream') {
         downloadByData(data, 'code.zip');
@@ -78,7 +78,7 @@
     let values = await validate();
     openOKLoading(async () => {
       //提交表单
-      const result = await preview(values);
+      const result = await genCodeApi.preview(values);
       openPreviewModal(true, { result: result, values: values });
       closeModal();
     });

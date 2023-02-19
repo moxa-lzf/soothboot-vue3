@@ -31,7 +31,7 @@
   import { columns, searchFormSchema } from './user.data';
   import { userApi } from './user.api';
   import { getRoleByUserId } from '/@/views/privilege/role/userRole.api';
-  import { getDeptByUserId } from '/@/views/system/dept/userDept.api';
+  import { userDeptApi } from '/@/views/system/dept/userDept.api';
 
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
@@ -60,7 +60,7 @@
 
   async function handleEdit(record: Recordable) {
     const roleList = await getRoleByUserId({ userId: unref(record.id) });
-    const deptList = await getDeptByUserId({ userId: unref(record.id) });
+    const deptList = await userDeptApi.getDeptByUserId({ userId: unref(record.id) });
     openModal(true, {
       record: {
         ...record,

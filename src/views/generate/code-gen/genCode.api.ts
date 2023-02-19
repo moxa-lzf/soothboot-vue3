@@ -5,23 +5,23 @@ class GenCodeApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
+  getTableList = (params) => defHttp.get({ url: this.requestUrl + '/getTableList', params });
+
+  tableImport = (datasourceId: Number, tableNameList: Array<String>) =>
+    defHttp.post({
+      url: this.requestUrl + '/' + datasourceId + '/tableImport',
+      params: tableNameList,
+    });
+
+  getTableFieldList = (params) =>
+    defHttp.get({ url: this.requestUrl + '/getTableFieldList', params });
+
+  preview = (params) => defHttp.get({ url: this.requestUrl + '/preview', params });
+
+  generate = (params) =>
+    defHttp.post(
+      { url: this.requestUrl + '/generate', params, responseType: 'blob' },
+      { isTransformResponse: false },
+    );
 }
-export const genCodeApi = new GenCodeApi('/gen/code').api;
-enum Api {
-  getTableList = '/gen/code/getTableList',
-  getTableFieldList = '/gen/code/getTableFieldList',
-  preview = '/gen/code/preview',
-  generate = '/gen/code/generate',
-}
-
-export const getTableList = (params) => defHttp.get({ url: Api.getTableList, params });
-
-export const tableImport = (datasourceId: Number, tableNameList: Array<String>) =>
-  defHttp.post({ url: '/gen/code/' + datasourceId + '/tableImport', params: tableNameList });
-
-export const getTableFieldList = (params) => defHttp.get({ url: Api.getTableFieldList, params });
-
-export const preview = (params) => defHttp.get({ url: Api.preview, params });
-
-export const generate = (params) =>
-  defHttp.post({ url: Api.generate, params, responseType: 'blob' }, { isTransformResponse: false });
+export const genCodeApi = new GenCodeApi('/gen/code');

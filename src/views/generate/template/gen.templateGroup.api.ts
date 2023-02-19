@@ -4,11 +4,6 @@ class TemplateGroupApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
+  groupList = (params) => defHttp.get({ url: this.requestUrl + '/groupList', params });
 }
-export const templateGroupApi = new TemplateGroupApi('/generate/templateGroup').api;
-
-enum Api {
-  groupList = '/generate/templateGroup/groupList',
-}
-
-export const groupList = (params) => defHttp.get({ url: Api.groupList, params });
+export const templateGroupApi = new TemplateGroupApi('/generate/templateGroup');

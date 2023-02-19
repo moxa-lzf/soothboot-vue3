@@ -31,7 +31,7 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
-  import { generate } from '../genCode.api';
+  import { genCodeApi } from '../genCode.api';
   // 声明Emits
   const emit = defineEmits(['register', 'success']);
   const { clipboardRef, copiedRef } = useCopyToClipboard();
@@ -48,7 +48,7 @@
   async function handleSubmit() {
     openOKLoading(async () => {
       //提交表单
-      const data = await generate(values.value);
+      const data = await genCodeApi.generate(values.value);
       downloadByData(data, 'code.zip');
       //关闭弹窗
       closeModal();

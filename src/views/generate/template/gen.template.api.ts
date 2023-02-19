@@ -4,11 +4,6 @@ class TemplateApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
+  help = () => defHttp.get({ url: this.requestUrl + '/help' });
 }
-export const templateApi = new TemplateApi('/generate/template').api;
-
-enum Api {
-  help = '/generate/template/help',
-}
-
-export const help = () => defHttp.get({ url: Api.help });
+export const templateApi = new TemplateApi('/generate/template');

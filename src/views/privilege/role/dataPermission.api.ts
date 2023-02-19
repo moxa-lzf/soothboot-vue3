@@ -4,4 +4,4 @@ class DataPermissionApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const dataPermissionApi = new DataPermissionApi('/sys/dataPermission').api;
+export const dataPermissionApi = new DataPermissionApi('/sys/dataPermission');

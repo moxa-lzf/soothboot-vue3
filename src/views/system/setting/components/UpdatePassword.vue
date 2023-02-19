@@ -13,7 +13,7 @@
   import { rules } from '/@/utils/helper/validator';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { updatePassword } from '../../user/user.api';
+  import { userApi } from '../../user/user.api';
   //表单配置
   const [registerForm, { resetFields, validate, clearValidate }] = useForm({
     labelWidth: 100,
@@ -59,7 +59,7 @@
     const params = await validate();
     openOKLoading(async () => {
       //提交表单
-      await updatePassword(params);
+      await userApi.updatePassword(params);
       closeModal();
     });
   }

@@ -5,18 +5,11 @@ class MenuApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
+  listMenuTree = (params) => {
+    return defHttp.get({ url: this.requestUrl + '/listMenuTree', params });
+  };
 }
 
-export const menuApi = new MenuApi('/sys/menu').api;
+export const menuApi = new MenuApi('/sys/menu');
 
-enum Api {
-  listMenuTree = '/sys/menu/listMenuTree',
-}
 
-/**
- * 列表接口
- * @param params
- */
-export const listMenuTree = (params) => {
-  return defHttp.get({ url: Api.listMenuTree, params });
-};

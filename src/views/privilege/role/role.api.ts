@@ -5,7 +5,7 @@ class RoleApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const roleApi = new RoleApi('/sys/role').api;
+export const roleApi = new RoleApi('/sys/role');
 enum Api {
   queryRolePermission = '/sys/menu/queryRolePermission',
   saveRolePermission = '/sys/menu/saveRolePermission',

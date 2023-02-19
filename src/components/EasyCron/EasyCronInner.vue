@@ -24,7 +24,7 @@
           <YearUI v-model:value="year" :disabled="disabled" />
         </TabPane>
       </Tabs>
-      <a-divider />
+      <Divider />
       <!-- 执行时间预览 -->
       <Row :gutter="8">
         <Col :span="18" style="margin-top: 22px">
@@ -98,7 +98,7 @@
 
 <script lang="ts" setup>
   import { computed, reactive, ref, watch, provide } from 'vue';
-  import { Tabs, TabPane, Row, Col, Input } from 'ant-design-vue';
+  import { Tabs, TabPane, Divider, Row, Col, Input } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import CronParser from 'cron-parser';
   import SecondUI from './tabs/SecondUI.vue';

@@ -27,7 +27,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { CollapseContainer } from '/@/components/Container';
   import { CropperAvatar } from '/@/components/Cropper';
-  import { updateBasicInfo } from '../user/user.api';
+  import { userApi } from '../user/user.api';
   import headerImg from '/@/assets/images/header.jpg';
   import { baseSetschemas } from './data';
   import { useUserStore } from '/@/store/modules/user';
@@ -75,7 +75,7 @@
         handleSubmit: async () => {
           const params = await validate();
           const userinfo = userStore.getUserInfo;
-          await updateBasicInfo(params);
+          await userApi.updateBasicInfo(params);
           Object.assign(userinfo, params);
         },
       };

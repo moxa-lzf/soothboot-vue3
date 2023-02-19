@@ -14,14 +14,14 @@
   import { genTableColumns } from '../genCode.data';
   import { BasicTable, useTable } from '/@/components/Table/index';
   import { useModalInner } from '/@/components/Modal';
-  import { getTableFieldList } from '../genCode.api';
+  import { genCodeApi } from '../genCode.api';
 
   //表单赋值
   const [registerModal, { closeModal }] = useModalInner(async (data) => {
     reload({ searchInfo: { tableId: data.record.id } });
   });
   const [registerTable, { reload }] = useTable({
-    api: getTableFieldList,
+    api: genCodeApi.getTableFieldList,
     columns: genTableColumns,
     striped: true,
     bordered: true,

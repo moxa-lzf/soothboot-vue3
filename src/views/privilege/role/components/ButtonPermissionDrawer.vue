@@ -48,7 +48,7 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
-  import { listMenuButtonTree } from '/@/views/privilege/menu/button.api';
+  import { buttonApi } from '/@/views/privilege/menu/button.api';
   import { saveButtonPermission, buttonPermissionApi } from '../buttonPermission.api';
   import { dictItemCode } from '/@/sooth/Dict/dict.api';
   const treeRef = ref<Nullable<TreeActionType>>(null);
@@ -62,7 +62,7 @@
     setDrawerProps({ confirmLoading: false, loading: true });
     roleId.value = data.roleId;
     //初始化数据
-    const menuButtonResult = await listMenuButtonTree();
+    const menuButtonResult = await buttonApi.listMenuButtonTree();
     treeData.value = menuButtonResult;
     const buttonResult = await dictItemCode('button_type');
     if (buttonResult) {

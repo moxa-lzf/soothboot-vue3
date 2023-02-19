@@ -4,4 +4,4 @@ class LogApi extends BaseApi {
     super(requestUrl);
   }
 }
-export const logApi = new LogApi('/sys/log').api;
+export const logApi = new LogApi('/sys/log');

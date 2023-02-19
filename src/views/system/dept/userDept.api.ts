@@ -5,14 +5,10 @@ class UserDeptApi extends BaseApi {
   constructor(requestUrl) {
     super(requestUrl);
   }
+  getDeptByUserId = (params) => {
+    return defHttp.get({ url: this.requestUrl+'/getDeptByUserId', params });
+  };
 }
 
-export const userDeptApi = new UserDeptApi('/sys/userDept').api;
+export const userDeptApi = new UserDeptApi('/sys/userDept');
 
-enum Api {
-  getDeptByUserId = '/sys/userDept/getDeptByUserId',
-}
-
-export const getDeptByUserId = (params) => {
-  return defHttp.get({ url: Api.getDeptByUserId, params });
-};
