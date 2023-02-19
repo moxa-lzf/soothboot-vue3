@@ -96,14 +96,17 @@
       },
     ];
   }
-  function nowExecute(record) {
-    quartzApi.nowExecute({ id: record.id });
+  async function nowExecute(record) {
+    await quartzApi.nowExecute({ id: record.id });
+    await reload();
   }
-  function scheduleExecute(record) {
-    quartzApi.scheduleExecute({ id: record.id });
+  async function scheduleExecute(record) {
+    await quartzApi.scheduleExecute({ id: record.id });
+    await reload();
   }
-  function stopExecute(record) {
-    quartzApi.stopExecute({ id: record.id });
+  async function stopExecute(record) {
+    await quartzApi.stopExecute({ id: record.id });
+    await reload();
   }
   /**
    * 新增事件

@@ -31,8 +31,8 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '状态',
-    dataIndex: ['dict', 'status'],
-    customRender: ({ record, value }) => render.renderDict('success_status', record.status, value),
+    dataIndex: 'status',
+    customRender: ({ value }) => render.renderDict('success_status', value),
   },
 ];
 

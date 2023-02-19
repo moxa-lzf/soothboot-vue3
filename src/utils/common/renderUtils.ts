@@ -41,13 +41,13 @@ const render = {
       value.map((v) => h('span', { class: 'mr-4 leading-8' }, h(Tag, { color: 'blue' }, v))),
     );
   },
-  renderDict: (code, itemValue, value) => {
-    if (!value) {
+  renderDict: (code, value) => {
+    if (value === null || value === '') {
       return '';
     }
     const dictStore = useDictStoreWithOut();
     const dictItem = dictStore.getDictItem;
-    const tag = ref('default');
+    const resultItem = ref({});
     let dictItemArray = dictItem[code];
     if (!dictItemArray) {
       dictItemCode(code).then((res) => {
@@ -60,13 +60,16 @@ const render = {
     }
     function chooseTag() {
       for (const item of dictItemArray) {
-        if (item.value == itemValue) {
-          tag.value = item.tag;
+        if (item.value == value) {
+          resultItem.value = item;
           break;
         }
       }
     }
-    return h('span', h('span', {}, h(Tag, { color: unref(tag) }, value)));
+    return h(
+      'span',
+      h('span', {}, h(Tag, { color: unref(resultItem).tag }, unref(resultItem).name)),
+    );
   },
 
   renderTag(value, tag) {
