@@ -34,7 +34,7 @@
 
   // 列表页面公共参数、方法
   const [registerTable, { getSelectRowKeys, reload }] = useTable({
-    title: '任务列表',
+    title: '定时任务列表',
     api: quartzApi.page,
     columns: columns,
     formConfig: {

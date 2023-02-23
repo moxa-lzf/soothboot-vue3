@@ -50,7 +50,7 @@
   import { PopConfirmButton } from '/@/components/Button';
   import { buttonApi } from '/@/views/privilege/menu/button.api';
   import { saveButtonPermission, buttonPermissionApi } from '../buttonPermission.api';
-  import { dictItemCode } from '/@/sooth/Dict/dict.api';
+  import { dictItemApi } from '/@/views/basic/dict/dict-item.api';
   const treeRef = ref<Nullable<TreeActionType>>(null);
   //树的信息
   const treeData = ref<TreeItem[]>([]);
@@ -64,7 +64,7 @@
     //初始化数据
     const menuButtonResult = await buttonApi.listMenuButtonTree();
     treeData.value = menuButtonResult;
-    const buttonResult = await dictItemCode('button_type');
+    const buttonResult = await dictItemApi.dictItemCode('button_type');
     if (buttonResult) {
       buttonData.value = buttonResult;
     }

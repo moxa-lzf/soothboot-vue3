@@ -1,6 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import {render} from "/@/utils/common/renderUtils";
+import { render } from '/@/utils/common/renderUtils';
 export const columns: BasicColumn[] = [
   {
     title: '字典名称',

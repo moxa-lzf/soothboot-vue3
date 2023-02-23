@@ -35,7 +35,8 @@
   import { BasicDrawer, useDrawerInner } from '/@/components/Drawer';
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree';
   import { PopConfirmButton } from '/@/components/Button';
-  import { dictItemCode } from '/@/sooth/Dict/dict.api';
+  import { dictItemApi } from '/@/views/basic/dict/dict-item.api';
+
   import { buttonApi } from './button.api';
   import { DictEnum } from '/@/enums/dictEnum';
   const treeRef = ref<Nullable<TreeActionType>>(null);
@@ -48,7 +49,7 @@
     setDrawerProps({ confirmLoading: false, loading: true });
     menuId.value = data.menuId;
     //初始化数据
-    const buttonResult = await dictItemCode(DictEnum.BUTTON_TYPE);
+    const buttonResult = await dictItemApi.dictItemCode(DictEnum.BUTTON_TYPE);
     treeData.value = buttonResult;
     const permResult = await buttonApi.list({ menuId: data.menuId });
     const permIdList = permResult.map((perm) => perm.type);

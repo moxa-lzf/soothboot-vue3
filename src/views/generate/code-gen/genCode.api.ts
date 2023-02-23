@@ -24,4 +24,4 @@ class GenCodeApi extends BaseApi {
       { isTransformResponse: false },
     );
 }
-export const genCodeApi = new GenCodeApi('/gen/code');
+export const genCodeApi = new GenCodeApi('/sys/gen/code');

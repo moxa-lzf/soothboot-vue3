@@ -2,7 +2,7 @@ import { h, ref, unref } from 'vue';
 import { Avatar, Tag } from 'ant-design-vue';
 import { useDictStoreWithOut } from '/@/store/modules/dict';
 import { getFileAccessHttpUrl } from '/@/utils/common/compUtils';
-import { dictItemCode } from '/@/sooth/Dict/dict.api';
+import { dictItemApi } from '/@/views/basic/dict/dict-item.api';
 import Icon from '/@/components/Icon';
 const render = {
   /**
@@ -50,7 +50,7 @@ const render = {
     const resultItem = ref({});
     let dictItemArray = dictItem[code];
     if (!dictItemArray) {
-      dictItemCode(code).then((res) => {
+      dictItemApi.dictItemCode(code).then((res) => {
         dictItemArray = res;
         dictStore.setDictItem(code, dictItemArray);
         chooseTag();

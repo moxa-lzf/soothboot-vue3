@@ -10,4 +10,4 @@ class FieldTypeApi extends BaseApi {
     return defHttp.post({ url: this.requestUrl + '/init', params });
   };
 }
-export const fieldTypeApi = new FieldTypeApi('/generate/fieldType');
+export const fieldTypeApi = new FieldTypeApi('/sys/gen/fieldType');

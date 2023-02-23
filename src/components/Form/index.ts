@@ -15,5 +15,3 @@ export { default as ApiCascader } from './src/components/ApiCascader.vue';
 export { default as ApiTransfer } from './src/components/ApiTransfer.vue';
 
 export { BasicForm };
-
-export { DictSelect } from '../../sooth/Dict';

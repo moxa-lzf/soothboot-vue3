@@ -24,7 +24,6 @@ import {
 import ApiRadioGroup from './components/ApiRadioGroup.vue';
 import RadioButtonGroup from './components/RadioButtonGroup.vue';
 import ApiSelect from './components/ApiSelect.vue';
-import DictSelect from '../../../sooth/Dict/DictSelect.vue';
 import ApiTree from './components/ApiTree.vue';
 import ApiTreeSelect from './components/ApiTreeSelect.vue';
 import ApiCascader from './components/ApiCascader.vue';
@@ -33,6 +32,7 @@ import { BasicUpload } from '/@/components/Upload';
 import { StrengthMeter } from '/@/components/StrengthMeter';
 import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
+import DictSelect from '/@/sooth/Dict/DictSelect.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -46,7 +46,6 @@ componentMap.set('AutoComplete', AutoComplete);
 
 componentMap.set('Select', Select);
 componentMap.set('ApiSelect', ApiSelect);
-componentMap.set('DictSelect', DictSelect);
 componentMap.set('ApiTree', ApiTree);
 componentMap.set('TreeSelect', TreeSelect);
 componentMap.set('ApiTreeSelect', ApiTreeSelect);
@@ -73,6 +72,8 @@ componentMap.set('InputCountDown', CountdownInput);
 
 componentMap.set('Upload', BasicUpload);
 componentMap.set('Divider', Divider);
+//sooth
+componentMap.set('DictSelect', DictSelect);
 
 export function add(compName: ComponentType, component: Component) {
   componentMap.set(compName, component);

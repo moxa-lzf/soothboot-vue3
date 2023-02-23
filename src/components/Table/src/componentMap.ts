@@ -12,7 +12,7 @@ import {
 } from 'ant-design-vue';
 import type { ComponentType } from './types/componentType';
 import { ApiSelect, ApiTreeSelect, RadioButtonGroup, ApiRadioGroup } from '/@/components/Form';
-
+import { DictSelect } from '/@/sooth/Dict';
 const componentMap = new Map<ComponentType, Component>();
 
 componentMap.set('Input', Input);
@@ -28,6 +28,8 @@ componentMap.set('TimePicker', TimePicker);
 componentMap.set('RadioGroup', Radio.Group);
 componentMap.set('RadioButtonGroup', RadioButtonGroup);
 componentMap.set('ApiRadioGroup', ApiRadioGroup);
+componentMap.set('DictSelect', DictSelect);
+
 
 export function add(compName: ComponentType, component: Component) {
   componentMap.set(compName, component);
